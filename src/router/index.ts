@@ -17,19 +17,8 @@ const router = createRouter({
     routes: [
         {
             path: '/',
-            component: () => import('../views/LayoutView.vue'),
-            children: [
-                {
-                    path: '',
-                    name: 'Main',
-                    redirect: { name: RouterEnum.Home },
-                },
-                {
-                    path: 'home',
-                    name: RouterEnum.Home,
-                    component: () => import('../views/HomeView.vue')
-                },
-            ]
+            name: RouterEnum.Home,
+            component: () => import('../views/HomeView.vue'),
         },
         {
             path: `/${ANY_ROUTE}`,

@@ -1,14 +1,22 @@
 import axios from "axios"
 
-const API_URL = 'https://api.jikan.moe/v4/'
+const API_URL = 'https://graphql.anilist.co'
 
 const api = axios.create({
     baseURL: API_URL,
-    timeout: 5000,
+    timeout: 10000,
 })
 
-api.interceptors.request.use(
-    (response) => response,
+api.interceptors.response.use(
+    (response) => {
+        const errors = response.data?.errors
+
+        if (errors?.length) {
+            return Promise.reject(new Error(errors[0].message))
+        }
+
+        return response
+    },
     (error) => Promise.reject(error)
 )
 

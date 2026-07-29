@@ -1,8 +1,8 @@
 {
   "common": {
-    "home": "Home",
+    "search": "Search",
     "routes": {
-      "home": "Главная"
+      "home": "Home"
     }
   }
 }

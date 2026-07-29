@@ -1,5 +1,6 @@
 <template>
     <n-config-provider :theme="isDarkTheme ? darkTheme : lightTheme">
+        <CustomHeader></CustomHeader>
         <RouterView />
     </n-config-provider>
 </template>
@@ -8,15 +9,16 @@
 import { RouterView } from 'vue-router';
 import { lightTheme, darkTheme } from "naive-ui"
 import { computed, onMounted, ref } from 'vue';
+import CustomHeader from '@/components/CustomHeader.vue'
 
-const theme = ref(localStorage.getItem('theme') ?? 'dark')
+const theme = ref(localStorage.getItem('theme') ?? 'light')
 const isDarkTheme = computed(() => theme.value === 'dark')
 
 onMounted(() => {
     const currentTheme = localStorage.getItem('theme')
 
     if (!currentTheme) {
-        localStorage.setItem('theme', 'dark')
+        // localStorage.setItem('theme', 'dark')
     }
 })
 </script>
