@@ -1,4 +1,4 @@
-export const getTopAnime = `
+export const getTopAnime =  /* GraphQL */ `
     query GetTopAnime($page: Int, $perPage: Int) {
       Page(page: $page, perPage: $perPage) {
         pageInfo {
