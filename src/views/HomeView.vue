@@ -3,7 +3,7 @@
     <n-flex class="home" vertical>
       <n-skeleton v-if="loading" height="350px" width="100%"></n-skeleton>
       <n-carousel v-else class="carousel" centered-slides autoplay>
-        <div v-for="slide in topAnimeList" :key="slide.id" class="carousel__slide"
+        <div v-for="slide in bannerList" :key="slide.id" class="carousel__slide"
           :style="{ backgroundImage: `url(${slide.bannerImage})` }" />
       </n-carousel>
 
@@ -15,10 +15,10 @@
           ref="sliderRef">
           <n-carousel-item v-for="slide in topAnimeList" :key="slide.id" style="width: 250px">
             <div class="slider__item">
-              {{ slide.averageScore / 10 }}
-              <div class="slider__item-img" :style="{ backgroundImage: `url(${slide.coverImage.large})` }"> </div>
+              {{ slide.averageScore ? slide.averageScore / 10 : '—' }}
+              <div class="slider__item-img" :style="slideStyle(slide)"> </div>
               <router-link to="/#">
-                {{ slide.title.english }}
+                {{ getMediaTitle(slide) }}
               </router-link>
             </div>
           </n-carousel-item>
@@ -43,14 +43,25 @@
 <script lang="ts" setup>
 import { useAnimeListStore } from "@/stores/animeList";
 import { storeToRefs } from "pinia";
-import { onMounted, ref } from "vue";
+import { computed, onMounted, ref, type StyleValue } from "vue";
 import { ArrowBackIosFilled, ArrowForwardIosFilled } from "@vicons/material"
 import type { CarouselInst } from "naive-ui";
+import type { AnimeCardMediaFragment } from "@/api/generated/graphql";
+import { getMediaTitle } from "@/utils/media";
 
 const store = useAnimeListStore();
 const { loading, topAnimeList } = storeToRefs(store);
 
 const sliderRef = ref<CarouselInst>()
+
+const bannerList = computed(() => topAnimeList.value.filter((item) => item.bannerImage))
+
+const slideStyle = (slide: AnimeCardMediaFragment) => {
+  return <StyleValue>{
+    backgroundImage: slide.coverImage?.large ? `url(${slide.coverImage?.large})` : undefined,
+    backgroundColor: slide.coverImage?.color ?? undefined
+  }
+}
 
 onMounted(() => {
   store.fetchTopAnime();

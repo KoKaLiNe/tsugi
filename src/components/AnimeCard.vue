@@ -1,16 +1,17 @@
 <template>
     <div class="card">
         <div class="card__img-container">
-            <img class="card__img" :src="card.coverImage.large" />
+            <img class="card__img" :src="card.coverImage?.large ?? undefined" :alt="getMediaTitle(card)" />
         </div>
     </div>
 </template>
 
 <script lang="ts" setup>
-import type { IMedia } from '@/types/GraphQL';
+import type { AnimeCardMediaFragment } from '@/api/generated/graphql';
+import { getMediaTitle } from '@/utils/media';
 
 interface IProps {
-    card: IMedia
+    card: AnimeCardMediaFragment
 }
 const props = defineProps<IProps>()
 </script>
