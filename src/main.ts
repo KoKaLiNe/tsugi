@@ -6,6 +6,12 @@ import router from './router';
 import { createPinia } from 'pinia';
 import i18n from './locales'
 import naive from 'naive-ui'
+import dayjs from 'dayjs';
+import isoWeek from 'dayjs/plugin/isoWeek';
+import duration from 'dayjs/plugin/duration';
+
+dayjs.extend(isoWeek)
+dayjs.extend(duration)
 
 const app = createApp(App);
 
