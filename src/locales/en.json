@@ -6,7 +6,8 @@
     },
     "search": "Search",
     "routes": {
-      "home": "Home"
+      "home": "Home",
+      "schedule": "Schedule"
     }
   }
 }

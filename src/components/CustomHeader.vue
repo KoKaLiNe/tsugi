@@ -54,6 +54,10 @@ const menuOptions = computed<MenuOption[]>(() => (
             label: t("common.routes.home"),
             key: RouterEnum.Home,
         },
+        {
+            label: t("common.routes.schedule"),
+            key: RouterEnum.Schedule,
+        },
     ]
 ))
 

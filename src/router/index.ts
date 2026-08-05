@@ -2,6 +2,7 @@ import { createRouter, createWebHashHistory } from "vue-router";
 
 export enum RouterEnum {
     Home = "home",
+    Schedule = "schedule",
 }
 
 const ANY_ROUTE = ':pathMatch(.*)';
@@ -13,6 +14,11 @@ const router = createRouter({
             path: '/',
             name: RouterEnum.Home,
             component: () => import('../views/HomeView.vue'),
+        },
+        {
+            path: '/schedule',
+            name: RouterEnum.Schedule,
+            component: () => import('../views/ScheduleView.vue'),
         },
         {
             path: `/${ANY_ROUTE}`,
