@@ -2,11 +2,6 @@
 $white: rgba(255, 255, 255, 1);
 $black: rgba(9, 5, 23, 1);
 
-$main-color: rgba(36, 36, 37, 1);
-$acent-color: rgba(148, 51, 255, 1);
-$main-light-color: rgba(226, 219, 221, 1);
-$acent-color-2: rgba(221, 163, 178, 1);
-$acent-color-3: rgba(56, 32, 61, 1);
-
+$base-border: 1px solid var(--border);
 $base-gap: 12px;
 $base-padding: $base-gap;

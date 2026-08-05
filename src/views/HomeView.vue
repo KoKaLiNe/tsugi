@@ -24,13 +24,13 @@
           </n-carousel-item>
         </n-carousel>
 
-        <n-button class="slider__arrow --left" strong secondary circle @click="sliderRef?.prev">
+        <n-button class="slider__arrow --left" type="primary" circle @click="sliderRef?.prev">
           <n-icon>
             <ArrowBackIosFilled />
           </n-icon>
         </n-button>
 
-        <n-button class="slider__arrow --right" strong secondary circle @click="sliderRef?.next">
+        <n-button class="slider__arrow --right" type="primary" circle @click="sliderRef?.next">
           <n-icon>
             <ArrowForwardIosFilled />
           </n-icon>
@@ -107,7 +107,7 @@ onMounted(() => {
   }
 
   &__arrow {
-    background-color: white;
+    // background-color: white;
     position: absolute;
     top: 50%;
     transform: translateY(-50%);

@@ -1,5 +1,9 @@
 {
   "common": {
+    "theme": {
+      "dark": "Dark theme",
+      "light": "Light theme"
+    },
     "search": "Search",
     "routes": {
       "home": "Home"

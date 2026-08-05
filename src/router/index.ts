@@ -1,13 +1,7 @@
 import { createRouter, createWebHashHistory } from "vue-router";
 
-// const ANY_ROUTE = ':pathMatch(.*)';
-
 export enum RouterEnum {
     Home = "home",
-    Community = "community",
-    Events = "events",
-    Movies = "movies",
-    Series = "series",
 }
 
 const ANY_ROUTE = ':pathMatch(.*)';

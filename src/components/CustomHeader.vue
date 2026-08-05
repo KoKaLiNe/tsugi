@@ -15,17 +15,11 @@
                 </n-auto-complete>
             </div>
 
-            <n-button quaternary circle v-if="isDarkTheme">
+            <n-button quaternary circle :aria-label="themeBittonAriaLabel" @click="themeStore.toggleTheme">
                 <template #icon>
                     <n-icon>
-                        <LightModeOutlined />
-                    </n-icon>
-                </template>
-            </n-button>
-            <n-button v-else quaternary circle>
-                <template #icon>
-                    <n-icon>
-                        <NightlightSharp />
+                        <LightModeOutlined v-if="isDarkTheme" />
+                        <NightlightSharp v-else />
                     </n-icon>
                 </template>
             </n-button>
@@ -41,22 +35,27 @@ import { computed, onMounted, ref, watch } from "vue";
 import { RouterEnum } from "@/router";
 import { useRoute, useRouter } from "vue-router";
 import Logo from "@/components/Logo.vue"
+import { useThemeStore } from "@/stores/theme";
+import { storeToRefs } from "pinia";
 
 const { t } = useI18n();
 const router = useRouter();
 const route = useRoute();
 
+const themeStore = useThemeStore()
+const { isDarkTheme } = storeToRefs(themeStore)
+const themeBittonAriaLabel = computed(() => isDarkTheme.value ? t(`common.theme.light`) : t(`common.theme.dark`))
+
 const tab = ref(RouterEnum.Home);
 
-const theme = computed(() => localStorage.getItem('theme') ?? 'dark')
-const isDarkTheme = computed(() => theme.value === 'dark')
-
-const menuOptions: MenuOption[] = [
-    {
-        label: t("common.routes.home"),
-        key: RouterEnum.Home,
-    },
-];
+const menuOptions = computed<MenuOption[]>(() => (
+    [
+        {
+            label: t("common.routes.home"),
+            key: RouterEnum.Home,
+        },
+    ]
+))
 
 const handleUpdateValue = (key: RouterEnum, _item: MenuOption) => {
     tab.value = key;
@@ -105,7 +104,8 @@ watch(() => route.name, () => {
         }
     }
 
-    background-color: $main-color;
+    background-color: var(--surface);
+    border-bottom: $base-border;
 }
 
 .logo {

@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 410 368" width="410" height="368" role="img" aria-label="Цветовые токены Tsugi в двух темах: bg, surface, text, text-muted, border, accent, accent-hover, on-accent, accent-text, accent-bg, airing, on-airing, success, danger">
+  <g fill="#8b949e" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="11">
+    <text x="206" y="13">светлая</text>
+    <text x="308" y="13">тёмная</text>
+  </g>
+  <g font-family="ui-monospace, SFMono-Regular, Consolas, monospace" font-size="11" fill="#8b949e">
+    <text x="0" y="37">--bg</text>
+    <text x="0" y="61">--surface</text>
+    <text x="0" y="85">--text</text>
+    <text x="0" y="109">--text-muted</text>
+    <text x="0" y="133">--border</text>
+    <text x="0" y="157">--accent</text>
+    <text x="0" y="181">--accent-hover</text>
+    <text x="0" y="205">--on-accent</text>
+    <text x="0" y="229">--accent-text</text>
+    <text x="0" y="253">--accent-bg</text>
+    <text x="0" y="277">--airing</text>
+    <text x="0" y="301">--on-airing</text>
+    <text x="0" y="325">--success</text>
+    <text x="0" y="349">--danger</text>
+  </g>
+  <g stroke="#8b949e" stroke-opacity="0.3">
+    <rect x="206" y="24" width="90" height="18" rx="3" fill="#F7F5F6"/>
+    <rect x="308" y="24" width="90" height="18" rx="3" fill="#1A1A1B"/>
+
+    <rect x="206" y="48" width="90" height="18" rx="3" fill="#FFFFFF"/>
+    <rect x="308" y="48" width="90" height="18" rx="3" fill="#242425"/>
+
+    <rect x="206" y="72" width="90" height="18" rx="3" fill="#242425"/>
+    <rect x="308" y="72" width="90" height="18" rx="3" fill="#E2DBDD"/>
+
+    <rect x="206" y="96" width="90" height="18" rx="3" fill="#6B6668"/>
+    <rect x="308" y="96" width="90" height="18" rx="3" fill="#9A9496"/>
+
+    <rect x="206" y="144" width="90" height="18" rx="3" fill="#7453C1"/>
+    <rect x="308" y="144" width="90" height="18" rx="3" fill="#7453C1"/>
+
+    <rect x="206" y="168" width="90" height="18" rx="3" fill="#6544B0"/>
+    <rect x="308" y="168" width="90" height="18" rx="3" fill="#8261CE"/>
+
+    <rect x="206" y="216" width="90" height="18" rx="3" fill="#7453C1"/>
+    <rect x="308" y="216" width="90" height="18" rx="3" fill="#B39DDB"/>
+
+    <rect x="206" y="240" width="90" height="18" rx="3" fill="#EFEAF9"/>
+    <rect x="308" y="240" width="90" height="18" rx="3" fill="#38203D"/>
+
+    <rect x="206" y="264" width="90" height="18" rx="3" fill="#DDA3B2"/>
+    <rect x="308" y="264" width="90" height="18" rx="3" fill="#DDA3B2"/>
+
+    <rect x="206" y="312" width="90" height="18" rx="3" fill="#2E7D5B"/>
+    <rect x="308" y="312" width="90" height="18" rx="3" fill="#5DBE8E"/>
+
+    <rect x="206" y="336" width="90" height="18" rx="3" fill="#C0392B"/>
+    <rect x="308" y="336" width="90" height="18" rx="3" fill="#E8705F"/>
+  </g>
+
+  <g>
+    <rect x="206.5" y="120.5" width="89" height="17" rx="3" fill="#F7F5F6" stroke="rgba(36,36,37,.12)"/>
+    <rect x="308.5" y="120.5" width="89" height="17" rx="3" fill="#1A1A1B" stroke="rgba(226,219,221,.14)"/>
+  </g>
+
+  <g stroke="#8b949e" stroke-opacity="0.3">
+    <rect x="206" y="192" width="90" height="18" rx="3" fill="#7453C1"/>
+    <rect x="308" y="192" width="90" height="18" rx="3" fill="#7453C1"/>
+    <rect x="206" y="288" width="90" height="18" rx="3" fill="#DDA3B2"/>
+    <rect x="308" y="288" width="90" height="18" rx="3" fill="#DDA3B2"/>
+  </g>
+  <g stroke="none">
+    <rect x="238" y="196" width="26" height="10" rx="2" fill="#FFFFFF"/>
+    <rect x="340" y="196" width="26" height="10" rx="2" fill="#FFFFFF"/>
+    <rect x="238" y="292" width="26" height="10" rx="2" fill="#5A2233"/>
+    <rect x="340" y="292" width="26" height="10" rx="2" fill="#5A2233"/>
+  </g>
+</svg>
