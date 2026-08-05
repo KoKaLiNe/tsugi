@@ -10,3 +10,9 @@
 <script lang="ts" setup>
 import logoSvg from '@/assets/logo.svg'
 </script>
+
+<style lang="scss" scoped>
+.logo-img {
+    height: 35px;
+}
+</style>

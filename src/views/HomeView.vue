@@ -1,50 +1,48 @@
 <template>
-  <n-layout class="layout">
-    <n-flex class="home" vertical>
-      <n-skeleton v-if="loading" height="350px" width="100%"></n-skeleton>
-      <n-carousel v-else class="carousel" centered-slides autoplay>
-        <div v-for="slide in bannerList" :key="slide.id" class="carousel__slide"
-          :style="{ backgroundImage: `url(${slide.bannerImage})` }" />
+  <n-flex class="home" vertical>
+    <n-skeleton v-if="loading" height="350px" width="100%"></n-skeleton>
+    <n-carousel v-else class="carousel" centered-slides autoplay>
+      <div v-for="slide in bannerList" :key="slide.id" class="carousel__slide"
+        :style="{ backgroundImage: `url(${slide.bannerImage})` }" />
+    </n-carousel>
+
+    <n-h3>Популярные</n-h3>
+
+    <n-skeleton v-if="loading" height="350px" width="100%"></n-skeleton>
+    <div v-else class="slider__wrapper">
+      <n-carousel class="slider" slides-per-view="auto" :space-between="12" :loop="false" :show-dots="false"
+        ref="sliderRef">
+        <n-carousel-item v-for="slide in topAnimeList" :key="slide.id" style="width: 250px">
+          <div class="slider__item">
+            {{ slide.averageScore ? slide.averageScore / 10 : '—' }}
+            <div class="slider__item-img" :style="slideStyle(slide)"> </div>
+            <router-link to="/#">
+              {{ getMediaTitle(slide) }}
+            </router-link>
+          </div>
+        </n-carousel-item>
       </n-carousel>
 
-      <n-h3>Популярные</n-h3>
+      <n-button class="slider__arrow --left" type="primary" circle @click="sliderRef?.prev">
+        <n-icon>
+          <ArrowBackIosNewFilled />
+        </n-icon>
+      </n-button>
 
-      <n-skeleton v-if="loading" height="350px" width="100%"></n-skeleton>
-      <div v-else class="slider__wrapper">
-        <n-carousel class="slider" slides-per-view="auto" :space-between="12" :loop="false" :show-dots="false"
-          ref="sliderRef">
-          <n-carousel-item v-for="slide in topAnimeList" :key="slide.id" style="width: 250px">
-            <div class="slider__item">
-              {{ slide.averageScore ? slide.averageScore / 10 : '—' }}
-              <div class="slider__item-img" :style="slideStyle(slide)"> </div>
-              <router-link to="/#">
-                {{ getMediaTitle(slide) }}
-              </router-link>
-            </div>
-          </n-carousel-item>
-        </n-carousel>
-
-        <n-button class="slider__arrow --left" type="primary" circle @click="sliderRef?.prev">
-          <n-icon>
-            <ArrowBackIosFilled />
-          </n-icon>
-        </n-button>
-
-        <n-button class="slider__arrow --right" type="primary" circle @click="sliderRef?.next">
-          <n-icon>
-            <ArrowForwardIosFilled />
-          </n-icon>
-        </n-button>
-      </div>
-    </n-flex>
-  </n-layout>
+      <n-button class="slider__arrow --right" type="primary" circle @click="sliderRef?.next">
+        <n-icon>
+          <ArrowForwardIosFilled />
+        </n-icon>
+      </n-button>
+    </div>
+  </n-flex>
 </template>
 
 <script lang="ts" setup>
 import { useAnimeListStore } from "@/stores/animeList";
 import { storeToRefs } from "pinia";
 import { computed, onMounted, ref, type StyleValue } from "vue";
-import { ArrowBackIosFilled, ArrowForwardIosFilled } from "@vicons/material"
+import { ArrowBackIosNewFilled, ArrowForwardIosFilled } from "@vicons/material"
 import type { CarouselInst } from "naive-ui";
 import type { AnimeCardMediaFragment } from "@/api/generated/graphql";
 import { getMediaTitle } from "@/utils/media";
@@ -69,11 +67,6 @@ onMounted(() => {
 </script>
 
 <style lang="scss" scoped>
-.layout {
-  padding-left: 50px;
-  padding-right: 50px;
-}
-
 .home {
   padding: $base-padding;
 }
@@ -99,7 +92,7 @@ onMounted(() => {
     padding: $base-padding;
 
     &-img {
-      height: 300px;
+      height: 280px;
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;

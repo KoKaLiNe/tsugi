@@ -2,7 +2,9 @@
     <n-config-provider :theme="isDarkTheme ? darkTheme : lightTheme"
         :theme-overrides="isDarkTheme ? DARK_THEME : LIGHT_THEME">
         <CustomHeader></CustomHeader>
-        <RouterView />
+        <n-layout content-style="padding: 12px;">
+            <RouterView />
+        </n-layout>
     </n-config-provider>
 </template>
 
@@ -18,3 +20,9 @@ const themeStore = useThemeStore()
 const { isDarkTheme } = storeToRefs(themeStore)
 
 </script>
+
+<style lang="scss" scoped>
+.n-layout {
+    height: calc(100vh - 60px);
+}
+</style>

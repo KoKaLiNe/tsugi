@@ -35,7 +35,7 @@ export const DARK_THEME: GlobalThemeOverrides = {
         primaryColorSuppl: '#7453C1',
 
         primaryColorHover: '#8261CE',
-        primaryColorPressed: '#7C66AF',
+        primaryColorPressed: '#9073D3',
 
         bodyColor: '#1A1A1B',
 
