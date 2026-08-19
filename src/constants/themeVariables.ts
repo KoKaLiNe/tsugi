@@ -63,10 +63,9 @@ export const DARK_THEME: GlobalThemeOverrides = {
         borderColor: 'rgba(226,219,221,.14)',
         dividerColor: 'rgba(226,219,221,.14)',
 
-        /* TODO обновить цвета для темной темы */
-        buttonColor2: "#ffffff",
-        buttonColor2Hover: "#e7e7e7",
-        buttonColor2Pressed: "#d1d1d1",
+        buttonColor2: "#7453C1",
+        buttonColor2Hover: "#6544B0",
+        buttonColor2Pressed: "#876CC6",
 
         successColor: '#5DBE8E',
         errorColor: '#E8705F',
