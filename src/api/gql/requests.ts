@@ -47,6 +47,7 @@ export const getSchedule = /* GraphQL */ `
     coverImage {
       color
       large
+      extraLarge
     }
   }
   fragment AiringSchedules on AiringSchedule {

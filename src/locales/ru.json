@@ -8,7 +8,19 @@
       "home": "Главная",
       "schedule": "Календарь"
     },
-    "search": "Поиск"
+    "search": "Поиск",
+    "popular": "Популярные",
+    "episode": "эпизод",
+    "episodeShort": "эп.",
+    "reloadData": "Повторить загрузку"
+  },
+  "veiws": {
+    "schedule": {
+      "title": "Расписание",
+      "currentWeek": "Текущая неделя",
+      "noReleases": "нет релизов",
+      "dataLost": "Данные где-то потерялись"
+    }
   },
   "error": {
     "general": "Произошла ошибка. Попробуйте позже",
