@@ -49,6 +49,7 @@ export const getSchedule = /* GraphQL */ `
       large
       extraLarge
     }
+    isAdult
   }
   fragment AiringSchedules on AiringSchedule {
     id

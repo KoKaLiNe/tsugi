@@ -4766,9 +4766,9 @@ export type GetTopAnimeQuery = { Page: { pageInfo: { total: number | null, curre
 
 export type SchedulePageInfoFragment = { hasNextPage: boolean | null };
 
-export type ScheduleMediaFragment = { id: number, title: { english: string | null, romaji: string | null } | null, coverImage: { color: string | null, large: string | null, extraLarge: string | null } | null };
+export type ScheduleMediaFragment = { id: number, isAdult: boolean | null, title: { english: string | null, romaji: string | null } | null, coverImage: { color: string | null, large: string | null, extraLarge: string | null } | null };
 
-export type AiringSchedulesFragment = { id: number, airingAt: number, episode: number, media: { id: number, title: { english: string | null, romaji: string | null } | null, coverImage: { color: string | null, large: string | null, extraLarge: string | null } | null } | null };
+export type AiringSchedulesFragment = { id: number, airingAt: number, episode: number, media: { id: number, isAdult: boolean | null, title: { english: string | null, romaji: string | null } | null, coverImage: { color: string | null, large: string | null, extraLarge: string | null } | null } | null };
 
 export type GetScheduleQueryVariables = Exact<{
   start?: number | null | undefined;
@@ -4777,4 +4777,4 @@ export type GetScheduleQueryVariables = Exact<{
 }>;
 
 
-export type GetScheduleQuery = { Page: { pageInfo: { hasNextPage: boolean | null } | null, airingSchedules: Array<{ id: number, airingAt: number, episode: number, media: { id: number, title: { english: string | null, romaji: string | null } | null, coverImage: { color: string | null, large: string | null, extraLarge: string | null } | null } | null } | null> | null } | null };
+export type GetScheduleQuery = { Page: { pageInfo: { hasNextPage: boolean | null } | null, airingSchedules: Array<{ id: number, airingAt: number, episode: number, media: { id: number, isAdult: boolean | null, title: { english: string | null, romaji: string | null } | null, coverImage: { color: string | null, large: string | null, extraLarge: string | null } | null } | null } | null> | null } | null };

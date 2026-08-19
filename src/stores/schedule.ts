@@ -29,27 +29,27 @@ export const useScheduleStore = defineStore('schedule', () => {
         const cached = airingSchedules.get(weekKey)
 
         if (cached && (!cached.error || cached.loading)) {
-            /* TODO логика отображения кэша и перезапроса по необходимости */
             return
-        } else {
-            airingSchedules.set(weekKey, {
-                data: [],
-                loading: true,
-            })
-
-            try {
-                const { start, end } = getWeekRange(weekKey)
-                const airingSchedulesRaw = await fetchAllPages(start, end)
-
-                const validData = (airingSchedulesRaw ?? []).filter((item) => !!item)
-                airingSchedules.get(weekKey)!.data = validData
-
-            } catch (error) {
-                airingSchedules.get(weekKey)!.error = error instanceof Error ? error.message : String(error)
-            } finally {
-                airingSchedules.get(weekKey)!.loading = false
-            }
         }
+
+        airingSchedules.set(weekKey, {
+            data: [],
+            loading: true,
+        })
+
+        try {
+            const { start, end } = getWeekRange(weekKey)
+            const airingSchedulesRaw = await fetchAllPages(start, end)
+            const validData = (airingSchedulesRaw ?? []).filter((item) => !!item && !item.media?.isAdult) as AiringSchedulesFragment[]
+
+            airingSchedules.get(weekKey)!.data = validData
+
+        } catch (error) {
+            airingSchedules.get(weekKey)!.error = error instanceof Error ? error.message : String(error)
+        } finally {
+            airingSchedules.get(weekKey)!.loading = false
+        }
+
     }
 
     async function fetchAllPages(start: number, end: number) {
