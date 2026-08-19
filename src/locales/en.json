@@ -4,10 +4,10 @@
       "dark": "Dark theme",
       "light": "Light theme"
     },
-    "search": "Search",
     "routes": {
       "home": "Home",
       "schedule": "Schedule"
-    }
+    },
+    "search": "Search"
   }
 }

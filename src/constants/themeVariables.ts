@@ -1,9 +1,15 @@
 import type { GlobalThemeOverrides } from "naive-ui";
 
+const basicTheme = {
+    primaryColor: '#7453C1',
+    primaryColorSuppl: '#7453C1',
+
+    borderRadius: '6px',
+}
+
 export const LIGHT_THEME: GlobalThemeOverrides = {
     common: {
-        primaryColor: '#7453C1',
-        primaryColorSuppl: '#7453C1',
+        ...basicTheme,
 
         primaryColorHover: '#6544B0',
         primaryColorPressed: '#876CC6',
@@ -25,14 +31,17 @@ export const LIGHT_THEME: GlobalThemeOverrides = {
         borderColor: 'rgba(36, 36, 37, .12)',
         dividerColor: 'rgba(36, 36, 37, .12)',
 
+        buttonColor2: "#ffffff",
+        buttonColor2Hover: "#e7e7e7",
+        buttonColor2Pressed: "#d1d1d1",
+
         successColor: '#2E7D5B',
         errorColor: '#C0392B',
     }
 }
 export const DARK_THEME: GlobalThemeOverrides = {
     common: {
-        primaryColor: '#7453C1',
-        primaryColorSuppl: '#7453C1',
+        ...basicTheme,
 
         primaryColorHover: '#8261CE',
         primaryColorPressed: '#9073D3',
@@ -53,6 +62,11 @@ export const DARK_THEME: GlobalThemeOverrides = {
 
         borderColor: 'rgba(226,219,221,.14)',
         dividerColor: 'rgba(226,219,221,.14)',
+
+        /* TODO обновить цвета для темной темы */
+        buttonColor2: "#ffffff",
+        buttonColor2Hover: "#e7e7e7",
+        buttonColor2Pressed: "#d1d1d1",
 
         successColor: '#5DBE8E',
         errorColor: '#E8705F',

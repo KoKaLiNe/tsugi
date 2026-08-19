@@ -1,9 +1,7 @@
 <template>
     <div class="logo__wrapper">
         <img :src="logoSvg" alt="Tsugi" class="logo-img" />
-        <span>
-            次
-        </span>
+        <n-text> 次 </n-text>
     </div>
 </template>
 
@@ -12,7 +10,13 @@ import logoSvg from '@/assets/logo.svg'
 </script>
 
 <style lang="scss" scoped>
-.logo-img {
-    height: 35px;
+.logo {
+    &__wrapper {
+        margin-top: 4px;
+    }
+
+    &-img {
+        height: 35px;
+    }
 }
 </style>

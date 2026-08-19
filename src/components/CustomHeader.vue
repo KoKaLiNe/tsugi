@@ -1,6 +1,8 @@
 <template>
     <div class="header">
-        <Logo />
+        <router-link to="/">
+            <Logo />
+        </router-link>
 
         <div class="header__navigation">
             <n-menu class="header__menu" :value="tab" :options="menuOptions" mode="horizontal"
@@ -17,10 +19,7 @@
 
             <n-button quaternary circle :aria-label="themeBittonAriaLabel" @click="themeStore.toggleTheme">
                 <template #icon>
-                    <n-icon>
-                        <LightModeOutlined v-if="isDarkTheme" />
-                        <NightlightSharp v-else />
-                    </n-icon>
+                    <n-icon :component="isDarkTheme ? LightModeFilled : DarkModeRound" />
                 </template>
             </n-button>
         </div>
@@ -30,7 +29,7 @@
 <script lang="ts" setup>
 import type { MenuOption } from "naive-ui";
 import { useI18n } from "vue-i18n";
-import { SearchFilled, LightModeOutlined, NightlightSharp } from "@vicons/material";
+import { SearchFilled, LightModeFilled, DarkModeRound } from "@vicons/material";
 import { computed, onMounted, ref, watch } from "vue";
 import { RouterEnum } from "@/router";
 import { useRoute, useRouter } from "vue-router";
@@ -64,7 +63,7 @@ const menuOptions = computed<MenuOption[]>(() => (
 const handleUpdateValue = (key: RouterEnum, _item: MenuOption) => {
     tab.value = key;
 
-    router.push(key);
+    router.push({ name: key });
 };
 
 onMounted(() => {
@@ -81,7 +80,13 @@ watch(() => route.name, () => {
     display: flex;
     justify-content: space-between;
     height: 60px;
-    padding: $base-padding;
+    padding: $layout-padding;
+
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background-color: var(--surface);
+
 
     &__navigation {
         display: flex;
