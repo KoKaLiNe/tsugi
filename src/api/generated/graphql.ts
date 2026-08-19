@@ -4763,3 +4763,18 @@ export type GetTopAnimeQueryVariables = Exact<{
 
 
 export type GetTopAnimeQuery = { Page: { pageInfo: { total: number | null, currentPage: number | null, lastPage: number | null, hasNextPage: boolean | null, perPage: number | null } | null, media: Array<{ id: number, idMal: number | null, bannerImage: string | null, averageScore: number | null, title: { romaji: string | null, english: string | null, native: string | null } | null, coverImage: { large: string | null, color: string | null } | null } | null> | null } | null };
+
+export type SchedulePageInfoFragment = { hasNextPage: boolean | null };
+
+export type ScheduleMediaFragment = { id: number, title: { english: string | null, romaji: string | null } | null, coverImage: { color: string | null, large: string | null } | null };
+
+export type AiringSchedulesFragment = { id: number, airingAt: number, episode: number, media: { id: number, title: { english: string | null, romaji: string | null } | null, coverImage: { color: string | null, large: string | null } | null } | null };
+
+export type GetScheduleQueryVariables = Exact<{
+  start?: number | null | undefined;
+  end?: number | null | undefined;
+  page?: number | null | undefined;
+}>;
+
+
+export type GetScheduleQuery = { Page: { pageInfo: { hasNextPage: boolean | null } | null, airingSchedules: Array<{ id: number, airingAt: number, episode: number, media: { id: number, title: { english: string | null, romaji: string | null } | null, coverImage: { color: string | null, large: string | null } | null } | null } | null> | null } | null };
