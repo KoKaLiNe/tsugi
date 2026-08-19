@@ -37,7 +37,8 @@
                                 :sharp="false" />
 
                             <template v-else-if="!isEmpty(items)">
-                                <ReliseEpisodeCard v-for="item in items" :key="item.id" :episode="item" />
+                                <ReliseEpisodeCard v-for="item in items" :key="item.id" :episode="item"
+                                    :isCurrentWeek="isCurrentWeek" />
                             </template>
 
                             <n-text v-else align="center" depth="3"> {{ t("veiws.schedule.noReleases") }} </n-text>
@@ -78,8 +79,10 @@ import dayjs from 'dayjs';
 import { useRouter } from 'vue-router';
 import { RouterEnum } from '@/router';
 import { useI18n } from 'vue-i18n';
+import { useNow } from '@/composables/useNow';
 
 const { t } = useI18n()
+const now = useNow()
 const router = useRouter()
 
 const scheduleStore = useScheduleStore()
@@ -111,8 +114,8 @@ const reloadData = async () => {
     await scheduleStore.loadWeek(currentWeek.value)
 }
 
-const isToday = (date: dayjs.Dayjs) => dayjs().startOf('day').isSame(date.startOf('day'))
-const isCurrentWeek = computed(() => dayjs(currentWeek.value).startOf("isoWeek").isSame(dayjs().startOf("isoWeek")))
+const isToday = (date: dayjs.Dayjs) => dayjs(now.value).startOf('day').isSame(date.startOf('day'))
+const isCurrentWeek = computed(() => dayjs(currentWeek.value).startOf("isoWeek").isSame(dayjs(now.value).startOf("isoWeek")))
 
 const goTo = (position: "prev" | "today" | "next") => {
     let newWeek = currentWeek.value

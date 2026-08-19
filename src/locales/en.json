@@ -12,14 +12,20 @@
     "popular": "Popular",
     "episode": "episode",
     "episodeShort": "ep.",
-    "reloadData": "Retry load"
+    "reloadData": "Retry load",
+    "dateTime": {
+      "in": "in",
+      "min": "min",
+      "hour": "hr"
+    }
   },
   "veiws": {
     "schedule": {
       "title": "Schedule",
       "currentWeek": "Current week",
       "noReleases": "No releases",
-      "dataLost": "The data got lost somewhere"
+      "dataLost": "The data got lost somewhere",
+      "released": "released"
     }
   },
   "error": {

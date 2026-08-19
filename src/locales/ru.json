@@ -12,14 +12,20 @@
     "popular": "Популярные",
     "episode": "эпизод",
     "episodeShort": "эп.",
-    "reloadData": "Повторить загрузку"
+    "reloadData": "Повторить загрузку",
+    "dateTime": {
+      "in": "через",
+      "min": "мин",
+      "hour": "ч"
+    }
   },
   "veiws": {
     "schedule": {
       "title": "Расписание",
       "currentWeek": "Текущая неделя",
       "noReleases": "нет релизов",
-      "dataLost": "Данные где-то потерялись"
+      "dataLost": "Данные где-то потерялись",
+      "released": "вышло"
     }
   },
   "error": {
