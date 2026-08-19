@@ -9,5 +9,11 @@
       "schedule": "Schedule"
     },
     "search": "Search"
+  },
+  "error": {
+    "general": "An error occurred. Please try again later",
+    "networkError": {
+      "429": "Too many requests. Please try again later"
+    }
   }
 }
