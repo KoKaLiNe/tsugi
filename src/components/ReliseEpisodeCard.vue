@@ -85,7 +85,7 @@ const minutesLeft = computed(() => totalMinutesLeft.value % 60)
     cursor: pointer;
 
     &:hover {
-        box-shadow: 0 2px 12px 0px color-mix(in srgb, var(--accent-hover) 40%, transparent)
+        box-shadow: $shadow-hover;
     }
 
     &-img {

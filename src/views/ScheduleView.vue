@@ -22,29 +22,30 @@
             </n-flex>
         </n-flex>
 
-        <n-flex class="week-day__wrapper" vertical>
-            <n-grid class="week-day" x-gap="8" :cols="7">
-                <n-gi v-for="{ day, items } in week" :key="day.valueOf()">
-                    <n-flex class="schedule-grid" :size="8" vertical>
-                        <n-flex class="schedule-grid__header" :class="{ '--today': isToday(day) }" :size="0" vertical
-                            align="center" wrap>
-                            <n-text depth="3">{{ day.format("dd") }}</n-text>
-                            <n-text strong>{{ day.format("D") }}</n-text>
-                        </n-flex>
+        <div class="gradient-cover"></div>
 
-                        <n-flex v-if="!currentWeekData?.error" :size="8" vertical class="schedule-grid__content">
-                            <n-skeleton v-if="currentWeekData?.loading ?? true" height="200px" width="100%"
-                                :sharp="false" />
+        <n-flex class="schedule-grid__wrapper" vertical :size="0">
+            <n-grid class="schedule-grid__header" x-gap="8" :cols="7">
+                <n-grid-item v-for="{ day, items } in week" :key="day.valueOf()" class="schedule-grid__header-item">
+                    <ScheduleDayBtn :day="day" :items="items" :selectedDay="selectedDay" />
+                </n-grid-item>
+            </n-grid>
 
-                            <template v-else-if="!isEmpty(items)">
-                                <ReliseEpisodeCard v-for="item in items" :key="item.id" :episode="item"
-                                    :isCurrentWeek="isCurrentWeek" />
-                            </template>
 
-                            <n-text v-else align="center" depth="3"> {{ t("veiws.schedule.noReleases") }} </n-text>
-                        </n-flex>
+            <n-grid class="schedule-grid__content" x-gap="8" :cols="7">
+                <n-grid-item v-for="{ day, items } in week" :key="day.valueOf()" class="schedule-grid__content-item">
+                    <n-flex v-if="!currentWeekData?.error" :size="8" vertical>
+                        <n-skeleton v-if="currentWeekData?.loading ?? true" height="200px" width="100%"
+                            :sharp="false" />
+
+                        <template v-else-if="!isEmpty(items)">
+                            <ReliseEpisodeCard v-for="item in items" :key="item.id" :episode="item"
+                                :isCurrentWeek="isCurrentWeek" />
+                        </template>
+
+                        <n-text v-else align="center" depth="3"> {{ t("veiws.schedule.noReleases") }} </n-text>
                     </n-flex>
-                </n-gi>
+                </n-grid-item>
             </n-grid>
 
             <n-empty v-if="currentWeekData?.error && !currentWeekData?.loading"
@@ -74,6 +75,7 @@ import { computed } from 'vue';
 import { BrokenImageFilled, ArrowBackIosNewFilled, ArrowForwardIosFilled, KeyboardArrowUpFilled } from "@vicons/material"
 import { storeToRefs } from 'pinia';
 import ReliseEpisodeCard from "@/components/ReliseEpisodeCard.vue"
+import ScheduleDayBtn from "@/components/ScheduleDayBtn.vue"
 import { groupBy, isEmpty } from "lodash-es"
 import dayjs from 'dayjs';
 import { useRouter } from 'vue-router';
@@ -140,19 +142,26 @@ const goTo = (position: "prev" | "today" | "next") => {
 
 <style lang="scss" scoped>
 .schedule {
+    .gradient-cover {
+        position: sticky;
+        top: var(--header-height);
+        width: calc(100% + 40px);
+        height: 95px;
+        margin: 0 20px -95px -20px;
+        background: linear-gradient(0deg, transparent 30%, var(--bg) 60%);
+        z-index: 8;
+        pointer-events: none;
+    }
+
     &-grid {
         &__header {
-            border: $base-border;
-            border-radius: $base-border-radius;
-            padding: $base-padding;
-            // position: sticky;
-            // top: 0;
-            background-color: var(--surface);
+            position: sticky;
+            top: calc(var(--header-height) + $base-gap);
+            z-index: 9;
+        }
 
-            &.--today {
-                border: 1px solid color-mix(in srgb, var(--accent) 50%, transparent);
-                background-color: var(--accent-bg);
-            }
+        &__content {
+            margin-top: $base-gap;
         }
     }
 
