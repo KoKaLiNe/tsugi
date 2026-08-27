@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 
 export function getWeekRange(date: string) {
-    const start = dayjs(date).startOf('isoWeek')
+    const start = getStartOfWeekDate(date)
 
     return {
         start: start.unix(),
@@ -10,11 +10,15 @@ export function getWeekRange(date: string) {
 }
 
 export function getWeekDays(date: string) {
-    const weekStart = dayjs(date).startOf('isoWeek')
+    const weekStart = getStartOfWeekDate(date)
     const weekDays = Array.from({ length: 7 }, (_item, index) => weekStart.add(index, "day"))
     return weekDays
 }
 
 export function toDateKey(date: dayjs.Dayjs) {
     return date.format("YYYY-MM-DD")
+}
+
+export function getStartOfWeekDate(date: dayjs.Dayjs | string | number = dayjs()) {
+    return dayjs(date).startOf("isoWeek")
 }

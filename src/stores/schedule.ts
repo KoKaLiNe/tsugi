@@ -5,7 +5,7 @@ import dayjs from "dayjs";
 import { defineStore } from "pinia";
 import { computed, reactive, watch } from "vue";
 import { debounce } from "lodash-es";
-import { getWeekRange, toDateKey } from "@/utils/dates";
+import { getWeekRange, toDateKey, getStartOfWeekDate } from "@/utils/dates";
 import router from '@/router'
 
 interface IAiringSchedulesData {
@@ -15,7 +15,16 @@ interface IAiringSchedulesData {
 }
 
 export const useScheduleStore = defineStore('schedule', () => {
-    const currentWeek = computed(() => router.currentRoute.value.query.week as string ?? toDateKey(dayjs().startOf("isoWeek")))
+    const currentWeek = computed<string>(() => {
+        const routeQueryWeek = router.currentRoute.value.query.week
+        const week = Array.isArray(routeQueryWeek) ? routeQueryWeek.find((item) => dayjs(item, "YYYY-MM-DD", true).isValid()) : routeQueryWeek
+
+        if (week && dayjs(week, "YYYY-MM-DD", true).isValid()) {
+            return toDateKey(getStartOfWeekDate(week))
+        } else {
+            return toDateKey(getStartOfWeekDate())
+        }
+    })
 
     const airingSchedules = reactive<Map<string, IAiringSchedulesData>>(new Map())
 

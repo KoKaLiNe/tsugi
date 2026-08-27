@@ -25,7 +25,6 @@ api.interceptors.response.use(
     },
     (error: AxiosError) => {
         const statusCode = error.response?.status
-        console.error("error", error.response?.headers["x-ratelimit-reset"]);
 
         let errorText: string
 

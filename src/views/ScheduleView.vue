@@ -69,7 +69,7 @@
 
 <script lang="ts" setup>
 import { useScheduleStore } from '@/stores/schedule';
-import { getWeekDays, getWeekRange, toDateKey } from '@/utils/dates';
+import { getWeekDays, getWeekRange, toDateKey, getStartOfWeekDate } from '@/utils/dates';
 import { computed } from 'vue';
 import { BrokenImageFilled, ArrowBackIosNewFilled, ArrowForwardIosFilled, KeyboardArrowUpFilled } from "@vicons/material"
 import { storeToRefs } from 'pinia';
@@ -115,23 +115,23 @@ const reloadData = async () => {
 }
 
 const isToday = (date: dayjs.Dayjs) => dayjs(now.value).startOf('day').isSame(date.startOf('day'))
-const isCurrentWeek = computed(() => dayjs(currentWeek.value).startOf("isoWeek").isSame(dayjs(now.value).startOf("isoWeek")))
+const isCurrentWeek = computed(() => getStartOfWeekDate(currentWeek.value).isSame(getStartOfWeekDate(now.value)))
 
 const goTo = (position: "prev" | "today" | "next") => {
     let newWeek = currentWeek.value
 
     switch (position) {
         case "prev":
-            newWeek = toDateKey(dayjs(currentWeek.value).startOf("isoWeek").add(-1, "week"))
+            newWeek = toDateKey(getStartOfWeekDate(currentWeek.value).add(-1, "week"))
 
             break;
         case "next":
-            newWeek = toDateKey(dayjs(currentWeek.value).startOf("isoWeek").add(1, "week"))
+            newWeek = toDateKey(getStartOfWeekDate(currentWeek.value).add(1, "week"))
 
             break;
 
         default:
-            newWeek = toDateKey(dayjs().startOf("isoWeek"))
+            newWeek = toDateKey(getStartOfWeekDate())
             break;
     }
 
