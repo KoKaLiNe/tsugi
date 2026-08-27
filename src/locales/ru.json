@@ -8,6 +8,7 @@
       "home": "Главная",
       "schedule": "Календарь"
     },
+    "today": "Сегодня",
     "search": "Поиск",
     "popular": "Популярные",
     "episode": "эпизод",
@@ -22,7 +23,6 @@
   "veiws": {
     "schedule": {
       "title": "Расписание",
-      "currentWeek": "Текущая неделя",
       "noReleases": "нет релизов",
       "dataLost": "Данные где-то потерялись",
       "released": "вышло"

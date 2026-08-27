@@ -15,8 +15,8 @@ export function getWeekDays(date: string) {
     return weekDays
 }
 
-export function toDateKey(date: dayjs.Dayjs) {
-    return date.format("YYYY-MM-DD")
+export function toDateKey(date: dayjs.Dayjs | string | number = dayjs()) {
+    return dayjs(date).format("YYYY-MM-DD")
 }
 
 export function getStartOfWeekDate(date: dayjs.Dayjs | string | number = dayjs()) {

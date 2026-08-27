@@ -12,8 +12,8 @@
                 </n-button>
 
                 <!-- <n-date-picker type="week" clearable /> -->
-                <n-button :disabled="isCurrentWeek" @click="goTo('today')">
-                    {{ t("veiws.schedule.currentWeek") }}
+                <n-button :disabled="isCurrentDay" @click="goTo('today')">
+                    {{ t("common.today") }}
                 </n-button>
 
                 <n-button @click="goTo('next')">
@@ -86,18 +86,17 @@ const now = useNow()
 const router = useRouter()
 
 const scheduleStore = useScheduleStore()
-const { currentWeek, airingSchedules } = storeToRefs(scheduleStore)
+const { selectedDay, selectedWeek, airingSchedules } = storeToRefs(scheduleStore)
 
-const weekRange = computed(() => getWeekRange(currentWeek.value))
+const weekRange = computed(() => getWeekRange(selectedWeek.value))
 const weekRangeText = computed(() => {
     const start = dayjs.unix(weekRange.value.start).format("DD MMMM")
     const end = dayjs.unix(weekRange.value.end - 1).format("DD MMMM")
     return `${start} — ${end}`
 })
 
-
-const weekDays = computed(() => getWeekDays(currentWeek.value))
-const currentWeekData = computed(() => airingSchedules.value.get(currentWeek.value))
+const weekDays = computed(() => getWeekDays(selectedWeek.value))
+const currentWeekData = computed(() => airingSchedules.value.get(selectedWeek.value))
 
 const weekDataGroupedByDay = computed(() => groupBy(currentWeekData.value?.data ?? [], (item) => {
     return toDateKey(dayjs.unix(item.airingAt))
@@ -111,31 +110,31 @@ const week = computed(() => {
 })
 
 const reloadData = async () => {
-    await scheduleStore.loadWeek(currentWeek.value)
+    await scheduleStore.loadWeek(selectedWeek.value)
 }
 
-const isToday = (date: dayjs.Dayjs) => dayjs(now.value).startOf('day').isSame(date.startOf('day'))
-const isCurrentWeek = computed(() => getStartOfWeekDate(currentWeek.value).isSame(getStartOfWeekDate(now.value)))
+const isCurrentWeek = computed(() => getStartOfWeekDate(selectedWeek.value).isSame(getStartOfWeekDate(now.value)))
+const isCurrentDay = computed(() => dayjs(selectedDay.value).startOf("day").isSame(dayjs(now.value).startOf("day")))
 
 const goTo = (position: "prev" | "today" | "next") => {
-    let newWeek = currentWeek.value
+    let newDay = selectedDay.value
 
     switch (position) {
         case "prev":
-            newWeek = toDateKey(getStartOfWeekDate(currentWeek.value).add(-1, "week"))
+            newDay = toDateKey(dayjs(selectedDay.value).add(-1, "week"))
 
             break;
         case "next":
-            newWeek = toDateKey(getStartOfWeekDate(currentWeek.value).add(1, "week"))
+            newDay = toDateKey(dayjs(selectedDay.value).add(1, "week"))
 
             break;
 
         default:
-            newWeek = toDateKey(getStartOfWeekDate())
+            newDay = toDateKey(dayjs())
             break;
     }
 
-    router.push({ name: RouterEnum.Schedule, query: { week: newWeek } })
+    router.push({ name: RouterEnum.Schedule, query: { day: newDay } })
 }
 </script>
 

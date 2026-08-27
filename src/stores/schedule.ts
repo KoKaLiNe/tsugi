@@ -15,22 +15,24 @@ interface IAiringSchedulesData {
 }
 
 export const useScheduleStore = defineStore('schedule', () => {
-    const currentWeek = computed<string>(() => {
-        const routeQueryWeek = router.currentRoute.value.query.week
-        const week = Array.isArray(routeQueryWeek) ? routeQueryWeek.find((item) => dayjs(item, "YYYY-MM-DD", true).isValid()) : routeQueryWeek
+    const selectedDay = computed<string>(() => {
+        const routeQueryDay = router.currentRoute.value.query.day
+        const day = Array.isArray(routeQueryDay) ? routeQueryDay.find((item) => dayjs(item, "YYYY-MM-DD", true).isValid()) : routeQueryDay
 
-        if (week && dayjs(week, "YYYY-MM-DD", true).isValid()) {
-            return toDateKey(getStartOfWeekDate(week))
+        if (day && dayjs(day, "YYYY-MM-DD", true).isValid()) {
+            return toDateKey(day)
         } else {
-            return toDateKey(getStartOfWeekDate())
+            return toDateKey()
         }
+
     })
+    const selectedWeek = computed<string>(() => toDateKey(getStartOfWeekDate(selectedDay.value)))
 
     const airingSchedules = reactive<Map<string, IAiringSchedulesData>>(new Map())
 
     const debouncedLoadWeek = debounce(loadWeek, 300)
 
-    watch(() => currentWeek.value, (value) => {
+    watch(() => selectedWeek.value, (value) => {
         debouncedLoadWeek(value)
     }, { immediate: true })
 
@@ -86,7 +88,8 @@ export const useScheduleStore = defineStore('schedule', () => {
     }
 
     return {
-        currentWeek,
+        selectedDay,
+        selectedWeek,
         airingSchedules,
         loadWeek
     }

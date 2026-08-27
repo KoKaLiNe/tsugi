@@ -8,6 +8,7 @@
       "home": "Home",
       "schedule": "Schedule"
     },
+    "today": "Today",
     "search": "Search",
     "popular": "Popular",
     "episode": "episode",
@@ -22,7 +23,6 @@
   "veiws": {
     "schedule": {
       "title": "Schedule",
-      "currentWeek": "Current week",
       "noReleases": "No releases",
       "dataLost": "The data got lost somewhere",
       "released": "released"
