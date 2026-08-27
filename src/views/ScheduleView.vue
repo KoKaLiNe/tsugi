@@ -151,8 +151,8 @@ const goTo = (position: "prev" | "today" | "next") => {
             content: "";
             position: absolute;
             top: -$base-gap;
-            left: -$shadow-length;
-            width: calc(100% + $shadow-length * 2);
+            left: -$card-shadow-length;
+            width: calc(100% + $card-shadow-length * 2);
             height: calc(100% + $base-gap);
             background: linear-gradient(0deg, transparent 0, var(--bg) 24px);
             z-index: -1;
