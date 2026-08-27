@@ -1,37 +1,37 @@
 <template>
     <n-flex class="schedule" vertical :size="8">
-        <n-flex class="schedule-header" justify="space-between">
-            <n-text class="schedule-title">
-                <n-h3>{{ t("veiws.schedule.title") }}</n-h3>
-                {{ weekRangeText }}
-            </n-text>
+        <n-flex class="schedule-header" vertical>
+            <n-flex class="schedule-header__week-controls" justify="space-between">
+                <n-text class="schedule-title">
+                    <n-h3>{{ t("veiws.schedule.title") }}</n-h3>
+                    {{ weekRangeText }}
+                </n-text>
 
-            <n-flex class="schedule-controls" :size="8">
-                <n-button @click="goTo('prev')">
-                    <n-icon :component="ArrowBackIosNewFilled" />
-                </n-button>
+                <n-flex class="schedule-controls" :size="8">
+                    <n-button @click="goTo('prev')">
+                        <n-icon :component="ArrowBackIosNewFilled" />
+                    </n-button>
 
-                <!-- <n-date-picker type="week" clearable /> -->
-                <n-button :disabled="isCurrentDay" @click="goTo('today')">
-                    {{ t("common.today") }}
-                </n-button>
+                    <!-- <n-date-picker type="week" clearable /> -->
+                    <n-button :disabled="isCurrentDay" @click="goTo('today')">
+                        {{ t("common.today") }}
+                    </n-button>
 
-                <n-button @click="goTo('next')">
-                    <n-icon :component="ArrowForwardIosFilled" />
-                </n-button>
+                    <n-button @click="goTo('next')">
+                        <n-icon :component="ArrowForwardIosFilled" />
+                    </n-button>
+                </n-flex>
             </n-flex>
-        </n-flex>
 
-        <div class="gradient-cover"></div>
-
-        <n-flex class="schedule-grid__wrapper" vertical :size="0">
-            <n-grid class="schedule-grid__header" x-gap="8" :cols="7">
+            <n-grid class="schedule-header__day-controls" x-gap="8" :cols="7">
                 <n-grid-item v-for="{ day, items } in week" :key="day.valueOf()" class="schedule-grid__header-item">
                     <ScheduleDayBtn :day="day" :items="items" :selectedDay="selectedDay" />
                 </n-grid-item>
             </n-grid>
 
+        </n-flex>
 
+        <n-flex class="schedule-grid__wrapper" vertical :size="0">
             <n-grid class="schedule-grid__content" x-gap="8" :cols="7">
                 <n-grid-item v-for="{ day, items } in week" :key="day.valueOf()" class="schedule-grid__content-item">
                     <n-flex v-if="!currentWeekData?.error" :size="8" vertical>
@@ -142,24 +142,24 @@ const goTo = (position: "prev" | "today" | "next") => {
 
 <style lang="scss" scoped>
 .schedule {
-    .gradient-cover {
+    &-header {
         position: sticky;
-        top: var(--header-height);
-        width: calc(100% + 40px);
-        height: 95px;
-        margin: 0 20px -95px -20px;
-        background: linear-gradient(0deg, transparent 30%, var(--bg) 60%);
-        z-index: 8;
-        pointer-events: none;
+        top: calc(var(--header-height) + $base-gap);
+        z-index: 9;
+
+        &::before {
+            content: "";
+            position: absolute;
+            top: -$base-gap;
+            left: -$shadow-length;
+            width: calc(100% + $shadow-length * 2);
+            height: calc(100% + $base-gap);
+            background: linear-gradient(0deg, transparent 0, var(--bg) 24px);
+            z-index: -1;
+        }
     }
 
     &-grid {
-        &__header {
-            position: sticky;
-            top: calc(var(--header-height) + $base-gap);
-            z-index: 9;
-        }
-
         &__content {
             margin-top: $base-gap;
         }

@@ -44,7 +44,7 @@ const isSelectedDay = (date: dayjs.Dayjs) => dayjs(props.selectedDay).startOf('d
     box-shadow: 0px 5px 8px -1px color-mix(in srgb, var(--border) 100%, transparent);
 
     &:hover {
-        box-shadow: $shadow-hover;
+        box-shadow: $card-shadow-hover;
     }
 
     .week-date {

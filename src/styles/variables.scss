@@ -8,4 +8,5 @@ $base-gap: 8px;
 $layout-padding: 8px 40px 8px 40px;
 $base-padding: $base-gap;
 
-$shadow-hover: 0 2px 12px 0px color-mix(in srgb, var(--accent-hover) 40%, transparent);
+$card-shadow-length: 12px;
+$card-shadow-hover: 0 2px $card-shadow-length 0px color-mix(in srgb, var(--accent-hover) 40%, transparent);
