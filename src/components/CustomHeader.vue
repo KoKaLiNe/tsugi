@@ -79,7 +79,7 @@ watch(() => route.name, () => {
 .header {
     display: flex;
     justify-content: space-between;
-    height: 60px;
+    height: var(--header-height);
     padding: $layout-padding;
 
     position: sticky;

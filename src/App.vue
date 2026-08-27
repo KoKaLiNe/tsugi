@@ -25,7 +25,7 @@ const { isDarkTheme } = storeToRefs(themeStore)
 
 <style lang="scss" scoped>
 .app-content {
-    min-height: calc(100vh - 60px);
+    min-height: calc(100vh - var(--header-height));
     padding: $layout-padding;
     background-color: var(--bg);
 }
