@@ -1,5 +1,5 @@
 <template>
-    <div class="header">
+    <div class="header" :class="{ '--wide': isWideLayout }">
         <router-link to="/">
             <Logo />
         </router-link>
@@ -36,11 +36,13 @@ import { useRoute, useRouter } from "vue-router";
 import Logo from "@/components/Logo.vue"
 import { useThemeStore } from "@/stores/theme";
 import { storeToRefs } from "pinia";
+import { useIsWideLayout } from "@/composables/useIsWideLayout";
 
 const { t } = useI18n();
 const router = useRouter();
 const route = useRoute();
 
+const isWideLayout = useIsWideLayout()
 const themeStore = useThemeStore()
 const { isDarkTheme } = storeToRefs(themeStore)
 const themeBittonAriaLabel = computed(() => isDarkTheme.value ? t(`common.theme.light`) : t(`common.theme.dark`))
@@ -80,13 +82,16 @@ watch(() => route.name, () => {
     display: flex;
     justify-content: space-between;
     height: var(--header-height);
-    padding: $layout-padding;
+    padding: $narrow-layout-padding;
 
     position: sticky;
     top: 0;
     z-index: 10;
     background-color: var(--surface);
 
+    &.--wide {
+        padding: $wide-layout-padding;
+    }
 
     &__navigation {
         display: flex;

@@ -3,7 +3,7 @@
         :theme-overrides="isDarkTheme ? DARK_THEME : LIGHT_THEME">
         <CustomHeader></CustomHeader>
         <n-message-provider>
-            <main class="app-content">
+            <main class="app-content" :class="{ '--wide': isWideLayout }">
                 <RouterView />
             </main>
         </n-message-provider>
@@ -17,8 +17,10 @@ import CustomHeader from '@/components/CustomHeader.vue'
 import { DARK_THEME, LIGHT_THEME } from './constants/themeVariables';
 import { useThemeStore } from './stores/theme';
 import { storeToRefs } from 'pinia';
+import { useIsWideLayout } from './composables/useIsWideLayout';
 
 const themeStore = useThemeStore()
+const isWideLayout = useIsWideLayout()
 const { isDarkTheme } = storeToRefs(themeStore)
 
 </script>
@@ -26,7 +28,11 @@ const { isDarkTheme } = storeToRefs(themeStore)
 <style lang="scss" scoped>
 .app-content {
     min-height: calc(100vh - var(--header-height));
-    padding: $layout-padding;
+    padding: $narrow-layout-padding;
     background-color: var(--bg);
+
+    &.--wide {
+        padding: $wide-layout-padding;
+    }
 }
 </style>

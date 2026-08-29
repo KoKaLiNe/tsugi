@@ -5,8 +5,11 @@ $black: rgba(9, 5, 23, 1);
 $base-border: 1px solid var(--border);
 $base-border-radius: 6px;
 $base-gap: 8px;
-$layout-padding: 8px 40px 8px 40px;
+$wide-gap: 40px;
 $base-padding: $base-gap;
+
+$narrow-layout-padding: $base-gap;
+$wide-layout-padding: $base-gap $wide-gap;
 
 $card-shadow-length: 12px;
 $card-shadow-hover: 0 2px $card-shadow-length 0px color-mix(in srgb, var(--accent-hover) 40%, transparent);
