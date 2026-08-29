@@ -1,9 +1,6 @@
 import type { GlobalThemeOverrides } from "naive-ui";
 
 const basicTheme = {
-    primaryColor: '#7453C1',
-    primaryColorSuppl: '#7453C1',
-
     borderRadius: '6px',
 }
 
@@ -11,8 +8,10 @@ export const LIGHT_THEME: GlobalThemeOverrides = {
     common: {
         ...basicTheme,
 
+        primaryColor: '#7453C1',
         primaryColorHover: '#6544B0',
         primaryColorPressed: '#876CC6',
+        primaryColorSuppl: '#7453C1',
 
         bodyColor: '#F7F5F6',
 
@@ -35,16 +34,23 @@ export const LIGHT_THEME: GlobalThemeOverrides = {
         buttonColor2Hover: "#e7e7e7",
         buttonColor2Pressed: "#d1d1d1",
 
-        successColor: '#2E7D5B',
+        successColor: '#128046',
+        successColorHover: '#0E6437',
+        successColorPressed: '#0A4A29',
+
         errorColor: '#C0392B',
+        errorColorHover: '#A63125',
+        errorColorPressed: '#8E2A20',
     }
 }
 export const DARK_THEME: GlobalThemeOverrides = {
     common: {
         ...basicTheme,
 
-        primaryColorHover: '#8261CE',
-        primaryColorPressed: '#9073D3',
+        primaryColor: '#9173d9',
+        primaryColorHover: '#A68DE0',
+        primaryColorPressed: '#856BC4',
+        primaryColorSuppl: '#50378E',
 
         bodyColor: '#1A1A1B',
 
@@ -68,6 +74,11 @@ export const DARK_THEME: GlobalThemeOverrides = {
         buttonColor2Pressed: "#876CC6",
 
         successColor: '#5DBE8E',
+        successColorHover: '#70C69B',
+        successColorPressed: '#81CCA7',
+
         errorColor: '#E8705F',
+        errorColorHover: '#EB8577',
+        errorColorPressed: '#EE978B',
     }
 }
