@@ -22,3 +22,7 @@ export function toDateKey(date: dayjs.Dayjs | string | number = dayjs()) {
 export function getStartOfWeekDate(date: dayjs.Dayjs | string | number = dayjs()) {
     return dayjs(date).startOf("isoWeek")
 }
+
+export function getEndOfWeekDate(date: dayjs.Dayjs | string | number = dayjs()) {
+    return dayjs(date).endOf("isoWeek")
+}

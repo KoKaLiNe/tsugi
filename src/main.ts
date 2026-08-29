@@ -10,12 +10,14 @@ import dayjs from 'dayjs';
 import isoWeek from 'dayjs/plugin/isoWeek';
 import duration from 'dayjs/plugin/duration';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
+import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import ru from 'dayjs/locale/ru';
 
 dayjs.extend(isoWeek)
 dayjs.extend(duration)
 dayjs.extend(isSameOrBefore)
+dayjs.extend(isSameOrAfter)
 dayjs.extend(customParseFormat)
 dayjs.locale(ru)
 

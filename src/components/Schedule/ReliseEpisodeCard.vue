@@ -1,30 +1,33 @@
 <template>
-    <router-link class="episode" :class="{ '--aired': isCurrentWeek && isAired }"
+    <router-link class="episode" :class="{ '--aired': isAired, 'episode-row': isRowDirection }"
         :to="{ name: RouterEnum.Anime, params: { id: episode.media?.id } }">
         <div class="episode-img__wrapper" :style="episodeStyle">
             <img class="episode-img"
                 :src="episode.media?.coverImage?.extraLarge ? episode.media.coverImage?.extraLarge : undefined"
                 :alt="episodeTitle" loading="lazy">
         </div>
-        <n-flex vertical :size="0">
-            <n-text strong>{{ episodeTitle }}</n-text>
-            <n-text>{{ t("common.episodeShort") }} {{ episode.episode }}</n-text>
 
-            <n-flex justify="space-between" :size="[8, 0]">
+        <n-flex class="episode-info__wrapper" vertical :size="8" :justify="isRowDirection ? 'space-between' : 'start'">
+            <n-flex :size="8" vertical>
+                <n-text strong>{{ episodeTitle }}</n-text>
+                <n-text>{{ t("common.episodeShort") }} {{ episode.episode }}</n-text>
+            </n-flex>
+
+            <n-flex class="episode-time__wrapper" justify="space-between" :size="8">
                 <n-flex :size="2" align="center" :wrap="false" v-if="isAired">
-                    <n-icon>
-                        <DoneRound />
-                    </n-icon>
-
-                    <n-text depth="3">
+                    <n-text depth="3" class="episode__released">
+                        <n-icon>
+                            <DoneRound />
+                        </n-icon>
                         {{ t("veiws.schedule.released") }}
                     </n-text>
                 </n-flex>
 
-                <n-flex :size="4" align="center" :wrap="false" v-else-if="isCurrentDay">
+                <n-flex v-else-if="isCurrentDay" class="episode__release-time" :size="4" align="center" :wrap="false">
                     <n-icon>
                         <AccessTimeRound />
                     </n-icon>
+
                     <n-text> {{ t("common.dateTime.in") }} </n-text>
                     <n-text v-if="hoursLeft > 0"> {{ hoursLeft }} {{ t("common.dateTime.hour") }} </n-text>
                     <n-text v-if="minutesLeft > 0"> {{ minutesLeft }} {{ t("common.dateTime.min") }} </n-text>
@@ -34,10 +37,8 @@
                     <n-text>{{ airingTime }}</n-text>
                 </div>
             </n-flex>
-
         </n-flex>
     </router-link>
-
 </template>
 
 <script lang="ts" setup>
@@ -55,9 +56,13 @@ const now = useNow()
 
 interface IProps {
     episode: AiringSchedulesFragment;
-    isCurrentWeek: boolean;
+    direction?: 'column' | 'row'
 }
-const props = defineProps<IProps>()
+const props = withDefaults(defineProps<IProps>(), {
+    direction: 'column'
+})
+
+const isRowDirection = computed(() => props.direction === 'row')
 
 const episodeTitle = computed(() => getMediaTitle(props.episode.media))
 const episodeStyle = computed(() => (<StyleValue>{
@@ -101,8 +106,44 @@ const minutesLeft = computed(() => totalMinutesLeft.value % 60)
         }
     }
 
-    &.--aired {
-        opacity: 0.6;
+    &__release-time {
+        * {
+            color: var(--accent-text);
+        }
+    }
+
+    &__released {
+        display: flex;
+        gap: $base-gap;
+        align-items: center;
+        flex-wrap: nowrap;
+    }
+
+    &.--aired:not(.episode-row) {
+        border-bottom: 5px solid var(--success);
+    }
+
+    &-row {
+        display: flex;
+        flex-direction: row;
+        gap: $base-gap;
+
+        .episode {
+            &-img {
+                &__wrapper {
+                    margin-bottom: 0;
+                    max-height: 85px;
+                }
+            }
+
+            &-info__wrapper {
+                flex: 1;
+            }
+        }
+
+        &.--aired {
+            border-right: 5px solid var(--success);
+        }
     }
 }
 </style>

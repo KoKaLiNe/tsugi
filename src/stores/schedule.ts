@@ -7,19 +7,23 @@ import { computed, reactive, watch } from "vue";
 import { debounce } from "lodash-es";
 import { getWeekRange, toDateKey, getStartOfWeekDate } from "@/utils/dates";
 import router from '@/router'
+import { useNow } from "@/composables/useNow";
 
-interface IAiringSchedulesData {
+export interface IAiringSchedulesData {
     data?: AiringSchedulesFragment[];
     loading?: boolean;
     error?: string;
 }
 
 export const useScheduleStore = defineStore('schedule', () => {
+    const now = useNow()
+    const maxWeekDay = computed(() => dayjs(now.value).add(6, 'month').startOf('day'))
+
     const selectedDay = computed<string>(() => {
         const routeQueryDay = router.currentRoute.value.query.day
         const day = Array.isArray(routeQueryDay) ? routeQueryDay.find((item) => dayjs(item, "YYYY-MM-DD", true).isValid()) : routeQueryDay
 
-        if (day && dayjs(day, "YYYY-MM-DD", true).isValid()) {
+        if (day && dayjs(day, "YYYY-MM-DD", true).isValid() && dayjs(day, "YYYY-MM-DD", true).isSameOrBefore(maxWeekDay.value)) {
             return toDateKey(day)
         } else {
             return toDateKey()
@@ -88,6 +92,7 @@ export const useScheduleStore = defineStore('schedule', () => {
     }
 
     return {
+        maxWeekDay,
         selectedDay,
         selectedWeek,
         airingSchedules,

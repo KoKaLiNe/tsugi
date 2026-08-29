@@ -1,10 +1,11 @@
 <template>
     <router-link :to="{ name: RouterEnum.Schedule, query: { day: toDateKey(day) } }" replace class="schedule-grid__btn"
         :class="{ '--today': isToday(day), '--selected-day': isSelectedDay(day) }">
+        <n-badge class="episode-count" :value="items.length" color="var(--success)" />
+
         <n-flex :size="0" vertical align="center" wrap>
             <n-text depth="3" class="week-name">{{ day.format("dd") }}</n-text>
             <n-text strong class="week-date">{{ day.format("D") }}</n-text>
-            <n-text depth="3" class="episode-count">{{ items.length ?? 0 }}</n-text>
         </n-flex>
     </router-link>
 </template>
@@ -17,12 +18,16 @@ import { toDateKey } from '@/utils/dates';
 import dayjs from 'dayjs';
 
 interface IProps {
+    loading?: boolean;
+    error?: string;
     day: dayjs.Dayjs;
     items: AiringSchedulesFragment[];
     selectedDay: string;
 }
 
-const props = defineProps<IProps>()
+const props = withDefaults(defineProps<IProps>(), {
+    loading: true
+})
 
 const now = useNow()
 
@@ -42,6 +47,7 @@ const isSelectedDay = (date: dayjs.Dayjs) => dayjs(props.selectedDay).startOf('d
     padding: $base-padding;
     background-color: var(--surface);
     box-shadow: 0px 5px 8px -1px color-mix(in srgb, var(--border) 100%, transparent);
+    position: relative;
 
     &:hover {
         box-shadow: $card-shadow-hover;
@@ -51,17 +57,23 @@ const isSelectedDay = (date: dayjs.Dayjs) => dayjs(props.selectedDay).startOf('d
         font-size: 16px;
     }
 
-    .episode-count {
-        font-size: 12px;
-    }
-
     &.--today {
-        * {
-            color: var(--accent);
+        .n-text {
+            color: var(--accent-text);
         }
 
         .week-name {
             color: color-mix(in srgb, var(--accent) 80%, transparent);
+        }
+    }
+
+    .episode-count {
+        position: absolute;
+        top: -4px;
+        right: -4px;
+
+        :deep(.n-badge-sup) {
+            color: var(--on-success);
         }
     }
 
