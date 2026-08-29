@@ -1,12 +1,13 @@
 <template>
     <div class="logo__wrapper">
-        <img :src="logoSvg" alt="Tsugi" class="logo-img" />
-        <n-text> 次 </n-text>
+        <LogoSvg class="logo-img" role="img" aria-label="Tsugi" />
+        <logoHieroglyphSvg class="logo-hieroglyph" aria-hidden="true" />
     </div>
 </template>
 
 <script lang="ts" setup>
-import logoSvg from '@/assets/logo.svg'
+import LogoSvg from '@/assets/logo.svg'
+import logoHieroglyphSvg from '@/assets/logoHieroglyph.svg'
 </script>
 
 <style lang="scss" scoped>
@@ -16,7 +17,15 @@ import logoSvg from '@/assets/logo.svg'
     }
 
     &-img {
+        color: var(--accent);
         height: 35px;
+        width: 90px;
+    }
+
+    &-hieroglyph {
+        color: var(--text);
+        height: 15px;
+        width: 15px;
     }
 }
 </style>
