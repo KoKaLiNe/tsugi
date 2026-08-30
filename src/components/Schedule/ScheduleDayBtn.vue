@@ -57,16 +57,6 @@ const isSelectedDay = (date: dayjs.Dayjs) => dayjs(props.selectedDay).startOf('d
         font-size: 16px;
     }
 
-    &.--today {
-        .n-text {
-            color: var(--accent-text);
-        }
-
-        .week-name {
-            color: color-mix(in srgb, var(--accent) 80%, transparent);
-        }
-    }
-
     .episode-count {
         position: absolute;
         top: -4px;
@@ -81,6 +71,18 @@ const isSelectedDay = (date: dayjs.Dayjs) => dayjs(props.selectedDay).startOf('d
     &.--selected-day {
         border: 1px solid color-mix(in srgb, var(--accent) 50%, transparent);
         background-color: var(--accent-bg);
+    }
+
+    &.--today {
+        .week-name {
+            color: var(--accent-text);
+        }
+
+        .week-date {
+            color: var(--accent-text-strong);
+        }
+
+        border-bottom: 5px solid color-mix(in srgb, var(--accent) 80%, transparent);
     }
 }
 </style>

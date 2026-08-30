@@ -33,9 +33,7 @@
                     <n-text v-if="minutesLeft > 0"> {{ minutesLeft }} {{ t("common.dateTime.min") }} </n-text>
                 </n-flex>
 
-                <div>
-                    <n-text>{{ airingTime }}</n-text>
-                </div>
+                <n-text class="episode__airing-time">{{ airingTime }}</n-text>
             </n-flex>
         </n-flex>
     </router-link>
@@ -112,6 +110,13 @@ const minutesLeft = computed(() => totalMinutesLeft.value % 60)
         }
     }
 
+    &__airing-time {
+        display: flex;
+        flex: 1 0 auto;
+        justify-content: flex-end;
+        font-size: 16px;
+    }
+
     &__released {
         display: flex;
         gap: $base-gap;
@@ -132,7 +137,7 @@ const minutesLeft = computed(() => totalMinutesLeft.value % 60)
             &-img {
                 &__wrapper {
                     margin-bottom: 0;
-                    max-height: 85px;
+                    max-height: 120px;
                 }
             }
 
@@ -143,6 +148,14 @@ const minutesLeft = computed(() => totalMinutesLeft.value % 60)
 
         &.--aired {
             border-right: 5px solid var(--success);
+        }
+
+        &:not(.--aired) {
+            .episode {
+                &__airing-time {
+                    padding-right: 4px;
+                }
+            }
         }
     }
 }
