@@ -16,11 +16,12 @@
         <n-grid class="schedule-week-grid__content" x-gap="8" :cols="7">
             <n-grid-item v-for="{ day, items } in week" :key="day.valueOf()" class="schedule-grid__content-item">
                 <n-flex v-if="!currentWeekData?.error" :size="8" vertical>
-                    <n-skeleton v-if="currentWeekData?.loading ?? true" height="200px" width="100%" :sharp="false" />
-
-                    <template v-else-if="!isEmpty(items)">
+                    <template v-if="!isEmpty(items)">
                         <ReliseEpisodeCard v-for="item in items" :key="item.id" :episode="item" />
                     </template>
+
+                    <n-skeleton v-else-if="(currentWeekData?.loading ?? true) && !currentWeekData?.data" height="200px"
+                        width="100%" :sharp="false" />
 
                     <n-text v-else align="center" depth="3"> {{ t("veiws.schedule.noReleases") }} </n-text>
                 </n-flex>
@@ -29,7 +30,13 @@
     </n-flex>
 
     <n-flex v-else class="schedule-day-grid__wrapper" vertical :size="8">
-        <n-flex v-if="currentWeekData?.loading ?? true">
+        <n-grid v-if="!isEmpty(currentDayItems)" class="schedule-week-grid__content" x-gap="8" y-gap="8" cols="1 650:2">
+            <n-grid-item v-for="item in currentDayItems" :key="item.id" class="schedule-grid__content-item">
+                <ReliseEpisodeCard :episode="item" direction="row" />
+            </n-grid-item>
+        </n-grid>
+
+        <n-flex v-else-if="(currentWeekData?.loading ?? true) && !currentWeekData?.data">
             <n-grid x-gap="8" y-gap="8" cols="1 650:2">
                 <n-grid-item v-for="el in skeletonArray" :key="el" class="schedule-grid__content-item">
                     <n-skeleton height="120px" width="100%" :sharp="false" />
@@ -37,13 +44,8 @@
             </n-grid>
         </n-flex>
 
-        <n-grid v-else-if="!isEmpty(currentDayItems)" class="schedule-week-grid__content" x-gap="8" y-gap="8"
-            cols="1 650:2">
-            <n-grid-item v-for="item in currentDayItems" :key="item.id" class="schedule-grid__content-item">
-                <ReliseEpisodeCard :episode="item" direction="row" />
-            </n-grid-item>
-        </n-grid>
-        <n-text v-else-if="!currentWeekData?.error"  align="center" depth="3"> {{ t("veiws.schedule.noReleases") }} </n-text>
+        <n-text v-else-if="!currentWeekData?.error" align="center" depth="3"> {{ t("veiws.schedule.noReleases") }}
+        </n-text>
     </n-flex>
 </template>
 

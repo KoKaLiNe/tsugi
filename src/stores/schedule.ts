@@ -5,14 +5,17 @@ import dayjs from "dayjs";
 import { defineStore } from "pinia";
 import { computed, reactive, watch } from "vue";
 import { debounce } from "lodash-es";
-import { getWeekRange, toDateKey, getStartOfWeekDate } from "@/utils/dates";
+import { getWeekRange, toDateKey, getStartOfWeekDate, getEndOfWeekDate } from "@/utils/dates";
 import router from '@/router'
 import { useNow } from "@/composables/useNow";
+
+const REFRESH_TIME = 900_000 //15 мин
 
 export interface IAiringSchedulesData {
     data?: AiringSchedulesFragment[];
     loading?: boolean;
     error?: string;
+    fetchedAt?: number;
 }
 
 export const useScheduleStore = defineStore('schedule', () => {
@@ -40,31 +43,59 @@ export const useScheduleStore = defineStore('schedule', () => {
         debouncedLoadWeek(value)
     }, { immediate: true })
 
-    async function loadWeek(weekKey: string) {
+    function checkIfNeedLoad(weekKey: string) {
         const cached = airingSchedules.get(weekKey)
+        let needLoad = true
 
-        if (cached && (!cached.error || cached.loading)) {
+        if (cached) {
+            if (cached.loading) {
+                needLoad = false
+            }
+
+            if (cached.data) {
+                const isDataFresh = (cached.fetchedAt! + REFRESH_TIME) > Date.now()
+                const isPastWeek = getEndOfWeekDate(weekKey).startOf('day').isBefore(dayjs().startOf('day'))
+
+                if (isDataFresh || isPastWeek) {
+                    needLoad = false
+                }
+            }
+        }
+
+        return needLoad
+    }
+
+    function getOrCreateWeek(weekKey: string): IAiringSchedulesData {
+        if (!airingSchedules.has(weekKey)) {
+            airingSchedules.set(weekKey, {})
+        }
+
+        return airingSchedules.get(weekKey)!
+    }
+
+    async function loadWeek(weekKey: string) {
+        if (!checkIfNeedLoad(weekKey)) {
             return
         }
 
-        airingSchedules.set(weekKey, {
-            data: [],
-            loading: true,
-        })
+        const record = getOrCreateWeek(weekKey)
+        record.loading = true
 
         try {
             const { start, end } = getWeekRange(weekKey)
             const airingSchedulesRaw = await fetchAllPages(start, end)
             const validData = (airingSchedulesRaw ?? []).filter((item) => !!item && !item.media?.isAdult) as AiringSchedulesFragment[]
 
-            airingSchedules.get(weekKey)!.data = validData
-
+            record.data = validData
+            record.fetchedAt = Date.now()
+            record.error = undefined
         } catch (error) {
-            airingSchedules.get(weekKey)!.error = error instanceof Error ? error.message : String(error)
+            if (!record.data) {
+                record.error = error instanceof Error ? error.message : String(error)
+            }
         } finally {
-            airingSchedules.get(weekKey)!.loading = false
+            record.loading = false
         }
-
     }
 
     async function fetchAllPages(start: number, end: number) {
