@@ -43,7 +43,7 @@
                 <ReliseEpisodeCard :episode="item" direction="row" />
             </n-grid-item>
         </n-grid>
-        <n-text v-else align="center" depth="3"> {{ t("veiws.schedule.noReleases") }} </n-text>
+        <n-text v-else-if="!currentWeekData?.error"  align="center" depth="3"> {{ t("veiws.schedule.noReleases") }} </n-text>
     </n-flex>
 </template>
 
