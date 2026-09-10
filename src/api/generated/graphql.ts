@@ -4778,3 +4778,16 @@ export type GetScheduleQueryVariables = Exact<{
 
 
 export type GetScheduleQuery = { Page: { pageInfo: { hasNextPage: boolean | null } | null, airingSchedules: Array<{ id: number, airingAt: number, episode: number, media: { id: number, isAdult: boolean | null, title: { english: string | null, romaji: string | null } | null, coverImage: { color: string | null, large: string | null, extraLarge: string | null } | null } | null } | null> | null } | null };
+
+export type SearchListPageInfoFragment = { total: number | null, perPage: number | null, currentPage: number | null, lastPage: number | null, hasNextPage: boolean | null };
+
+export type SearchListMediaFragment = { id: number, averageScore: number | null, season: MediaSeason | null, genres: Array<string | null> | null, format: MediaFormat | null, isAdult: boolean | null, title: { english: string | null, romaji: string | null } | null, coverImage: { color: string | null, medium: string | null } | null, startDate: { year: number | null } | null };
+
+export type GetSearchListQueryVariables = Exact<{
+  page?: number | null | undefined;
+  perPage?: number | null | undefined;
+  search?: string | null | undefined;
+}>;
+
+
+export type GetSearchListQuery = { Page: { pageInfo: { total: number | null, perPage: number | null, currentPage: number | null, lastPage: number | null, hasNextPage: boolean | null } | null, media: Array<{ id: number, averageScore: number | null, season: MediaSeason | null, genres: Array<string | null> | null, format: MediaFormat | null, isAdult: boolean | null, title: { english: string | null, romaji: string | null } | null, coverImage: { color: string | null, medium: string | null } | null, startDate: { year: number | null } | null } | null> | null } | null };

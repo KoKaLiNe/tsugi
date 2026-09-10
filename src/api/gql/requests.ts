@@ -75,3 +75,49 @@ export const getSchedule = /* GraphQL */ `
     }
   }
 `
+
+export const search = /* GraphQL */ ` 
+  fragment SearchListPageInfo on PageInfo {
+    total
+    perPage
+    currentPage
+    lastPage
+    hasNextPage
+  }
+
+  fragment SearchListMedia on Media {
+    id
+    title {
+      english
+      romaji
+    }
+    coverImage {
+      color
+      medium
+    }
+    averageScore
+    season
+    genres
+    format
+    isAdult
+    startDate {
+      year
+    }
+  }
+  
+  query GetSearchList($page: Int, $perPage: Int = 20, $search: String) {
+    Page(page: $page, perPage: $perPage) {
+      pageInfo {
+        ...SearchListPageInfo
+      }
+      media(
+        type: ANIME,
+        sort: POPULARITY_DESC,
+        isAdult: false,
+        search: $search
+      ) {
+        ...SearchListMedia
+      }
+    }
+  }
+`
