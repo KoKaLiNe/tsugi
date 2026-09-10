@@ -5,8 +5,11 @@ const config: CodegenConfig = {
   documents: ['src/api/gql/**/*.ts'],
   generates: {
     'src/api/generated/graphql.ts': {
-      plugins: ['typescript', 'typescript-operations'],
+      plugins: ['typescript-operations'],
     },
+  },
+  headers: {
+    Referer: 'http://localhost:5173/',
   },
 }
 
