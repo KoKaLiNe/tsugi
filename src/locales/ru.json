@@ -28,6 +28,18 @@
       "released": "вышло"
     }
   },
+  "TitleFormatEnum": {
+    "MANGA": "Манга",
+    "MOVIE": "Фильм",
+    "MUSIC": "Музыка",
+    "NOVEL": "Роман",
+    "ONA": "ONA",
+    "ONE_SHOT": "One Shot",
+    "OVA": "OVA",
+    "SPECIAL": "Спешл",
+    "TV": "Сериал",
+    "TV_SHORT": "Сериал (короткий)"
+  },
   "error": {
     "general": "Произошла ошибка. Попробуйте позже",
     "networkError": {

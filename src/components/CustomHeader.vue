@@ -8,14 +8,7 @@
             <n-menu class="header__menu" :value="tab" :options="menuOptions" mode="horizontal"
                 @update:value="handleUpdateValue" />
 
-            <div class="search-bar__wrapper">
-                <n-auto-complete class="search-bar" :placeholder="t('common.search')">
-                    <template #prefix>
-                        <n-icon :component="SearchFilled" />
-                    </template>
-
-                </n-auto-complete>
-            </div>
+            <SearchAutocomplete />
 
             <n-button quaternary circle :aria-label="themeBittonAriaLabel" @click="themeStore.toggleTheme">
                 <template #icon>
@@ -29,7 +22,7 @@
 <script lang="ts" setup>
 import type { MenuOption } from "naive-ui";
 import { useI18n } from "vue-i18n";
-import { SearchFilled, LightModeFilled, DarkModeRound } from "@vicons/material";
+import { LightModeFilled, DarkModeRound } from "@vicons/material";
 import { computed, onMounted, ref, watch } from "vue";
 import { RouterEnum } from "@/router";
 import { useRoute, useRouter } from "vue-router";
@@ -37,6 +30,7 @@ import Logo from "@/components/Logo.vue"
 import { useThemeStore } from "@/stores/theme";
 import { storeToRefs } from "pinia";
 import { useIsWideLayout } from "@/composables/useIsWideLayout";
+import SearchAutocomplete from "./Search/SearchAutocomplete.vue";
 
 const { t } = useI18n();
 const router = useRouter();
@@ -125,9 +119,5 @@ watch(() => route.name, () => {
 .logo {
     width: 100px;
     height: 100%;
-}
-
-.search-bar {
-    max-width: 300px;
 }
 </style>

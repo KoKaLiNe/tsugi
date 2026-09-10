@@ -1,8 +1,8 @@
 <template>
     <n-config-provider :theme="isDarkTheme ? darkTheme : lightTheme"
         :theme-overrides="isDarkTheme ? DARK_THEME : LIGHT_THEME">
-        <CustomHeader></CustomHeader>
         <n-message-provider>
+            <CustomHeader></CustomHeader>
             <main class="app-content" :class="{ '--wide': isWideLayout }">
                 <RouterView />
             </main>

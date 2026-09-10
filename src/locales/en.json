@@ -28,6 +28,18 @@
       "released": "released"
     }
   },
+  "TitleFormatEnum": {
+    "MANGA": "Manga",
+    "MOVIE": "Movie",
+    "MUSIC": "Music",
+    "NOVEL": "Novel",
+    "ONA": "ONA",
+    "ONE_SHOT": "One Shot",
+    "OVA": "OVA",
+    "SPECIAL": "Special",
+    "TV": "TV Series",
+    "TV_SHORT": "TV Series (Short)"
+  },
   "error": {
     "general": "An error occurred. Please try again later",
     "networkError": {

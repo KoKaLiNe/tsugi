@@ -4,6 +4,7 @@ export enum RouterEnum {
     Home = "home",
     Schedule = "schedule",
     Anime = "anime",
+    Search = "search",
 }
 
 const ANY_ROUTE = ':pathMatch(.*)';
@@ -25,6 +26,11 @@ const router = createRouter({
             path: '/anime/:id',
             name: RouterEnum.Anime,
             component: () => import('../views/AnimeView.vue'),
+        },
+        {
+            path: '/search',
+            name: RouterEnum.Search,
+            component: () => import('../views/SearchView.vue'),
         },
         {
             path: `/${ANY_ROUTE}`,
