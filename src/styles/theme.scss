@@ -5,9 +5,9 @@
     --text-muted: #6B6668;
     --border: rgba(36, 36, 37, .12);
     --accent: #7453C1;
+    --on-accent: #FFFFFF;
     --accent-hover: #6544B0;
     --accent-pressed: #876CC6;
-    --on-accent: #FFFFFF;
     --accent-text: #7453C1;
     --accent-text-strong: #422B78;
     --accent-bg: #EFEAF9;
@@ -15,8 +15,16 @@
     --on-airing: #5A2233;
     --success: #128046;
     --on-success: #F7F5F6;
-    --danger: #C0392B;
+    --error: #C0392B;
     --header-height: 60px;
+
+    /* Цветовая схема для рейтинговых тэгов */
+    --score-high: #128046;
+    --on-score-high: #F7F5F6;
+    --score-mid: #6E6E6E;
+    --on-score-mid: #F7F5F6;
+    --score-low: #D71D1D;
+    --on-score-low: #F7F5F6;
 }
 
 :root[data-theme='dark'] {
@@ -26,9 +34,9 @@
     --text-muted: #9A9496;
     --border: rgba(226, 219, 221, .14);
     --accent: #9173d9;
+    --on-accent: #FFFFFF;
     --accent-hover: #8261CE;
     --accent-pressed: #9073D3;
-    --on-accent: #FFFFFF;
     --accent-text: #B39DDB;
     --accent-text-strong: #C6B6EB;
     --accent-bg: #38203D;
@@ -36,6 +44,6 @@
     --on-airing: #5A2233;
     --success: #5DBE8E;
     --on-success: #1A1A1B;
-    --danger: #E8705F;
+    --error: #E8705F;
     --header-height: 60px;
 }
