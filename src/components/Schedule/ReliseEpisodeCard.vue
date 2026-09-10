@@ -1,11 +1,9 @@
 <template>
     <router-link class="episode" :class="{ '--aired': isAired, 'episode-row': isRowDirection }"
         :to="{ name: RouterEnum.Anime, params: { id: episode.media?.id } }">
-        <div class="episode-img__wrapper" :style="episodeStyle">
-            <img class="episode-img"
-                :src="episode.media?.coverImage?.extraLarge ? episode.media.coverImage?.extraLarge : undefined"
-                :alt="episodeTitle" loading="lazy">
-        </div>
+
+        <TitleImage :src="episode.media?.coverImage?.extraLarge ? episode.media.coverImage?.extraLarge : undefined"
+            :title="episode.media" :alt="episodeTitle" :size="isRowDirection ? 'medium' : undefined" />
 
         <n-flex class="episode-info__wrapper" vertical :size="8" :justify="isRowDirection ? 'space-between' : 'start'">
             <n-flex :size="8" vertical>
@@ -44,10 +42,11 @@ import type { AiringSchedulesFragment } from '@/api/generated/graphql';
 import { RouterEnum } from '@/router';
 import { getMediaTitle } from '@/utils/media';
 import dayjs from 'dayjs';
-import { computed, type StyleValue } from 'vue';
+import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { DoneRound, AccessTimeRound } from "@vicons/material"
 import { useNow } from '@/composables/useNow';
+import TitleImage from '@/components/TitleImage.vue';
 
 const { t } = useI18n()
 const now = useNow()
@@ -63,9 +62,6 @@ const props = withDefaults(defineProps<IProps>(), {
 const isRowDirection = computed(() => props.direction === 'row')
 
 const episodeTitle = computed(() => getMediaTitle(props.episode.media))
-const episodeStyle = computed(() => (<StyleValue>{
-    backgroundColor: props.episode.media?.coverImage?.color ?? undefined
-}))
 
 const isAired = computed(() => dayjs.unix(props.episode.airingAt).isSameOrBefore(dayjs(now.value)))
 const isCurrentDay = computed(() => dayjs.unix(props.episode.airingAt).isSame(dayjs(now.value), "day"))
@@ -89,19 +85,6 @@ const minutesLeft = computed(() => totalMinutesLeft.value % 60)
 
     &:hover {
         box-shadow: $card-shadow-hover;
-    }
-
-    &-img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-
-        &__wrapper {
-            aspect-ratio: 2 / 3;
-            overflow: hidden;
-            border-radius: $base-border-radius;
-            margin-bottom: $base-gap;
-        }
     }
 
     &__release-time {
@@ -134,13 +117,6 @@ const minutesLeft = computed(() => totalMinutesLeft.value % 60)
         gap: $base-gap;
 
         .episode {
-            &-img {
-                &__wrapper {
-                    margin-bottom: 0;
-                    max-height: 120px;
-                }
-            }
-
             &-info__wrapper {
                 flex: 1;
             }
