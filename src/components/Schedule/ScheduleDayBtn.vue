@@ -31,8 +31,8 @@ const props = withDefaults(defineProps<IProps>(), {
 
 const now = useNow()
 
-const isToday = (date: dayjs.Dayjs) => dayjs(now.value).startOf('day').isSame(date.startOf('day'))
-const isSelectedDay = (date: dayjs.Dayjs) => dayjs(props.selectedDay).startOf('day').isSame(date.startOf('day'))
+const isToday = (date: dayjs.Dayjs) => dayjs(now.value).isSame(date, "day")
+const isSelectedDay = (date: dayjs.Dayjs) => dayjs(props.selectedDay).isSame(date, "day")
 </script>
 
 <style lang="scss" scoped>

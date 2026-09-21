@@ -54,7 +54,7 @@ export const useScheduleStore = defineStore('schedule', () => {
 
             if (cached.data) {
                 const isDataFresh = (cached.fetchedAt! + REFRESH_TIME) > Date.now()
-                const isPastWeek = getEndOfWeekDate(weekKey).startOf('day').isBefore(dayjs().startOf('day'))
+                const isPastWeek = getEndOfWeekDate(weekKey).isBefore(dayjs(), "day")
 
                 if (isDataFresh || isPastWeek) {
                     needLoad = false

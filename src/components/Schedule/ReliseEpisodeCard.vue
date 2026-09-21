@@ -25,10 +25,7 @@
                     <n-icon>
                         <AccessTimeRound />
                     </n-icon>
-
-                    <n-text> {{ t("common.dateTime.in") }} </n-text>
-                    <n-text v-if="hoursLeft > 0"> {{ hoursLeft }} {{ t("common.dateTime.hour") }} </n-text>
-                    <n-text v-if="minutesLeft > 0"> {{ minutesLeft }} {{ t("common.dateTime.min") }} </n-text>
+                    <n-text> {{ t("common.dateTime.in") }} {{ timeLeft }}</n-text>
                 </n-flex>
 
                 <n-text class="episode__airing-time">{{ airingTime }}</n-text>
@@ -47,6 +44,7 @@ import { useI18n } from 'vue-i18n';
 import { DoneRound, AccessTimeRound } from "@vicons/material"
 import { useNow } from '@/composables/useNow';
 import TitleImage from '@/components/TitleImage.vue';
+import { getFormatedTimeLeft } from '@/utils/time';
 
 const { t } = useI18n()
 const now = useNow()
@@ -67,10 +65,7 @@ const isAired = computed(() => dayjs.unix(props.episode.airingAt).isSameOrBefore
 const isCurrentDay = computed(() => dayjs.unix(props.episode.airingAt).isSame(dayjs(now.value), "day"))
 
 const airingTime = computed(() => dayjs.unix(props.episode.airingAt).format("HH:mm"))
-const airingTimeDiff = computed(() => dayjs.duration(props.episode.airingAt * 1000 - now.value))
-const totalMinutesLeft = computed(() => Math.ceil(airingTimeDiff.value.asMinutes()))
-const hoursLeft = computed(() => Math.floor(totalMinutesLeft.value / 60))
-const minutesLeft = computed(() => totalMinutesLeft.value % 60)
+const timeLeft = computed(() => getFormatedTimeLeft(props.episode.airingAt * 1000, now.value))
 </script>
 
 <style lang="scss" scoped>
