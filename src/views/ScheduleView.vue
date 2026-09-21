@@ -7,7 +7,7 @@
             :selectedDay="selectedDay" @reloadData="reloadData" />
 
         <n-back-top :right="60" :bottom="16" :visibility-height="540">
-            <n-icon :component="KeyboardArrowUpFilled" size="30" />
+            <n-icon :component="KeyboardArrowUpRound" size="30" />
         </n-back-top>
     </n-flex>
 </template>
@@ -16,7 +16,7 @@
 import { useScheduleStore } from '@/stores/schedule';
 import { getWeekDays, toDateKey } from '@/utils/dates';
 import { computed } from 'vue';
-import { KeyboardArrowUpFilled } from "@vicons/material"
+import { KeyboardArrowUpRound } from "@vicons/material"
 import { storeToRefs } from 'pinia';
 import ScheduleHeader from "@/components/Schedule/ScheduleHeader.vue"
 import ScheduleGrid from "@/components/Schedule/ScheduleGrid.vue"

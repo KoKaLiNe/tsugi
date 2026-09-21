@@ -8,7 +8,7 @@
 
             <n-flex class="schedule-controls" :size="8">
                 <n-button class="schedule-controls__prev" @click="goTo('prev')" size="large">
-                    <n-icon :component="ArrowBackIosNewFilled" />
+                    <n-icon :component="ArrowBackIosNewRound" />
                 </n-button>
 
                 <!-- <n-date-picker type="week" clearable /> -->
@@ -18,7 +18,7 @@
 
                 <n-button class="schedule-controls__next" :disabled="isNextBtnDisabled" @click="goTo('next')"
                     size="large">
-                    <n-icon :component="ArrowForwardIosFilled" />
+                    <n-icon :component="ArrowForwardIosRound" />
                 </n-button>
             </n-flex>
         </n-flex>
@@ -37,7 +37,7 @@ import { getEndOfWeekDate, getWeekRange } from '@/utils/dates';
 import dayjs from 'dayjs';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { ArrowBackIosNewFilled, ArrowForwardIosFilled } from "@vicons/material"
+import { ArrowBackIosNewRound, ArrowForwardIosRound } from "@vicons/material"
 import type { AiringSchedulesFragment } from '@/api/generated/graphql';
 import type { IAiringSchedulesData } from '@/stores/schedule';
 import { useNow } from '@/composables/useNow';

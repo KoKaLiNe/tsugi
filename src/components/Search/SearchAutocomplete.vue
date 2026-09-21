@@ -9,7 +9,7 @@
                     :loading="loading" @focus="handleFocus" @keydown="handleKeydown" @input="handleSearchInput">
 
                     <template #prefix>
-                        <n-icon :component="SearchFilled" />
+                        <n-icon :component="SearchRound" />
                     </template>
                 </n-input>
             </template>
@@ -34,7 +34,7 @@ import { debounce, isEmpty, isNull, } from 'lodash-es';
 import { useI18n } from 'vue-i18n';
 import SearchOptionRow from './SearchOptionRow.vue';
 import { useMessage } from 'naive-ui';
-import { SearchFilled, } from "@vicons/material";
+import { SearchRound, } from "@vicons/material";
 import { graphqlRequest } from '@/api/request.ts';
 import { search } from '@/api/gql/requests.ts';
 import { AxiosError } from 'axios';

@@ -2,7 +2,7 @@
     <n-empty v-if="currentWeekData?.error && !currentWeekData?.loading" :description="t('veiws.schedule.dataLost')"
         size="huge">
         <template #icon>
-            <n-icon :component="BrokenImageFilled" />
+            <n-icon :component="BrokenImageRound" />
         </template>
 
         <template #extra>
@@ -54,7 +54,7 @@ import { isEmpty } from "lodash-es"
 import { useI18n } from "vue-i18n";
 import { type IAiringSchedulesData } from "@/stores/schedule";
 import dayjs from "dayjs";
-import { BrokenImageFilled } from "@vicons/material"
+import { BrokenImageRound } from "@vicons/material"
 import ReliseEpisodeCard from "@/components/Schedule/ReliseEpisodeCard.vue"
 import type { AiringSchedulesFragment } from "@/api/generated/graphql";
 import { computed } from "vue";

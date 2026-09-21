@@ -12,7 +12,7 @@
 
             <n-button quaternary circle :aria-label="themeBittonAriaLabel" @click="themeStore.toggleTheme">
                 <template #icon>
-                    <n-icon :component="isDarkTheme ? LightModeFilled : DarkModeRound" />
+                    <n-icon :component="isDarkTheme ? LightModeRound : DarkModeRound" />
                 </template>
             </n-button>
         </div>
@@ -22,7 +22,7 @@
 <script lang="ts" setup>
 import type { MenuOption } from "naive-ui";
 import { useI18n } from "vue-i18n";
-import { LightModeFilled, DarkModeRound } from "@vicons/material";
+import { LightModeRound, DarkModeRound } from "@vicons/material";
 import { computed, onMounted, ref, watch } from "vue";
 import { RouterEnum } from "@/router";
 import { useRoute, useRouter } from "vue-router";
