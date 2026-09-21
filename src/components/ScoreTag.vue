@@ -40,7 +40,8 @@ const tagColor = computed(() => {
 
 <style lang="scss" scoped>
 .score-tag {
-    display: flex;
+    line-height: 1;
+    display: inline-flex;
     width: 30px;
     height: 20px;
     align-items: center;

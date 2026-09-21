@@ -6,26 +6,49 @@
     },
     "routes": {
       "home": "Главная",
-      "schedule": "Календарь"
+      "schedule": "Расписание"
     },
     "today": "Сегодня",
     "search": "Поиск",
     "popular": "Популярные",
     "episode": "эпизод",
+    "episodePlural": "нет эпизодов | {n} эпизод | {n} эпизода | {n} эпизодов",
     "episodeShort": "эп.",
     "reloadData": "Повторить загрузку",
     "dateTime": {
       "in": "через",
+      "at": "в",
       "min": "мин",
-      "hour": "ч"
-    }
+      "hour": "ч",
+      "tomorrow": "завтра",
+      "atWeekDays": {
+        "0": "в воскресенье",
+        "1": "в понедельник",
+        "2": "во вторник",
+        "3": "в среду",
+        "4": "в четверг",
+        "5": "в пятницу",
+        "6": "в субботу"
+      }
+    },
+    "released": "вышло",
+    "scrollForward": "следующие",
+    "scrollBackward": "предыдущие"
   },
   "veiws": {
+    "home": {
+      "popularNow": "Популярное сейчас",
+      "fullSchedule": "Всё расписание",
+      "nextRelease": "Следующий выход",
+      "noReleases": "Релизов нет",
+      "today": "@:common.today",
+      "fullCatalog": "Весь каталог"
+    },
     "schedule": {
       "title": "Расписание",
       "noReleases": "нет релизов",
       "dataLost": "Данные где-то потерялись",
-      "released": "вышло"
+      "released": "@:common.released"
     }
   },
   "TitleFormatEnum": {

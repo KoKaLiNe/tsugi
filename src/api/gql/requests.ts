@@ -12,6 +12,8 @@ export const getTopAnime = /* GraphQL */ `
       large
       color
     }
+    format
+    episodes
     averageScore
   }
   fragment TopAnimePageInfo on PageInfo {
@@ -27,7 +29,7 @@ export const getTopAnime = /* GraphQL */ `
       pageInfo {
         ...TopAnimePageInfo
       }
-      media(type: ANIME, sort: POPULARITY_DESC) {
+      media(type: ANIME, sort: POPULARITY_DESC, isAdult: false) {
         ...AnimeCardMedia
       }
     }

@@ -1,14 +1,14 @@
 <template>
-    <div class="title__wrapper" :style="titleStyle" :class="sizeClass">
-        <img class="title__img" :src="src" :alt="alt" :loading="lazy ? 'lazy' : undefined">
+    <div class="title-img__wrapper" :style="titleStyle" :class="sizeClass">
+        <img class="title-img" :src="src" :alt="alt" :loading="lazy ? 'lazy' : undefined">
     </div>
 </template>
 
 <script lang="ts" setup>
-import type { AiringSchedulesFragment, SearchListMediaFragment } from '@/api/generated/graphql';
+import type { AiringSchedulesFragment, AnimeCardMediaFragment, SearchListMediaFragment } from '@/api/generated/graphql';
 import { computed, type StyleValue } from 'vue';
 
-type TitleType = AiringSchedulesFragment['media'] | SearchListMediaFragment
+type TitleType = AiringSchedulesFragment['media'] | SearchListMediaFragment | AnimeCardMediaFragment
 
 interface IProps {
     alt: string;
@@ -36,7 +36,7 @@ const titleStyle = computed(() => (<StyleValue>{
 </script>
 
 <style lang="scss" scoped>
-.title {
+.title-img {
     &__wrapper {
         aspect-ratio: 2 / 3;
         overflow: hidden;
@@ -59,10 +59,8 @@ const titleStyle = computed(() => (<StyleValue>{
         }
     }
 
-    &__img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 </style>

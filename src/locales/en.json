@@ -12,20 +12,43 @@
     "search": "Search",
     "popular": "Popular",
     "episode": "episode",
+    "episodePlural": "no episode | {n} episode | {n} episodes",
     "episodeShort": "ep.",
     "reloadData": "Retry load",
     "dateTime": {
       "in": "in",
+      "at": "at",
       "min": "min",
-      "hour": "hr"
-    }
+      "hour": "hr",
+      "tomorrow": "tomorrow",
+      "atWeekDays": {
+        "0": "on Sunday",
+        "1": "on Monday",
+        "2": "on Tuesday",
+        "3": "on Wednesday",
+        "4": "on Thursday",
+        "5": "on Friday",
+        "6": "on Saturday"
+      }
+    },
+    "released": "released",
+    "scrollForward": "forward",
+    "scrollBackward": "backward"
   },
   "veiws": {
+    "home": {
+      "popularNow": "Popular now",
+      "fullSchedule": "Full schedule",
+      "nextRelease": "Next release",
+      "noReleases": "No releases",
+      "today": "@:common.today",
+      "fullCatalog": "Full catalog"
+    },
     "schedule": {
       "title": "Schedule",
       "noReleases": "No releases",
       "dataLost": "The data got lost somewhere",
-      "released": "released"
+      "released": "@:common.released"
     }
   },
   "TitleFormatEnum": {

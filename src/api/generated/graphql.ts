@@ -35,7 +35,7 @@ export type MediaSeason =
   /** Predominantly started airing between January and March */
   | 'WINTER';
 
-export type AnimeCardMediaFragment = { id: number, idMal: number | null, bannerImage: string | null, averageScore: number | null, title: { romaji: string | null, english: string | null, native: string | null } | null, coverImage: { large: string | null, color: string | null } | null };
+export type AnimeCardMediaFragment = { id: number, idMal: number | null, bannerImage: string | null, format: MediaFormat | null, episodes: number | null, averageScore: number | null, title: { romaji: string | null, english: string | null, native: string | null } | null, coverImage: { large: string | null, color: string | null } | null };
 
 export type TopAnimePageInfoFragment = { total: number | null, currentPage: number | null, lastPage: number | null, hasNextPage: boolean | null, perPage: number | null };
 
@@ -45,7 +45,7 @@ export type GetTopAnimeQueryVariables = Exact<{
 }>;
 
 
-export type GetTopAnimeQuery = { Page: { pageInfo: { total: number | null, currentPage: number | null, lastPage: number | null, hasNextPage: boolean | null, perPage: number | null } | null, media: Array<{ id: number, idMal: number | null, bannerImage: string | null, averageScore: number | null, title: { romaji: string | null, english: string | null, native: string | null } | null, coverImage: { large: string | null, color: string | null } | null } | null> | null } | null };
+export type GetTopAnimeQuery = { Page: { pageInfo: { total: number | null, currentPage: number | null, lastPage: number | null, hasNextPage: boolean | null, perPage: number | null } | null, media: Array<{ id: number, idMal: number | null, bannerImage: string | null, format: MediaFormat | null, episodes: number | null, averageScore: number | null, title: { romaji: string | null, english: string | null, native: string | null } | null, coverImage: { large: string | null, color: string | null } | null } | null> | null } | null };
 
 export type SchedulePageInfoFragment = { hasNextPage: boolean | null };
 

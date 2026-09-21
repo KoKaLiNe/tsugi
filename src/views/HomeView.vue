@@ -1,68 +1,177 @@
 <template>
-  <n-flex class="home" vertical>
-    <n-skeleton v-if="loading" height="350px" width="100%"></n-skeleton>
-    <n-carousel v-else class="carousel" centered-slides autoplay>
-      <div v-for="slide in bannerList" :key="slide.id" class="carousel__slide"
-        :style="{ backgroundImage: `url(${slide.bannerImage})` }" />
-    </n-carousel>
+  <n-flex class="home" vertical :size="26">
+    <PageBlock class="today-block" :title="t('veiws.home.today')"
+      :link="{ name: RouterEnum.Schedule, query: { day: toDateKey(now) } }" :link-text="t('veiws.home.fullSchedule')">
+      <template #subTitle>
+        <n-flex :size="0">
+          <n-text depth="3">{{ dayjs(now).format("dddd, D MMMM") }}</n-text>
 
-    <n-h3>Популярные</n-h3>
+          <n-divider vertical />
 
-    <n-skeleton v-if="loading" height="350px" width="100%"></n-skeleton>
-    <div v-else class="slider__wrapper">
-      <n-carousel class="slider" slides-per-view="auto" :space-between="12" :loop="false" :show-dots="false"
-        ref="sliderRef">
-        <n-carousel-item v-for="slide in topAnimeList" :key="slide.id" style="width: 250px">
-          <div class="slider__item">
-            {{ slide.averageScore ? slide.averageScore / 10 : '—' }}
-            <div class="slider__item-img" :style="slideStyle(slide)"> </div>
-            <router-link to="/#">
-              {{ getMediaTitle(slide) }}
+          <n-skeleton v-if="(currentWeekData?.loading ?? true) && !currentWeekData?.data" text :sharp="false"
+            style="width: 80px" />
+          <n-text v-else-if="currentDayScheduleData.length" depth="3">
+            {{ t('common.episodePlural', currentDayScheduleData.length) }}
+          </n-text>
+        </n-flex>
+      </template>
+
+      <template #content>
+        <n-text v-if="nextRelease" class="next-release">{{ nextRelease }} </n-text>
+
+        <n-skeleton v-if="(currentWeekData?.loading ?? true) && !currentWeekData?.data" :sharp="false" height="325px" />
+
+        <CustomCarousel v-else-if="!isEmpty(currentDayScheduleData)" :items="currentDayScheduleData"
+          :scroll-to-index="scrollToIndex" :gap="0">
+          <template #contentItem="{ item }">
+            <CarouselEpisodeCard :episode="item" :isClosest="item.id === closestTitle?.id" />
+          </template>
+        </CustomCarousel>
+
+        <div v-else>
+          <n-empty :description="t('veiws.home.noReleases')" size="huge">
+            <template #icon>
+              <n-icon :component="EventBusyRound" />
+            </template>
+          </n-empty>
+        </div>
+      </template>
+    </PageBlock>
+
+    <PageBlock class="popular-block" :title="t('veiws.home.popularNow')">
+      <template #content>
+
+        <template v-if="loading">
+          <n-flex vertical>
+            <n-skeleton :sharp="false" height="300px" />
+
+            <div class="popular-item__wrapper">
+              <n-skeleton v-for="(_, index) in Array.from({ length: 9 })" :key="index" :sharp="false" height="200px" />
+            </div>
+          </n-flex>
+
+        </template>
+
+        <template v-else>
+          <n-flex vertical :size="16">
+            <router-link v-if="isBannerVisible && firstPopularAnime"
+              :to="{ name: RouterEnum.Anime, params: { id: firstPopularAnime.id } }">
+              <n-flex class="popular-first__wrapper" vertical :size="8">
+                <img class="popular-first__img" :src="firstPopularAnime.bannerImage ?? undefined"
+                  :alt="getMediaTitle(firstPopularAnime)" />
+
+                <n-flex class="popular-first__info" align="center">
+                  <n-text class="popular-first__title"> {{ getMediaTitle(firstPopularAnime) }}</n-text>
+
+                  <n-divider vertical />
+
+                  <n-text> {{ firstPopularAnime.format }} </n-text>
+
+                  <n-divider vertical />
+
+                  <n-text> {{ t('common.episodePlural', firstPopularAnime.episodes ?? 0) }} </n-text>
+
+                  <n-divider vertical />
+
+                  <ScoreTag :score="firstPopularAnime.averageScore" />
+                </n-flex>
+              </n-flex>
             </router-link>
-          </div>
-        </n-carousel-item>
-      </n-carousel>
 
-      <n-button class="slider__arrow --left" type="primary" circle @click="sliderRef?.prev">
-        <n-icon>
-          <ArrowBackIosNewFilled />
-        </n-icon>
-      </n-button>
+            <div class="popular-item__wrapper">
+              <div v-for="item in restPopularAnime" :key="item.id" class="popular-item">
+                <n-flex vertical>
+                  <router-link :to="{ name: RouterEnum.Anime, params: { id: item.id } }">
+                    <TitleImage :src="item.coverImage?.large ? item.coverImage?.large : undefined" :title="item"
+                      :alt="getMediaTitle(item)" :lazy="false" />
 
-      <n-button class="slider__arrow --right" type="primary" circle @click="sliderRef?.next">
-        <n-icon>
-          <ArrowForwardIosFilled />
-        </n-icon>
-      </n-button>
-    </div>
+                    <n-text class="popular-item__title"> {{ getMediaTitle(item) }}</n-text>
+                  </router-link>
+                </n-flex>
+              </div>
+            </div>
+          </n-flex>
+        </template>
+      </template>
+    </PageBlock>
   </n-flex>
 </template>
 
 <script lang="ts" setup>
 import { useAnimeListStore } from "@/stores/animeList";
 import { storeToRefs } from "pinia";
-import { computed, onMounted, ref, type StyleValue } from "vue";
-import { ArrowBackIosNewFilled, ArrowForwardIosFilled } from "@vicons/material"
-import type { CarouselInst } from "naive-ui";
-import type { AnimeCardMediaFragment } from "@/api/generated/graphql";
+import { computed, onMounted } from "vue";
 import { getMediaTitle } from "@/utils/media";
+import { useNow } from "@/composables/useNow";
+import dayjs from "dayjs";
+import PageBlock from "@/components/Home/PageBlock.vue";
+import { useScheduleStore } from "@/stores/schedule";
+import { toDateKey } from "@/utils/dates";
+import { useI18n } from "vue-i18n";
+import { RouterEnum } from "@/router";
+import CarouselEpisodeCard from "@/components/Carousel/CarouselEpisodeCard.vue";
+import CustomCarousel from "@/components/Carousel/CustomCarousel.vue";
+import { findIndex, isEmpty } from "lodash-es";
+import ScoreTag from '@/components/ScoreTag.vue';
+import TitleImage from "@/components/TitleImage.vue";
+import { useMediaQuery } from "@/composables/useMediaQuery";
+import { EventBusyRound } from "@vicons/material"
+
+const now = useNow()
+const { t } = useI18n()
+const isBannerVisible = useMediaQuery("(min-width: 700px)")
+
+const scheduleStore = useScheduleStore()
+const { selectedWeek, airingSchedules } = storeToRefs(scheduleStore)
+
+const currentWeekData = computed(() => airingSchedules.value.get(selectedWeek.value))
+const currentDayScheduleData = computed(() => (currentWeekData.value?.data ?? []).filter((item) => (dayjs.unix(item.airingAt)).isSame(dayjs(now.value), "day")))
+const closestTitle = computed(() => (currentWeekData.value?.data ?? []).find((title) => dayjs.unix(title.airingAt).isAfter(dayjs(now.value))))
+const scrollToIndex = computed(() => {
+  const closestIndex = findIndex(currentDayScheduleData.value, { id: closestTitle.value?.id })
+  return ~closestIndex ? closestIndex : currentDayScheduleData.value.length - 1
+})
+const nextRelease = computed(() => {
+  let nextReleaseText = `${t("veiws.home.nextRelease")} — `
+
+  if (closestTitle.value) {
+    const airingAt = dayjs.unix(closestTitle.value.airingAt)
+    const weekDayText = t(`common.dateTime.atWeekDays.${airingAt.day()}`)
+    const dayDifference = airingAt.startOf('day').diff(dayjs(now.value).startOf('day'), 'day')
+
+    if (dayDifference === 0) {
+      return
+    }
+
+    if (dayDifference === 1) {
+      nextReleaseText += t('common.dateTime.tomorrow')
+    } else {
+      nextReleaseText += weekDayText
+    }
+
+    nextReleaseText += ` ${t('common.dateTime.at')} ${dayjs.unix(closestTitle.value.airingAt).format("HH:mm")}`
+
+    return nextReleaseText
+  } else {
+    return
+  }
+})
 
 const store = useAnimeListStore();
-const { loading, topAnimeList } = storeToRefs(store);
+const { loading, error, topAnimeList } = storeToRefs(store);
 
-const sliderRef = ref<CarouselInst>()
+const popularAnimeListWithBanners = computed(() => {
+  return topAnimeList.value.filter((item) => item.bannerImage)
+})
 
-const bannerList = computed(() => topAnimeList.value.filter((item) => item.bannerImage))
-
-const slideStyle = (slide: AnimeCardMediaFragment) => {
-  return <StyleValue>{
-    backgroundImage: slide.coverImage?.large ? `url(${slide.coverImage?.large})` : undefined,
-    backgroundColor: slide.coverImage?.color ?? undefined
-  }
-}
+const firstPopularAnime = computed(() => popularAnimeListWithBanners.value.at(0))
+const restPopularAnime = computed(() => popularAnimeListWithBanners.value.slice(isBannerVisible.value ? 1 : 0, 10))
 
 onMounted(() => {
-  store.fetchTopAnime();
+  if (isEmpty(topAnimeList.value) || error.value) {
+    store.fetchTopAnime();
+  }
+
 });
 </script>
 
@@ -71,47 +180,54 @@ onMounted(() => {
   padding: $base-padding;
 }
 
-.carousel {
-  height: 350px;
-
-  &__slide {
-    width: 100%;
-    height: 100%;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+.today-block {
+  .next-release {
+    color: var(--accent-text);
+    align-self: flex-end;
   }
 }
 
-.slider {
-  &__wrapper {
-    position: relative;
-  }
+.popular {
+  &-first {
+    &__wrapper {
+      position: relative;
+      cursor: pointer;
+    }
 
-  &__item {
-    padding: $base-padding;
+    &__info {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      margin: $base-gap;
+      padding: $base-gap;
+      border-radius: $base-border-radius;
+      background-color: var(--surface);
+    }
 
-    &-img {
-      height: 280px;
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
+    &__img {
+      display: block;
+      width: 100%;
+      height: auto;
+      min-height: 280px;
+      max-height: 400px;
+      object-fit: cover;
+      object-position: center;
+      border-radius: $base-border-radius;
+      background-color: var(--skeleton-bg);
+    }
+
+    &__title {
+      font-size: 20px;
+      font-weight: 600;
     }
   }
 
-  &__arrow {
-    // background-color: white;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 100;
-
-    &.--left {
-      left: -10px
-    }
-
-    &.--right {
-      right: -10px
+  &-item {
+    &__wrapper {
+      cursor: pointer;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 16px;
     }
   }
 }
