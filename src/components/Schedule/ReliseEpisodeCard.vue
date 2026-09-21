@@ -14,17 +14,13 @@
             <n-flex class="episode-time__wrapper" justify="space-between" :size="8">
                 <n-flex :size="2" align="center" :wrap="false" v-if="isAired">
                     <n-text depth="3" class="episode__released">
-                        <n-icon>
-                            <DoneRound />
-                        </n-icon>
+                        <n-icon :component="DoneRound" />
                         {{ t("veiws.schedule.released") }}
                     </n-text>
                 </n-flex>
 
                 <n-flex v-else-if="isCurrentDay" class="episode__release-time" :size="4" align="center" :wrap="false">
-                    <n-icon>
-                        <AccessTimeRound />
-                    </n-icon>
+                    <n-icon :component="AccessTimeRound" />
                     <n-text> {{ t("common.dateTime.in") }} {{ timeLeft }}</n-text>
                 </n-flex>
 

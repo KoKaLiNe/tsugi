@@ -65,7 +65,7 @@ interface IProps {
 
 const props = defineProps<IProps>()
 
-const isCurrentDay = computed(() => dayjs(props.selectedDay).startOf("day").isSame(dayjs(now.value).startOf("day")))
+const isCurrentDay = computed(() => dayjs(props.selectedDay).isSame(dayjs(now.value), "day"))
 
 const isNextBtnDisabled = computed(() => {
     const maxSelectedWeekDay = getEndOfWeekDate(props.selectedWeek).startOf("day")

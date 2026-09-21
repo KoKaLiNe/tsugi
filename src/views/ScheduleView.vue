@@ -50,7 +50,6 @@ const reloadData = async () => {
     await scheduleStore.loadWeek(selectedWeek.value)
 }
 
-
 const goTo = (position: "prev" | "today" | "next") => {
     let newDay = selectedDay.value
 
