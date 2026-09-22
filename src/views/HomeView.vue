@@ -57,7 +57,7 @@
             <router-link v-if="isBannerVisible && firstPopularAnime"
               :to="{ name: RouterEnum.Anime, params: { id: firstPopularAnime.id } }">
               <n-flex class="popular-first__wrapper" vertical :size="8">
-                <img class="popular-first__img" :src="firstPopularAnime.bannerImage ?? undefined"
+                <img class="popular-first__img" :src="proxyImageUrl(firstPopularAnime.bannerImage)"
                   :alt="getMediaTitle(firstPopularAnime)" />
 
                 <n-flex class="popular-first__info" align="center">
@@ -101,7 +101,7 @@
 import { useAnimeListStore } from "@/stores/animeList";
 import { storeToRefs } from "pinia";
 import { computed, onMounted } from "vue";
-import { getMediaTitle } from "@/utils/media";
+import { getMediaTitle, proxyImageUrl } from "@/utils/media";
 import { useNow } from "@/composables/useNow";
 import dayjs from "dayjs";
 import PageBlock from "@/components/Home/PageBlock.vue";

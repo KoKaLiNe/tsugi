@@ -1,10 +1,10 @@
 import axios, { AxiosError } from "axios"
 
-const API_URL = 'https://graphql.anilist.co'
+const API_URL = import.meta.env.PROD ? '/api/anilist' : 'https://graphql.anilist.co'
 
 const api = axios.create({
     baseURL: API_URL,
-    timeout: 10000,
+    timeout: 10_000,
 })
 
 api.interceptors.response.use(

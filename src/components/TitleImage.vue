@@ -1,11 +1,12 @@
 <template>
     <div class="title-img__wrapper" :style="titleStyle" :class="sizeClass">
-        <img class="title-img" :src="src" :alt="alt" :loading="lazy ? 'lazy' : undefined">
+        <img class="title-img" :src="proxyImageUrl(src)" :alt="alt" :loading="lazy ? 'lazy' : undefined">
     </div>
 </template>
 
 <script lang="ts" setup>
 import type { AiringSchedulesFragment, AnimeCardMediaFragment, SearchListMediaFragment } from '@/api/generated/graphql';
+import { proxyImageUrl } from '@/utils/media';
 import { computed, type StyleValue } from 'vue';
 
 type TitleType = AiringSchedulesFragment['media'] | SearchListMediaFragment | AnimeCardMediaFragment
