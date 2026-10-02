@@ -10,7 +10,13 @@
                     <div class="info__number">{{ t("common.episodeShort") }} {{ episode.episode }}</div>
 
                     <div v-if="!isAired && isClosest" class="info__time">
-                        <n-text> {{ t("common.dateTime.in") }} {{ timeLeft }}</n-text>
+                        <n-tooltip placement="top" trigger="hover">
+                            <template #trigger>
+                                <n-text> {{ t("common.dateTime.in") }} {{ timeLeft }}</n-text>
+                            </template>
+
+                            {{ dayjs.unix(props.episode.airingAt).format("HH:mm") }}
+                        </n-tooltip>
                     </div>
 
                     <n-text v-else-if="isAired" class="info__time">
@@ -18,6 +24,7 @@
                         {{ t("common.dateTime.at") }}
                         {{ dayjs.unix(props.episode.airingAt).format("HH:mm") }}
                     </n-text>
+
                     <n-text v-else class="info__time">{{ dayjs.unix(props.episode.airingAt).format("HH:mm") }}</n-text>
                 </n-flex>
             </div>

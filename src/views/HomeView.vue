@@ -3,13 +3,14 @@
     <PageBlock class="today-block" :title="t('views.home.today')"
       :link="{ name: RouterEnum.Schedule, query: { day: toDateKey(now) } }" :link-text="t('views.home.fullSchedule')">
       <template #subTitle>
-        <n-flex :size="0">
+        <n-flex>
           <n-text depth="3">{{ dayjs(now).format("dddd, D MMMM") }}</n-text>
 
-          <n-divider vertical />
+          <CustomDivider no-margin vertical />
 
           <n-skeleton v-if="(currentWeekData?.loading ?? true) && !currentWeekData?.data" text :sharp="false"
             style="width: 80px" />
+
           <n-text v-else-if="currentDayScheduleData.length" depth="3">
             {{ t('common.episodePlural', currentDayScheduleData.length) }}
           </n-text>
@@ -19,6 +20,7 @@
       <template #content>
         <n-text v-if="nextRelease" class="next-release">{{ nextRelease }} </n-text>
 
+        <!-- TODO сделать скелетон карусели -->
         <n-skeleton v-if="(currentWeekData?.loading ?? true) && !currentWeekData?.data" :sharp="false" height="325px" />
 
         <CustomCarousel v-else-if="!isEmpty(currentDayScheduleData)" :items="currentDayScheduleData"
@@ -38,7 +40,8 @@
       </template>
     </PageBlock>
 
-    <PageBlock class="popular-block" :title="t('veiws.home.popularNow')">
+    <!-- TODO сделать первый тайтл рандомным из популярных или тянуть как-то отдельно -->
+    <PageBlock class="popular-block" :title="t('views.home.popularNow')">
       <template #content>
         <template v-if="loading">
           <n-flex vertical>
@@ -62,15 +65,15 @@
                 <n-flex class="popular-first__info" align="center">
                   <n-text class="popular-first__title"> {{ getMediaTitle(firstPopularAnime) }}</n-text>
 
-                  <n-divider vertical />
+                  <CustomDivider vertical />
 
                   <n-text> {{ firstPopularAnime.format }} </n-text>
 
-                  <n-divider vertical />
+                  <CustomDivider vertical />
 
                   <n-text> {{ t('common.episodePlural', firstPopularAnime.episodes ?? 0) }} </n-text>
 
-                  <n-divider vertical />
+                  <CustomDivider vertical />
 
                   <ScoreTag :score="firstPopularAnime.averageScore" />
                 </n-flex>
@@ -115,6 +118,7 @@ import ScoreTag from '@/components/ScoreTag.vue';
 import TitleImage from "@/components/TitleImage.vue";
 import { useMediaQuery } from "@/composables/useMediaQuery";
 import { EventBusyRound } from "@vicons/material"
+import CustomDivider from "@/components/CustomDivider.vue";
 
 const now = useNow()
 const { t } = useI18n()
