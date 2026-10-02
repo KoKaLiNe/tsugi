@@ -1,4 +1,5 @@
 import dayjs from "dayjs";
+import i18n from "@/locales";
 
 export function getWeekRange(date: string) {
     const start = getStartOfWeekDate(date)
@@ -25,4 +26,30 @@ export function getStartOfWeekDate(date: dayjs.Dayjs | string | number = dayjs()
 
 export function getEndOfWeekDate(date: dayjs.Dayjs | string | number = dayjs()) {
     return dayjs(date).endOf("isoWeek")
+}
+
+export function getClosestDayName(date: dayjs.Dayjs | string | number, compareDate: dayjs.Dayjs | string | number = dayjs()) {
+    const dateValue = dayjs(date)
+    const compareDateValue = dayjs(compareDate)
+    const dayDifference = dateValue.startOf('day').diff(compareDateValue.startOf('day'), 'day')
+
+    switch (dayDifference) {
+        case 0:
+            return {
+                dayDifference,
+                dayName: i18n.global.t('common.dateTime.today')
+            }
+
+        case 1:
+            return {
+                dayDifference,
+                dayName: i18n.global.t('common.dateTime.tomorrow')
+            }
+
+        default:
+            return {
+                dayDifference,
+                dayName: i18n.global.t(`common.dateTime.atWeekDays.${dateValue.day()}`)
+            }
+    }
 }

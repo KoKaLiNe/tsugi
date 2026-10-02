@@ -8,9 +8,12 @@
       "home": "Home",
       "schedule": "Schedule"
     },
+    "goTo": {
+      "home": "Go to home",
+      "schedule": "To the schedule"
+    },
     "today": "Today",
     "search": "Search",
-    "popular": "Popular",
     "episode": "episode",
     "episodePlural": "no episode | {n} episode | {n} episodes",
     "episodeShort": "ep.",
@@ -20,6 +23,8 @@
       "at": "at",
       "min": "min",
       "hour": "hr",
+      "day": "d",
+      "today": "today",
       "tomorrow": "tomorrow",
       "atWeekDays": {
         "0": "on Sunday",
@@ -29,11 +34,19 @@
         "4": "on Thursday",
         "5": "on Friday",
         "6": "on Saturday"
-      }
+      },
+      "days": "0 days | {n} day | {n} days",
+      "hours": "0 hours | {n} hour | {n} hours",
+      "minutes": "0 minutes | {n} minute | {n} minutes"
     },
     "released": "released",
     "scrollForward": "forward",
-    "scrollBackward": "backward"
+    "scrollBackward": "backward",
+    "of": "of",
+    "showMore": "Show more",
+    "collapse": "Collapse",
+    "showAll": "Show all",
+    "retry": "Retry"
   },
   "views": {
     "home": {
@@ -49,6 +62,36 @@
       "noReleases": "No releases",
       "dataLost": "The data got lost somewhere",
       "released": "@:common.released"
+    },
+    "anime": {
+      "episode": "Episode",
+      "episodes": "Episodes",
+      "willBeReleased": "will be released",
+      "closestReleases": "Upcoming episodes",
+      "tableInfo": {
+        "studio": "Studio",
+        "episodes": "Episodes",
+        "duration": "Duration",
+        "season": "Season",
+        "source": "Source",
+        "popularity": "In lists",
+        "startDate": "Start date"
+      },
+      "searchByName": "Search by name",
+      "error": {
+        "404": {
+          "title": "Title not found",
+          "info": "AniList has no anime with this ID. It may have been removed from the catalog."
+        },
+        "general": {
+          "title": "Failed to load",
+          "info": "No data received. Check your connection and try again."
+        }
+      }
+    },
+    "notFound": {
+      "title": "Page not found",
+      "info": "This page doesn't exist. The address may have been typed incorrectly."
     }
   },
   "TitleFormatEnum": {
@@ -63,8 +106,59 @@
     "TV": "TV Series",
     "TV_SHORT": "TV Series (Short)"
   },
+  "TitleStatusEnum": {
+    "NOT_YET_RELEASED": "Upcoming",
+    "RELEASING": "Ongoing",
+    "CANCELLED": "Cancelled",
+    "FINISHED": "Finished",
+    "HIATUS": "On hiatus"
+  },
+  "SeasonEnum": {
+    "FALL": "Fall",
+    "SPRING": "Spring",
+    "SUMMER": "sSummer",
+    "WINTER": "Winter"
+  },
+  "SourceEnum": {
+    "ANIME": "Anime",
+    "COMIC": "Comic",
+    "DOUJINSHI": "Doujinshi",
+    "GAME": "Game",
+    "LIGHT_NOVEL": "Light novel",
+    "LIVE_ACTION": "Live action",
+    "MANGA": "Manga",
+    "MULTIMEDIA_PROJECT": "Multimedia project",
+    "NOVEL": "Novel",
+    "ORIGINAL": "Original",
+    "OTHER": "Other",
+    "PICTURE_BOOK": "Picture book",
+    "VIDEO_GAME": "Video game",
+    "VISUAL_NOVEL": "Visual novel",
+    "WEB_NOVEL": "Web novel"
+  },
+  "GenreEnum": {
+    "Action": "Action",
+    "Adventure": "Adventure",
+    "Comedy": "Comedy",
+    "Drama": "Drama",
+    "Ecchi": "Ecchi",
+    "Fantasy": "Fantasy",
+    "Hentai": "Hentai",
+    "Horror": "Horror",
+    "Mahou Shoujo": "Mahou Shoujo",
+    "Mecha": "Mecha",
+    "Music": "Music",
+    "Mystery": "Mystery",
+    "Psychological": "Psychological",
+    "Romance": "Romance",
+    "Sci-Fi": "Sci-Fi",
+    "Slice of Life": "Slice of Life",
+    "Sports": "Sports",
+    "Supernatural": "Supernatural",
+    "Thriller": "Thriller"
+  },
   "error": {
-    "general": "An error occurred. Please try again later",
+    "general": "Failed to load data",
     "networkError": {
       "429": "Too many requests. Please try again later"
     }

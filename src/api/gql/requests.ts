@@ -123,3 +123,69 @@ export const search = /* GraphQL */ `
     }
   }
 `
+
+export const getAnimeById = /* GraphQL */ ` 
+  fragment AnimeByIdMedia on Media {
+    id
+    title {
+      romaji
+      english
+      native
+    }
+    coverImage {
+      color
+      extraLarge
+    }
+    bannerImage
+    startDate {
+      year
+      month
+      day
+    }
+    endDate {
+      year
+      month
+      day
+    }
+    isAdult
+    description
+    duration
+    source(version: 3)
+    season
+    seasonYear
+    popularity
+    airingSchedule(notYetAired: true) {
+      nodes {
+        airingAt
+        episode
+        id
+      }
+    }
+    nextAiringEpisode { 
+      episode 
+      airingAt 
+    }
+    averageScore
+    genres
+    format
+    status(version: 3)
+    episodes
+    studios(isMain: true) {
+      nodes {
+        id
+        name
+      }
+    }
+    trailer {
+      id
+      site
+      thumbnail
+    }
+  }
+  
+  query GetAnimeById($id: Int!) {
+    Media(id: $id, type: ANIME) {
+      ...AnimeByIdMedia
+    }
+  }
+`

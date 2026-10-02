@@ -1,16 +1,19 @@
 {
   "common": {
     "theme": {
-      "dark": "Темная тема",
+      "dark": "Тёмная тема",
       "light": "Светлая тема"
     },
     "routes": {
       "home": "Главная",
       "schedule": "Расписание"
     },
+    "goTo": {
+      "home": "На главную",
+      "schedule": "К расписанию"
+    },
     "today": "Сегодня",
     "search": "Поиск",
-    "popular": "Популярные",
     "episode": "эпизод",
     "episodePlural": "нет эпизодов | {n} эпизод | {n} эпизода | {n} эпизодов",
     "episodeShort": "эп.",
@@ -20,6 +23,8 @@
       "at": "в",
       "min": "мин",
       "hour": "ч",
+      "day": "д",
+      "today": "сегодня",
       "tomorrow": "завтра",
       "atWeekDays": {
         "0": "в воскресенье",
@@ -29,11 +34,19 @@
         "4": "в четверг",
         "5": "в пятницу",
         "6": "в субботу"
-      }
+      },
+      "days": "0 дней | {n} день | {n} дня | {n} дней",
+      "hours": "0 часов | {n} час | {n} часа | {n} часов",
+      "minutes": "0 минут | {n} минуту | {n} минуты | {n} минут"
     },
     "released": "вышло",
     "scrollForward": "следующие",
-    "scrollBackward": "предыдущие"
+    "scrollBackward": "предыдущие",
+    "of": "из",
+    "showMore": "Показать еще",
+    "collapse": "Свернуть",
+    "showAll": "Показать все",
+    "retry": "Повторить"
   },
   "views": {
     "home": {
@@ -49,13 +62,43 @@
       "noReleases": "нет релизов",
       "dataLost": "Данные где-то потерялись",
       "released": "@:common.released"
+    },
+    "anime": {
+      "episode": "Серия",
+      "episodes": "Серий",
+      "willBeReleased": "выйдет",
+      "closestReleases": "Ближайшие выходы",
+      "tableInfo": {
+        "studio": "Студия",
+        "episodes": "Эпизодов",
+        "duration": "Длительность",
+        "season": "Сезон",
+        "source": "Первоисточник",
+        "popularity": "В списках",
+        "startDate": "Начало показа"
+      },
+      "searchByName": "Искать по названию",
+      "error": {
+        "404": {
+          "title": "Такого тайтла нет",
+          "info": "AniList не знает аниме с таким номером. Может быть, его удалили из каталога."
+        },
+        "general": {
+          "title": "Не удалось загрузить",
+          "info": "Данные не пришли. Проверьте соединение и попробуйте ещё раз."
+        }
+      }
+    },
+    "notFound": {
+      "title": "Страница не найдена",
+      "info": "Такой страницы не существует. Возможно, адрес набран с ошибкой."
     }
   },
   "TitleFormatEnum": {
     "MANGA": "Манга",
     "MOVIE": "Фильм",
-    "MUSIC": "Музыка",
-    "NOVEL": "Роман",
+    "MUSIC": "Клип",
+    "NOVEL": "Новелла",
     "ONA": "ONA",
     "ONE_SHOT": "One Shot",
     "OVA": "OVA",
@@ -63,8 +106,59 @@
     "TV": "Сериал",
     "TV_SHORT": "Сериал (короткий)"
   },
+  "TitleStatusEnum": {
+    "NOT_YET_RELEASED": "Анонс",
+    "RELEASING": "Онгоинг",
+    "CANCELLED": "Отменено",
+    "FINISHED": "Завершено",
+    "HIATUS": "Пауза"
+  },
+  "SeasonEnum": {
+    "FALL": "Осень",
+    "SPRING": "Весна",
+    "SUMMER": "Лето",
+    "WINTER": "Зима"
+  },
+  "SourceEnum": {
+    "ANIME": "Аниме",
+    "COMIC": "Комикс",
+    "DOUJINSHI": "Додзинси",
+    "GAME": "Игра",
+    "LIGHT_NOVEL": "Ранобэ",
+    "LIVE_ACTION": "Игровое кино",
+    "MANGA": "Манга",
+    "MULTIMEDIA_PROJECT": "Мультимедийный проект",
+    "NOVEL": "Роман",
+    "ORIGINAL": "Оригинал",
+    "OTHER": "Другое",
+    "PICTURE_BOOK": "Книжка с картинками",
+    "VIDEO_GAME": "Видеоигра",
+    "VISUAL_NOVEL": "Визуальная новелла",
+    "WEB_NOVEL": "Веб-новелла"
+  },
+  "GenreEnum": {
+    "Action": "Экшен",
+    "Adventure": "Приключения",
+    "Comedy": "Комедия",
+    "Drama": "Драма",
+    "Ecchi": "Этти",
+    "Fantasy": "Фэнтези",
+    "Hentai": "Хентай",
+    "Horror": "Ужасы",
+    "Mahou Shoujo": "Махо-сёдзё",
+    "Mecha": "Меха",
+    "Music": "Музыка",
+    "Mystery": "Мистика",
+    "Psychological": "Психологическое",
+    "Romance": "Романтика",
+    "Sci-Fi": "Фантастика",
+    "Slice of Life": "Повседневность",
+    "Sports": "Спорт",
+    "Supernatural": "Сверхъестественное",
+    "Thriller": "Триллер"
+  },
   "error": {
-    "general": "Произошла ошибка. Попробуйте позже",
+    "general": "Не удалось загрузить данные",
     "networkError": {
       "429": "Слишком много запросов. Попробуйте позже"
     }

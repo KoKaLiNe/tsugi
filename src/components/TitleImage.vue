@@ -5,17 +5,17 @@
 </template>
 
 <script lang="ts" setup>
-import type { AiringSchedulesFragment, AnimeCardMediaFragment, SearchListMediaFragment } from '@/api/generated/graphql';
+import type { AiringSchedulesFragment, AnimeByIdMediaFragment, AnimeCardMediaFragment, SearchListMediaFragment } from '@/api/generated/graphql';
 import { proxyImageUrl } from '@/utils/media';
 import { computed, type StyleValue } from 'vue';
 
-type TitleType = AiringSchedulesFragment['media'] | SearchListMediaFragment | AnimeCardMediaFragment
+type TitleType = AiringSchedulesFragment['media'] | SearchListMediaFragment | AnimeCardMediaFragment | AnimeByIdMediaFragment
 
 interface IProps {
     alt: string;
     title: TitleType;
     src?: string;
-    size?: 'small' | 'medium' | 'large';
+    size?: 'small' | 'medium' | 'large' | 'extra-large';
     lazy?: boolean;
 }
 
@@ -28,6 +28,7 @@ const sizeClass = computed(() => {
         '--small': props.size === 'small',
         '--medium': props.size === 'medium',
         '--large': props.size === 'large',
+        '--extra-large': props.size === 'extra-large',
     }
 });
 
@@ -57,6 +58,11 @@ const titleStyle = computed(() => (<StyleValue>{
         &.--large {
             margin-bottom: 0;
             height: 220px;
+        }
+
+        &.--extra-large {
+            margin-bottom: 0;
+            height: 320px;
         }
     }
 

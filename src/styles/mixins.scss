@@ -1,0 +1,21 @@
+$status-tokens: (
+    'CANCELLED': cancelled,
+    'FINISHED': finished,
+    'NOT_YET_RELEASED': planned,
+    'HIATUS': paused,
+    'RELEASING': releasing,
+);
+
+@mixin status-colors-all {
+    @each $status, $name in $status-tokens {
+        &[data-status='#{$status}'] {
+            @include status-colors($name);
+        }
+    }
+}
+
+@mixin status-colors($name) {
+    border: 1px solid var(--status-#{$name}-border);
+    background-color: var(--status-#{$name}-background);
+    color: var(--status-#{$name}-text);
+}

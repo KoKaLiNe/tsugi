@@ -108,7 +108,7 @@ import { useNow } from "@/composables/useNow";
 import dayjs from "dayjs";
 import PageBlock from "@/components/Home/PageBlock.vue";
 import { useScheduleStore } from "@/stores/schedule";
-import { toDateKey } from "@/utils/dates";
+import { getClosestDayName, toDateKey } from "@/utils/dates";
 import { useI18n } from "vue-i18n";
 import { RouterEnum } from "@/router";
 import CarouselEpisodeCard from "@/components/Carousel/CarouselEpisodeCard.vue";
@@ -138,18 +138,12 @@ const nextRelease = computed(() => {
   let nextReleaseText = `${t("views.home.nextRelease")} — `
 
   if (closestTitle.value) {
-    const airingAt = dayjs.unix(closestTitle.value.airingAt)
-    const weekDayText = t(`common.dateTime.atWeekDays.${airingAt.day()}`)
-    const dayDifference = airingAt.startOf('day').diff(dayjs(now.value).startOf('day'), 'day')
+    const closestDayName = getClosestDayName(dayjs.unix(closestTitle.value.airingAt), dayjs(now.value))
 
-    if (dayDifference === 0) {
+    if (closestDayName.dayDifference === 0) {
       return
-    }
-
-    if (dayDifference === 1) {
-      nextReleaseText += t('common.dateTime.tomorrow')
     } else {
-      nextReleaseText += weekDayText
+      nextReleaseText += closestDayName.dayName
     }
 
     nextReleaseText += ` ${t('common.dateTime.at')} ${dayjs.unix(closestTitle.value.airingAt).format("HH:mm")}`

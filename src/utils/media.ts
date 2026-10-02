@@ -3,7 +3,8 @@ import type { MediaWithTitle } from "@/types/MediaWithTitle";
 const IMAGE_HOST = 'https://s4.anilist.co'
 
 export function getMediaTitle(media?: MediaWithTitle | null, fallback = "—") {
-    return media?.title?.english ?? media?.title?.romaji ?? media?.title?.native ?? fallback
+    const title = media?.title?.english ?? media?.title?.romaji ?? media?.title?.native ?? fallback
+    return String(title).charAt(0).toUpperCase() + String(title).slice(1)
 }
 
 export function proxyImageUrl(url?: string | null) {

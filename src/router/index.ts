@@ -5,6 +5,7 @@ export enum RouterEnum {
     Schedule = "schedule",
     Anime = "anime",
     Search = "search",
+    NotFound = "notFound",
 }
 
 const ANY_ROUTE = ':pathMatch(.*)';
@@ -33,8 +34,13 @@ const router = createRouter({
             component: () => import('../views/SearchView.vue'),
         },
         {
+            path: `/404`,
+            name: RouterEnum.NotFound,
+            component: () => import('../views/NotFoundView.vue'),
+        },
+        {
             path: `/${ANY_ROUTE}`,
-            redirect: { name: RouterEnum.Home, params: {} },
+            redirect: { name: RouterEnum.NotFound },
         },
     ]
 })

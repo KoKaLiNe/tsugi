@@ -35,6 +35,52 @@ export type MediaSeason =
   /** Predominantly started airing between January and March */
   | 'WINTER';
 
+/** Source type the media was adapted from */
+export type MediaSource =
+  /** Version 2+ only. Japanese Anime */
+  | 'ANIME'
+  /** Version 3 only. Comics excluding manga */
+  | 'COMIC'
+  /** Version 2+ only. Self-published works */
+  | 'DOUJINSHI'
+  /** Version 3 only. Games excluding video games */
+  | 'GAME'
+  /** Written work published in volumes */
+  | 'LIGHT_NOVEL'
+  /** Version 3 only. Live action media such as movies or TV show */
+  | 'LIVE_ACTION'
+  /** Asian comic book */
+  | 'MANGA'
+  /** Version 3 only. Multimedia project */
+  | 'MULTIMEDIA_PROJECT'
+  /** Version 2+ only. Written works not published in volumes */
+  | 'NOVEL'
+  /** An original production not based of another work */
+  | 'ORIGINAL'
+  /** Other */
+  | 'OTHER'
+  /** Version 3 only. Picture book */
+  | 'PICTURE_BOOK'
+  /** Video game */
+  | 'VIDEO_GAME'
+  /** Video game driven primary by text and narrative */
+  | 'VISUAL_NOVEL'
+  /** Version 3 only. Written works published online */
+  | 'WEB_NOVEL';
+
+/** The current releasing status of the media */
+export type MediaStatus =
+  /** Ended before the work could be finished */
+  | 'CANCELLED'
+  /** Has completed and is no longer being released */
+  | 'FINISHED'
+  /** Version 2 only. Is currently paused from releasing and will resume at a later date */
+  | 'HIATUS'
+  /** To be released at a later date */
+  | 'NOT_YET_RELEASED'
+  /** Currently releasing */
+  | 'RELEASING';
+
 export type AnimeCardMediaFragment = { id: number, idMal: number | null, bannerImage: string | null, format: MediaFormat | null, episodes: number | null, averageScore: number | null, title: { romaji: string | null, english: string | null, native: string | null } | null, coverImage: { large: string | null, color: string | null } | null };
 
 export type TopAnimePageInfoFragment = { total: number | null, currentPage: number | null, lastPage: number | null, hasNextPage: boolean | null, perPage: number | null };
@@ -74,3 +120,12 @@ export type GetSearchListQueryVariables = Exact<{
 
 
 export type GetSearchListQuery = { Page: { pageInfo: { total: number | null, perPage: number | null, currentPage: number | null, lastPage: number | null, hasNextPage: boolean | null } | null, media: Array<{ id: number, averageScore: number | null, season: MediaSeason | null, genres: Array<string | null> | null, format: MediaFormat | null, isAdult: boolean | null, title: { english: string | null, romaji: string | null } | null, coverImage: { color: string | null, medium: string | null } | null, startDate: { year: number | null } | null } | null> | null } | null };
+
+export type AnimeByIdMediaFragment = { id: number, bannerImage: string | null, isAdult: boolean | null, description: string | null, duration: number | null, source: MediaSource | null, season: MediaSeason | null, seasonYear: number | null, popularity: number | null, averageScore: number | null, genres: Array<string | null> | null, format: MediaFormat | null, status: MediaStatus | null, episodes: number | null, title: { romaji: string | null, english: string | null, native: string | null } | null, coverImage: { color: string | null, extraLarge: string | null } | null, startDate: { year: number | null, month: number | null, day: number | null } | null, endDate: { year: number | null, month: number | null, day: number | null } | null, airingSchedule: { nodes: Array<{ airingAt: number, episode: number, id: number } | null> | null } | null, nextAiringEpisode: { episode: number, airingAt: number } | null, studios: { nodes: Array<{ id: number, name: string } | null> | null } | null, trailer: { id: string | null, site: string | null, thumbnail: string | null } | null };
+
+export type GetAnimeByIdQueryVariables = Exact<{
+  id: number;
+}>;
+
+
+export type GetAnimeByIdQuery = { Media: { id: number, bannerImage: string | null, isAdult: boolean | null, description: string | null, duration: number | null, source: MediaSource | null, season: MediaSeason | null, seasonYear: number | null, popularity: number | null, averageScore: number | null, genres: Array<string | null> | null, format: MediaFormat | null, status: MediaStatus | null, episodes: number | null, title: { romaji: string | null, english: string | null, native: string | null } | null, coverImage: { color: string | null, extraLarge: string | null } | null, startDate: { year: number | null, month: number | null, day: number | null } | null, endDate: { year: number | null, month: number | null, day: number | null } | null, airingSchedule: { nodes: Array<{ airingAt: number, episode: number, id: number } | null> | null } | null, nextAiringEpisode: { episode: number, airingAt: number } | null, studios: { nodes: Array<{ id: number, name: string } | null> | null } | null, trailer: { id: string | null, site: string | null, thumbnail: string | null } | null } | null };

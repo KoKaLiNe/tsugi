@@ -1,5 +1,5 @@
 <template>
-    <div v-if="!isNil(score)" class="score-tag" :data-score="averageScore" :class="tagColor">
+    <div v-if="!isNil(score)" class="score-tag" :class="tagColor">
         {{ averageScore }}
     </div>
 </template>
@@ -10,9 +10,12 @@ import { isNil } from 'lodash-es';
 
 interface IProps {
     score: number | null;
+    size?: 'small' | 'medium'
 }
 
-const props = defineProps<IProps>()
+const props = withDefaults(defineProps<IProps>(), {
+    size: "small"
+})
 
 const averageScore = computed(() => {
     if (!isNil(props.score)) {
@@ -23,17 +26,20 @@ const averageScore = computed(() => {
 });
 
 const tagColor = computed(() => {
+    let scoreClass: string | null = null
+    let sizeClass = `--${props.size}`
+
     if (!isNil(props.score)) {
         if (props.score >= 65) {
-            return 'score-tag--high'
+            scoreClass = '--high'
         } else if (props.score >= 50) {
-            return 'score-tag--mid'
+            scoreClass = '--mid'
         } else {
-            return 'score-tag--low'
+            scoreClass = '--low'
         }
-    } else {
-        return ''
     }
+
+    return [scoreClass, sizeClass].filter(Boolean).join(" ")
 })
 
 </script>
@@ -42,8 +48,7 @@ const tagColor = computed(() => {
 .score-tag {
     line-height: 1;
     display: inline-flex;
-    width: 30px;
-    height: 20px;
+    width: fit-content;
     align-items: center;
     justify-content: center;
     border-radius: $base-border-radius;
@@ -51,17 +56,25 @@ const tagColor = computed(() => {
     background-color: var(--score-low);
     color: var(--on-score-low);
 
-    &--high {
+    padding: 2px 5px;
+    min-width: 30px;
+
+    &.--medium {
+        padding: 5px 8px;
+        min-width: 30px;
+    }
+
+    &.--high {
         background-color: var(--score-high);
         color: var(--on-score-high);
     }
 
-    &--mid {
+    &.--mid {
         background-color: var(--score-mid);
         color: var(--on-score-mid);
     }
 
-    &--low {
+    &.--low {
         background-color: var(--score-low);
         color: var(--on-score-low);
     }
