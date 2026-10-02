@@ -4,7 +4,14 @@ const basicTheme = {
     borderRadius: '6px',
 }
 
+const componentsTheme = {
+    Tag: {
+        borderRadius: '6px',
+    }
+}
+
 export const LIGHT_THEME: GlobalThemeOverrides = {
+    ...componentsTheme,
     common: {
         ...basicTheme,
 
@@ -19,11 +26,11 @@ export const LIGHT_THEME: GlobalThemeOverrides = {
         modalColor: '#FFFFFF',
         popoverColor: '#FFFFFF',
 
-        textColorBase: '#242425',
+        textColorBase: '#141516',
         textColor1: '#242425',
-        textColor2: '#242425',
-
+        textColor2: '#464445',
         textColor3: '#6B6668',
+
         placeholderColor: '#6B6668',
         iconColor: '#6B6668',
 
@@ -44,6 +51,7 @@ export const LIGHT_THEME: GlobalThemeOverrides = {
     }
 }
 export const DARK_THEME: GlobalThemeOverrides = {
+    ...componentsTheme,
     common: {
         ...basicTheme,
 
@@ -58,11 +66,11 @@ export const DARK_THEME: GlobalThemeOverrides = {
         modalColor: '#242425',
         popoverColor: '#242425',
 
-        textColorBase: '#E2DBDD',
+        textColorBase: '#F5EDEF',
         textColor1: '#E2DBDD',
-        textColor2: '#E2DBDD',
-
+        textColor2: '#BDB7B9',
         textColor3: '#9A9496',
+
         placeholderColor: '#9A9496',
         iconColor: '#9A9496',
 

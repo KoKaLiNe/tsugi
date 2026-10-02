@@ -1,7 +1,10 @@
 :root {
+    interpolate-size: allow-keywords;
+
     --bg: #F7F5F6;
     --surface: #FFFFFF;
-    --text: #242425;
+    --text-strong: #242425;
+    --text: #464445;
     --text-muted: #6B6668;
     --border: rgba(36, 36, 37, .12);
     --accent: #7453C1;
@@ -16,7 +19,6 @@
     --success: #128046;
     --on-success: #F7F5F6;
     --error: #C0392B;
-    --header-height: 60px;
     --skeleton-bg: #dddddd;
 
     /* Цветовая схема для рейтинговых тэгов */
@@ -26,12 +28,35 @@
     --on-score-mid: #F7F5F6;
     --score-low: #D71D1D;
     --on-score-low: #F7F5F6;
+
+    /* Цветовая схема для статусных тэгов */
+    /* CANCELLED */
+    --status-cancelled-background: #F6EBEA;
+    --status-cancelled-border: #A4352A;
+    --status-cancelled-text: #722F28;
+    /* FINISHED */
+    --status-finished-background: #E5F0EB;
+    --status-finished-border: #1F784E;
+    --status-finished-text: #21583E;
+    /* RELEASING */
+    --status-releasing-background: #F0EBFB;
+    --status-releasing-border: #664BA5;
+    --status-releasing-text: #4C3C73;
+    /* NOT_YET_RELEASED */
+    --status-planned-background: #F3ECEF;
+    --status-planned-border: #AB7C90;
+    --status-planned-text: #71485A;
+    /* HIATUS */
+    --status-paused-background: #EEEDEE;
+    --status-paused-border: #787375;
+    --status-paused-text: #575456;
 }
 
 :root[data-theme='dark'] {
     --bg: #1A1A1B;
     --surface: #242425;
-    --text: #E2DBDD;
+    --text-strong: #E2DBDD;
+    --text: #BDB7B9;
     --text-muted: #9A9496;
     --border: rgba(226, 219, 221, .14);
     --accent: #9173d9;
@@ -46,6 +71,27 @@
     --success: #5DBE8E;
     --on-success: #1A1A1B;
     --error: #E8705F;
-    --header-height: 60px;
     --skeleton-bg: rgba(255, 255, 255, 0.18);
+
+    /* Цветовая схема для статусных тэгов */
+    /* CANCELLED */
+    --status-cancelled-background: #402D2B;
+    --status-cancelled-border: #C6564B;
+    --status-cancelled-text: #D18A84;
+    /* FINISHED */
+    --status-finished-background: #28342F;
+    --status-finished-border: #41996F;
+    --status-finished-text: #80B39A;
+    /* RELEASING */
+    --status-releasing-background: #33303B;
+    --status-releasing-border: #A086DA;
+    --status-releasing-text: #BAA7DB;
+    /* NOT_YET_RELEASED */
+    --status-planned-background: #353033;
+    --status-planned-border: #CE9DB2;
+    --status-planned-text: #D6B5C3;
+    /* HIATUS */
+    --status-paused-background: #323133;
+    --status-paused-border: #9A9496;
+    --status-paused-text: #B6B0B2;
 }

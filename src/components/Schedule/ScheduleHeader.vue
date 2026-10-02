@@ -90,7 +90,7 @@ const goTo = (position: "prev" | "today" | "next") => {
 .schedule {
     &-header {
         position: sticky;
-        top: calc(var(--header-height) + $base-gap);
+        top: calc($header-height + $base-gap);
         z-index: 9;
 
 
