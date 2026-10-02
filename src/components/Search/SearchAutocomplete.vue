@@ -40,6 +40,7 @@ import { search } from '@/api/gql/requests.ts';
 import { AxiosError } from 'axios';
 import { useRouter } from 'vue-router';
 import { RouterEnum } from '@/router/index.ts';
+import { useAbortController } from '@/composables/useAbortController.ts';
 
 const { t } = useI18n()
 const router = useRouter()
@@ -66,47 +67,44 @@ const toggleSearchDropdown = (value: boolean) => {
     showSearchDropdown.value = value;
 };
 
-const controller = ref<AbortController | null>(null);
+const { isCurrentController, clearAbortController, getAbortController } = useAbortController()
 
-const getSignal = () => {
-    if (!controller.value) {
-        controller.value = new AbortController()
-    } else {
-        controller.value.abort()
-        controller.value = new AbortController()
-    }
+async function handleSearchInput(value: string) {
+    clearAbortController()
 
-    return controller.value
-}
-
-const handleSearchInput = debounce(async (value: string) => {
     highlightIndex.value = null
     searchError.value = false
 
-    if (value.length >= 3) {
-        const searchController = getSignal();
-        loading.value = true;
-
-        try {
-            const data = await graphqlRequest<GetSearchListQuery, GetSearchListQueryVariables>(search, { search: value }, { signal: searchController.signal })
-
-            searchOptions.value = (data.Page?.media ?? []).filter((option) => !!option);
-            toggleSearchDropdown(true);
-        } catch (error) {
-            if (error instanceof AxiosError && error.code === "ERR_CANCELED") {
-                return
-            }
-            searchOptions.value = []
-            searchError.value = true
-            message.error(t("error.general"))
-        } finally {
-            if (controller.value === searchController) {
-                loading.value = false;
-                controller.value = null
-            }
-        }
+    if (value?.trim().length >= 3) {
+        await handleSearchInputDebounced(value.trim())
     } else {
         searchOptions.value = [];
+        loading.value = false;
+        toggleSearchDropdown(false)
+    }
+}
+
+const handleSearchInputDebounced = debounce(async (value: string) => {
+    const searchController = getAbortController();
+    loading.value = true;
+
+    try {
+        const data = await graphqlRequest<GetSearchListQuery, GetSearchListQueryVariables>(search, { search: value }, { signal: searchController.signal })
+
+        searchOptions.value = (data.Page?.media ?? []).filter((option) => !!option);
+        toggleSearchDropdown(true);
+    } catch (error) {
+        if (error instanceof AxiosError && error.code === "ERR_CANCELED") {
+            return
+        }
+        searchOptions.value = []
+        searchError.value = true
+        message.error(t("error.general"))
+    } finally {
+        if (isCurrentController(searchController)) {
+            loading.value = false;
+            clearAbortController()
+        }
     }
 }, 500);
 
