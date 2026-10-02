@@ -15,7 +15,7 @@
                 <n-flex :size="2" align="center" :wrap="false" v-if="isAired">
                     <n-text depth="3" class="episode__released">
                         <n-icon :component="DoneRound" />
-                        {{ t("veiws.schedule.released") }}
+                        {{ t("views.schedule.released") }}
                     </n-text>
                 </n-flex>
 
@@ -40,7 +40,7 @@ import { useI18n } from 'vue-i18n';
 import { DoneRound, AccessTimeRound } from "@vicons/material"
 import { useNow } from '@/composables/useNow';
 import TitleImage from '@/components/TitleImage.vue';
-import { getFormatedTimeLeft } from '@/utils/time';
+import { getFormattedTimeLeft } from '@/utils/time';
 
 const { t } = useI18n()
 const now = useNow()
@@ -61,7 +61,7 @@ const isAired = computed(() => dayjs.unix(props.episode.airingAt).isSameOrBefore
 const isCurrentDay = computed(() => dayjs.unix(props.episode.airingAt).isSame(dayjs(now.value), "day"))
 
 const airingTime = computed(() => dayjs.unix(props.episode.airingAt).format("HH:mm"))
-const timeLeft = computed(() => getFormatedTimeLeft(props.episode.airingAt * 1000, now.value))
+const timeLeft = computed(() => getFormattedTimeLeft(props.episode.airingAt * 1000, now.value))
 </script>
 
 <style lang="scss" scoped>

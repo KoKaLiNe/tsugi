@@ -11,17 +11,17 @@ export const useThemeStore = defineStore('theme', () => {
     }, { immediate: true })
 
     function toggleTheme() {
-        appTheme.value = isDarkTheme.value ? ThemeEnum.Ligth : ThemeEnum.Dark
+        appTheme.value = isDarkTheme.value ? ThemeEnum.Light : ThemeEnum.Dark
         localStorage.setItem('theme', appTheme.value)
     }
 
     function readInitial() {
         const savedtheme = localStorage.getItem('theme')
 
-        if (savedtheme === ThemeEnum.Ligth || savedtheme === ThemeEnum.Dark) {
+        if (savedtheme === ThemeEnum.Light || savedtheme === ThemeEnum.Dark) {
             return savedtheme
         } else {
-            return window.matchMedia('(prefers-color-scheme: dark)').matches ? ThemeEnum.Dark : ThemeEnum.Ligth
+            return window.matchMedia('(prefers-color-scheme: dark)').matches ? ThemeEnum.Dark : ThemeEnum.Light
         }
 
     }

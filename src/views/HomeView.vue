@@ -1,7 +1,7 @@
 <template>
   <n-flex class="home" vertical :size="26">
-    <PageBlock class="today-block" :title="t('veiws.home.today')"
-      :link="{ name: RouterEnum.Schedule, query: { day: toDateKey(now) } }" :link-text="t('veiws.home.fullSchedule')">
+    <PageBlock class="today-block" :title="t('views.home.today')"
+      :link="{ name: RouterEnum.Schedule, query: { day: toDateKey(now) } }" :link-text="t('views.home.fullSchedule')">
       <template #subTitle>
         <n-flex :size="0">
           <n-text depth="3">{{ dayjs(now).format("dddd, D MMMM") }}</n-text>
@@ -29,7 +29,7 @@
         </CustomCarousel>
 
         <div v-else>
-          <n-empty :description="t('veiws.home.noReleases')" size="huge">
+          <n-empty :description="t('views.home.noReleases')" size="huge">
             <template #icon>
               <n-icon :component="EventBusyRound" />
             </template>
@@ -40,7 +40,6 @@
 
     <PageBlock class="popular-block" :title="t('veiws.home.popularNow')">
       <template #content>
-
         <template v-if="loading">
           <n-flex vertical>
             <n-skeleton :sharp="false" height="300px" />
@@ -132,7 +131,7 @@ const scrollToIndex = computed(() => {
   return ~closestIndex ? closestIndex : currentDayScheduleData.value.length - 1
 })
 const nextRelease = computed(() => {
-  let nextReleaseText = `${t("veiws.home.nextRelease")} — `
+  let nextReleaseText = `${t("views.home.nextRelease")} — `
 
   if (closestTitle.value) {
     const airingAt = dayjs.unix(closestTitle.value.airingAt)

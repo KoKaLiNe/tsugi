@@ -1,7 +1,7 @@
 <template>
-    <div class="search-bar__wrapper" ref="serchBarWrapperRef" @focusout="handleFocusOut">
+    <div class="search-bar__wrapper" ref="searchBarWrapperRef" @focusout="handleFocusOut">
         <n-popover class="search-bar__select-wrapper" :show="showSearchDropdown && !isEmpty(searchOptions)"
-            :show-arrow="false" width="trigger" :to="serchBarWrapperRef" scrollable
+            :show-arrow="false" width="trigger" :to="searchBarWrapperRef" scrollable
             content-class="search-bar__select-content" @clickoutside="handleClickOutside">
 
             <template #trigger>
@@ -49,7 +49,7 @@ const emits = defineEmits<{
     (e: 'input', value: string): void
 }>()
 
-const serchBarWrapperRef = ref()
+const searchBarWrapperRef = ref()
 
 const loading = ref(false);
 const searchError = ref(false)
@@ -112,7 +112,7 @@ const handleSearchInput = debounce(async (value: string) => {
 
 
 function handleClickOutside(event: MouseEvent) {
-    const isContain = serchBarWrapperRef.value?.contains(event.target);
+    const isContain = searchBarWrapperRef.value?.contains(event.target);
     if (!isContain) {
         closeSearchDropdown();
     }
@@ -127,7 +127,7 @@ function handleFocus() {
 }
 
 function handleFocusOut(event: FocusEvent) {
-    const isFocusChanged = event.relatedTarget ? serchBarWrapperRef.value?.contains(event.relatedTarget) : true;
+    const isFocusChanged = event.relatedTarget ? searchBarWrapperRef.value?.contains(event.relatedTarget) : true;
     if (!isFocusChanged) {
         closeSearchDropdown();
     }

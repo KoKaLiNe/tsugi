@@ -1,5 +1,5 @@
 <template>
-    <n-empty v-if="currentWeekData?.error && !currentWeekData?.loading" :description="t('veiws.schedule.dataLost')"
+    <n-empty v-if="currentWeekData?.error && !currentWeekData?.loading" :description="t('views.schedule.dataLost')"
         size="huge">
         <template #icon>
             <n-icon :component="BrokenImageRound" />
@@ -17,13 +17,13 @@
             <n-grid-item v-for="{ day, items } in week" :key="day.valueOf()" class="schedule-grid__content-item">
                 <n-flex v-if="!currentWeekData?.error" :size="8" vertical>
                     <template v-if="!isEmpty(items)">
-                        <ReliseEpisodeCard v-for="item in items" :key="item.id" :episode="item" />
+                        <ReleaseEpisodeCard v-for="item in items" :key="item.id" :episode="item" />
                     </template>
 
                     <n-skeleton v-else-if="(currentWeekData?.loading ?? true) && !currentWeekData?.data" height="200px"
                         width="100%" :sharp="false" />
 
-                    <n-text v-else align="center" depth="3"> {{ t("veiws.schedule.noReleases") }} </n-text>
+                    <n-text v-else align="center" depth="3"> {{ t("views.schedule.noReleases") }} </n-text>
                 </n-flex>
             </n-grid-item>
         </n-grid>
@@ -32,7 +32,7 @@
     <n-flex v-else class="schedule-day-grid__wrapper" vertical :size="8">
         <n-grid v-if="!isEmpty(currentDayItems)" class="schedule-week-grid__content" x-gap="8" y-gap="8" cols="1 650:2">
             <n-grid-item v-for="item in currentDayItems" :key="item.id" class="schedule-grid__content-item">
-                <ReliseEpisodeCard :episode="item" direction="row" />
+                <ReleaseEpisodeCard :episode="item" direction="row" />
             </n-grid-item>
         </n-grid>
 
@@ -44,7 +44,7 @@
             </n-grid>
         </n-flex>
 
-        <n-text v-else-if="!currentWeekData?.error" align="center" depth="3"> {{ t("veiws.schedule.noReleases") }}
+        <n-text v-else-if="!currentWeekData?.error" align="center" depth="3"> {{ t("views.schedule.noReleases") }}
         </n-text>
     </n-flex>
 </template>
@@ -55,7 +55,7 @@ import { useI18n } from "vue-i18n";
 import { type IAiringSchedulesData } from "@/stores/schedule";
 import dayjs from "dayjs";
 import { BrokenImageRound } from "@vicons/material"
-import ReliseEpisodeCard from "@/components/Schedule/ReliseEpisodeCard.vue"
+import ReleaseEpisodeCard from "@/components/Schedule/ReleaseEpisodeCard.vue"
 import type { AiringSchedulesFragment } from "@/api/generated/graphql";
 import { computed } from "vue";
 import { toDateKey } from "@/utils/dates";

@@ -35,7 +35,7 @@
     "scrollForward": "forward",
     "scrollBackward": "backward"
   },
-  "veiws": {
+  "views": {
     "home": {
       "popularNow": "Popular now",
       "fullSchedule": "Full schedule",

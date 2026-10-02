@@ -1,7 +1,7 @@
 import i18n from "@/locales";
 import dayjs from "dayjs";
 
-export function getFormatedTimeLeft(start: number, end: number) {
+export function getFormattedTimeLeft(start: number, end: number) {
     const timeDiff = dayjs.duration(start - end)
     const totalMinutesLeft = Math.ceil(timeDiff.asMinutes())
     const hoursLeft = Math.floor(totalMinutesLeft / 60)

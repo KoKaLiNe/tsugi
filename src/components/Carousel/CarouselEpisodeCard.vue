@@ -36,7 +36,7 @@ import { RouterEnum } from '@/router';
 import dayjs from 'dayjs';
 import { useNow } from '@/composables/useNow';
 import { useI18n } from 'vue-i18n';
-import { getFormatedTimeLeft } from '@/utils/time.ts';
+import { getFormattedTimeLeft } from '@/utils/time.ts';
 
 const now = useNow()
 const { t } = useI18n()
@@ -51,7 +51,7 @@ const props = defineProps<IProps>()
 const episodeTitle = computed(() => getMediaTitle(props.episode.media))
 const isAired = computed(() => dayjs.unix(props.episode.airingAt).isSameOrBefore(dayjs(now.value)))
 
-const timeLeft = computed(() => getFormatedTimeLeft(props.episode.airingAt * 1000, now.value))
+const timeLeft = computed(() => getFormattedTimeLeft(props.episode.airingAt * 1000, now.value))
 </script>
 
 <style lang="scss" scoped>

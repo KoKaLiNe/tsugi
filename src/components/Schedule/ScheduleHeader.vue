@@ -2,7 +2,7 @@
     <n-flex class="schedule-header" :class="{ '--wide': isWideLayout }" vertical>
         <n-flex class="schedule-header__week-controls" justify="space-between" align="center">
             <n-text class="schedule-header__title">
-                <n-h3>{{ t("veiws.schedule.title") }}</n-h3>
+                <n-h3>{{ t("views.schedule.title") }}</n-h3>
                 {{ weekRangeText }}
             </n-text>
 
