@@ -63,6 +63,11 @@ const closeSearchDropdown = () => {
     toggleSearchDropdown(false)
     highlightIndex.value = null
 }
+function cancelRequest() {
+    handleSearchInputDebounced.cancel()
+    clearAbortController()
+    loading.value = false
+}
 const toggleSearchDropdown = (value: boolean) => {
     showSearchDropdown.value = value;
 };
@@ -107,7 +112,6 @@ const handleSearchInputDebounced = debounce(async (value: string) => {
         }
     }
 }, 500);
-
 
 function handleClickOutside(event: MouseEvent) {
     const isContain = searchBarWrapperRef.value?.contains(event.target);
@@ -207,10 +211,12 @@ function goToSearch() {
         query.q = searchQuery.value
     }
 
-    router.push({ name: RouterEnum.Search, query })
+    cancelRequest()
     closeSearchDropdown();
+    router.push({ name: RouterEnum.Search, query })
 }
 function goToAnime(id: number) {
+    cancelRequest()
     closeSearchDropdown();
     router.push({ name: RouterEnum.Anime, params: { id } })
 }
