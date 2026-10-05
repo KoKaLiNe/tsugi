@@ -75,7 +75,8 @@
         "season": "Сезон",
         "source": "Первоисточник",
         "popularity": "В списках",
-        "startDate": "Начало показа"
+        "startDate": "Начало показа",
+        "endDate": "Окончание показа"
       },
       "searchByName": "Искать по названию",
       "error": {

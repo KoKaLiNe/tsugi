@@ -75,7 +75,8 @@
         "season": "Season",
         "source": "Source",
         "popularity": "In lists",
-        "startDate": "Start date"
+        "startDate": "Start date",
+        "endDate": "End date"
       },
       "searchByName": "Search by name",
       "error": {

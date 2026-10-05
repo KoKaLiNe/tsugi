@@ -36,16 +36,16 @@
         <div v-else class="banner" :style="bannerStyle"> </div>
 
         <n-flex class="content" vertical :size="16">
-            <n-flex :size="24" :wrap="false">
-                <div class="content-img__wrapper">
+            <n-flex class="content__wrapper" :size="24" :wrap="false">
+                <n-flex class="content-img__wrapper" align="flex-end">
                     <n-skeleton v-if="loading" class="content-img" height="300px" />
 
                     <TitleImage v-else-if="animeCard" class="content-img"
                         :src="animeCard.coverImage?.extraLarge ? animeCard.coverImage.extraLarge : undefined"
                         :title="animeCard" :alt="animeTitle" size="extra-large" :style="contentImgStyle" />
-                </div>
+                </n-flex>
 
-                <n-flex class="content-title__wrapper" vertical :size="16" justify="flex-end">
+                <n-flex class="content-title__wrapper" vertical :size="16" justify="center">
                     <n-skeleton v-if="loading" class="content-title" text height="60px" :sharp="false" />
 
                     <n-flex v-else vertical>
@@ -192,15 +192,15 @@ import { useIsWideLayout } from '@/composables/useIsWideLayout';
 import { useAnimeCardStore } from '@/stores/animeCard';
 import { getMediaTitle, proxyImageUrl } from '@/utils/media';
 import { storeToRefs } from 'pinia';
-import { computed, ref, watch, type CSSProperties } from 'vue';
+import { computed, onScopeDispose, ref, watch, type CSSProperties } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { AccessTimeRound, CloudOffRound, RefreshRound } from "@vicons/material"
-import { isEmpty, isNil } from 'lodash-es';
+import { debounce, isEmpty, isNil } from 'lodash-es';
 import StatusTag from '@/components/StatusTag.vue';
 import CustomDivider from '@/components/CustomDivider.vue';
 import dayjs from 'dayjs';
 import DOMPurify from 'dompurify';
-import { getClosestDayName } from '@/utils/dates';
+import { getClosestDayName, formatFuzzyDate } from '@/utils/dates';
 import { useNow } from '@/composables/useNow';
 import { getFormattedTimeLeft } from '@/utils/time';
 import NotFound from '@/components/NotFound.vue';
@@ -259,34 +259,13 @@ const nextEpisodeAiringAtInDays = computed(() => {
 
 const cardTableInfo = computed(() => {
     if (animeCard.value) {
-        let startDate = null
-        if (animeCard.value.startDate) {
-            startDate = dayjs()
-            const year = animeCard.value.startDate.year
-            const month = animeCard.value.startDate.month
-            const day = animeCard.value.startDate.day
-
-            if (year) {
-                startDate = startDate.year(year)
-            }
-            if (month) {
-                startDate = startDate.month(month - 1)
-            }
-            if (day) {
-                startDate = startDate.date(day)
-            }
-
-            const format = [day && "D", month && "MMMM", year && "YYYY"].filter(Boolean).join(" ")
-
-            startDate = startDate.format(format)
-        }
-
         const result = <Record<string, string | number | null>>{
             studio: animeCard.value.studios?.nodes?.at(0)?.name ?? null,
-            episodes: animeCard.value.episodes ?? "?",
+            episodes: animeCard.value.episodes ?? null,
             duration: animeCard.value.duration ? `${animeCard.value.duration} мин` : null,
             season: animeCard.value.season ? [t(`SeasonEnum.${animeCard.value.season}`), animeCard.value.seasonYear].filter(Boolean).join(" ") : null,
-            startDate: startDate ?? null,
+            startDate: formatFuzzyDate(animeCard.value.startDate) ?? null,
+            endDate: formatFuzzyDate(animeCard.value.endDate) ?? null,
             source: animeCard.value.source ? t(`SourceEnum.${animeCard.value.source}`) : null,
             popularity: animeCard.value.popularity ? animeCard.value.popularity.toLocaleString() : null,
         }
@@ -313,16 +292,31 @@ function toggleShowMore() {
     isClampedDescription.value = !isClampedDescription.value
 }
 
+const setIsShowShowMore = debounce(() => {
+    const computedStyle = getComputedStyle(descriptionRef.value.$el)
+    const descriptionLinesCount = computedStyle.getPropertyValue("--description-lines")
+
+    isShowShowMore.value = descriptionRef.value.$el.scrollHeight > (parseFloat(descriptionLinesCount) * parseFloat(computedStyle.lineHeight) + 1)
+}, 100)
+const resizeObserver = new ResizeObserver(setIsShowShowMore)
+
 watch(() => descriptionRef.value,
     (value) => {
         if (value) {
-            isShowShowMore.value = value.$el.scrollHeight > (value.$el.clientHeight + 1)
+            resizeObserver.observe(value.$el);
         } else {
+            resizeObserver.disconnect();
             isShowShowMore.value = false
+            setIsShowShowMore.cancel()
         }
     },
     { flush: 'post' }
 )
+
+onScopeDispose(() => {
+    resizeObserver.disconnect();
+    setIsShowShowMore.cancel()
+})
 
 const airingScheduleNodes = computed(() => (animeCard.value?.airingSchedule?.nodes ?? []).filter(Boolean))
 const isShowAllNextEpisodes = ref(false)
@@ -345,13 +339,14 @@ function retryFetch() {
 
 <style lang="scss" scoped>
 .anime-page {
+    --banner-height: min(20vw, 25vh);
+
     .banner {
         margin: -8px -8px 0;
         background-position: 50% 35%;
         background-repeat: no-repeat;
         background-size: cover;
-        height: 250px;
-        // filter: blur(2px)
+        height: var(--banner-height);
 
         &::after {
             content: "";
@@ -369,17 +364,13 @@ function retryFetch() {
         max-width: 1240px;
         margin: 0 auto;
 
+        &__wrapper {
+            margin-top: calc(var(--banner-height) * -0.64);
+        }
+
         &-img {
             border: $base-border;
             border-radius: $base-border-radius;
-            position: absolute;
-            bottom: 0;
-            left: 0;
-
-            &__wrapper {
-                position: relative;
-                flex: 0 0 210px;
-            }
         }
 
         &-title {
@@ -387,9 +378,9 @@ function retryFetch() {
             margin-top: 10px;
 
             &__wrapper {
+                margin-top: calc(var(--banner-height) * 0.54 + 24px);
                 margin-bottom: $base-gap;
                 flex: 1 1 auto;
-                // min-height: 300px;
             }
         }
     }
@@ -419,6 +410,7 @@ function retryFetch() {
 
     .info-table {
         flex: 1 1 30%;
+        min-width: 250px;
     }
 
     .description {
@@ -427,12 +419,13 @@ function retryFetch() {
         }
 
         &__text {
+            --description-lines: 8;
             transition: max-height 250ms ease;
             overflow: hidden;
             max-height: fit-content;
 
             &.--collapsed {
-                max-height: calc(8lh);
+                max-height: calc(var(--description-lines) * 1lh);
             }
 
             @media (prefers-reduced-motion: reduce) {
@@ -442,19 +435,6 @@ function retryFetch() {
     }
 
     .next-episodes {
-
-        // max-width: 50%;
-        &__list {
-
-            // max-width: 50%;
-            // &:first-child {
-            //     border: none;
-            //     background-color: color-mix(in srgb, var(--success) 10%, transparent);
-            //     border-radius: $base-border-radius;
-            // }
-
-        }
-
         .episode {
             &-schedule {
                 &__item {
@@ -462,7 +442,6 @@ function retryFetch() {
                     grid-template-columns: 120px minmax(170px, auto) auto minmax(auto, 180px);
 
                     padding: 8px 16px;
-                    // border-bottom: $base-border;
 
                     &-time,
                     &-airing-in {
@@ -470,7 +449,6 @@ function retryFetch() {
                     }
 
                     &.--closest {
-                        // border: none;
                         background-color: color-mix(in srgb, var(--success) 10%, transparent);
                         border-radius: $base-border-radius;
 
@@ -479,8 +457,6 @@ function retryFetch() {
                             color: var(--success);
                         }
                     }
-
-
                 }
 
                 &__show-all-btn {

@@ -56,11 +56,12 @@ const tagColor = computed(() => {
     background-color: var(--score-low);
     color: var(--on-score-low);
 
-    padding: 2px 5px;
+    padding: 4px 5px;
+    height: 22px;
     min-width: 30px;
 
     &.--medium {
-        padding: 5px 8px;
+        height: $tag-height;
         min-width: 30px;
     }
 

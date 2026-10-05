@@ -1,5 +1,6 @@
 import dayjs from "dayjs";
 import i18n from "@/locales";
+import { isNil } from "lodash-es";
 
 export function getWeekRange(date: string) {
     const start = getStartOfWeekDate(date)
@@ -52,4 +53,36 @@ export function getClosestDayName(date: dayjs.Dayjs | string | number, compareDa
                 dayName: i18n.global.t(`common.dateTime.atWeekDays.${dateValue.day()}`)
             }
     }
+}
+
+export function formatFuzzyDate(date?: { year: number | null, month: number | null, day: number | null } | null) {
+    let dateFormated = null
+
+    if (date) {
+        dateFormated = dayjs()
+
+        const year = date.year
+        const month = date.month
+        const day = date.day
+
+        if (isNil(year) && isNil(month) && isNil(day)) {
+            return dateFormated = null
+        }
+
+        if (year) {
+            dateFormated = dateFormated.year(year)
+        }
+        if (month) {
+            dateFormated = dateFormated.month(month - 1)
+        }
+        if (day) {
+            dateFormated = dateFormated.date(day)
+        }
+
+        const format = [day && "D", month && "MMMM", year && "YYYY"].filter(Boolean).join(" ")
+
+        dateFormated = dateFormated.format(format)
+    }
+
+    return dateFormated
 }

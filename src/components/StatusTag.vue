@@ -22,6 +22,7 @@ const props = defineProps<IProps>()
     line-height: 1;
     display: inline-flex;
     padding: 5px 8px;
+    height: $tag-height;
     border-radius: $base-border-radius;
 
     @include status-colors-all;
