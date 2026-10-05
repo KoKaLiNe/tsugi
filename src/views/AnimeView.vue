@@ -39,7 +39,7 @@
         <n-flex class="content" vertical :size="16">
             <n-flex class="content__wrapper" :size="24" :wrap="false">
                 <n-flex class="content-img__wrapper" align="flex-end">
-                    <n-skeleton v-if="loading" class="content-img" height="300px" />
+                    <n-skeleton v-if="loading" class="content-img" height="300px" width="210px" />
 
                     <TitleImage v-else-if="animeCard" class="content-img"
                         :src="animeCard.coverImage?.extraLarge ? animeCard.coverImage.extraLarge : undefined"
