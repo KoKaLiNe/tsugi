@@ -24,8 +24,9 @@
                         </template>
                         {{ t('common.retry') }}
                     </n-button>
-                    <n-button quaternary type="primary" @click="goTo(RouterEnum.Home)">{{ t('common.goTo.home')
-                    }}</n-button>
+                    <n-button quaternary type="primary" @click="goTo(RouterEnum.Home)">
+                        {{ t('common.goTo.home') }}
+                    </n-button>
                 </n-flex>
             </template>
         </NotFound>
@@ -217,16 +218,17 @@ const { loading, error, animeCard } = storeToRefs(animeCardStore)
 
 const bannerStyle = computed(() => (<CSSProperties>{
     backgroundImage: animeCard.value?.bannerImage ? `url(${proxyImageUrl(animeCard.value?.bannerImage)})` : undefined,
-    backgroundColor: animeCard.value?.coverImage?.color ?? undefined,
-    '--cover-color': animeCard.value?.coverImage?.color ?? 'transparent'
+    backgroundColor: animeCard.value?.coverImage?.color ?? 'var(--accent)',
+    '--cover-color': animeCard.value?.coverImage?.color ?? undefined
 }))
 
 const contentImgStyle = computed(() => {
-    const color = animeCard.value?.coverImage?.color
+    const color = animeCard.value?.coverImage?.color ?? 'var(--accent)'
 
-    return color
-        ? { boxShadow: `0 0 15px 5px color-mix(in srgb, ${color} 40%, transparent)` }
-        : {}
+    return {
+        boxShadow: `0 0 15px 5px color-mix(in srgb, ${color} 40%, transparent)`,
+        backgroundColor: color ?? "var(--accent)",
+    }
 })
 
 const animeTitle = computed(() => getMediaTitle(animeCard.value))
