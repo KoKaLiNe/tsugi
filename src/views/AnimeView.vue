@@ -219,7 +219,7 @@ const { loading, error, animeCard } = storeToRefs(animeCardStore)
 const bannerStyle = computed(() => (<CSSProperties>{
     backgroundImage: animeCard.value?.bannerImage ? `url(${proxyImageUrl(animeCard.value?.bannerImage)})` : undefined,
     backgroundColor: animeCard.value?.coverImage?.color ?? 'var(--accent)',
-    '--cover-color': animeCard.value?.coverImage?.color ?? undefined
+    '--cover-color': animeCard.value?.coverImage?.color ?? 'var(--accent)'
 }))
 
 const contentImgStyle = computed(() => {
@@ -227,7 +227,7 @@ const contentImgStyle = computed(() => {
 
     return {
         boxShadow: `0 0 15px 5px color-mix(in srgb, ${color} 40%, transparent)`,
-        backgroundColor: color ?? "var(--accent)",
+        backgroundColor: color,
     }
 })
 
