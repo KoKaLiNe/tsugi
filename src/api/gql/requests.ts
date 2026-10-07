@@ -1,42 +1,55 @@
-export const getTopAnime = /* GraphQL */ `
+const animeCardMedia = /* GraphQL */ `
   fragment AnimeCardMedia on Media {
     id
-    idMal
     title {
       romaji
       english
       native
     }
-    bannerImage
+    averageScore
     coverImage {
-      large
       color
+      medium
+      extraLarge
+    }
+    startDate {
+      year
     }
     format
-    episodes
-    averageScore
   }
-  fragment TopAnimePageInfo on PageInfo {
+`
+const pageInfo = /* GraphQL */ `
+  fragment RequestPageInfo on PageInfo {
     total
+    perPage
     currentPage
     lastPage
     hasNextPage
-    perPage
+  }
+`
+export const getTopAnime = /* GraphQL */ `
+  ${animeCardMedia}
+  ${pageInfo}
+
+  fragment TopAnimeMedia on Media {
+    ...AnimeCardMedia
+    bannerImage
+    episodes
   }
 
   query GetTopAnime($page: Int, $perPage: Int) {
     Page(page: $page, perPage: $perPage) {
       pageInfo {
-        ...TopAnimePageInfo
+        ...RequestPageInfo
       }
       media(type: ANIME, sort: POPULARITY_DESC, isAdult: false) {
-        ...AnimeCardMedia
+        ...TopAnimeMedia
       }
     }
   }
 `
 
-export const getSchedule = /* GraphQL */ ` 
+export const getSchedule = /* GraphQL */ `
   fragment SchedulePageInfo on PageInfo {
     hasNextPage
   }
@@ -79,38 +92,20 @@ export const getSchedule = /* GraphQL */ `
 `
 
 export const search = /* GraphQL */ ` 
-  fragment SearchListPageInfo on PageInfo {
-    total
-    perPage
-    currentPage
-    lastPage
-    hasNextPage
-  }
+  ${pageInfo}
+  ${animeCardMedia}
 
   fragment SearchListMedia on Media {
-    id
-    title {
-      english
-      romaji
-    }
-    coverImage {
-      color
-      medium
-    }
-    averageScore
+    ...AnimeCardMedia
     season
     genres
-    format
     isAdult
-    startDate {
-      year
-    }
   }
   
   query GetSearchList($page: Int, $perPage: Int = 20, $search: String) {
     Page(page: $page, perPage: $perPage) {
       pageInfo {
-        ...SearchListPageInfo
+        ...RequestPageInfo
       }
       media(
         type: ANIME,

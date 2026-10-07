@@ -2,11 +2,11 @@ import { defineStore } from "pinia";
 import { ref } from "vue";
 import { graphqlRequest } from "@/api/request";
 import { getTopAnime } from "@/api/gql/requests";
-import type { AnimeCardMediaFragment, GetTopAnimeQuery, GetTopAnimeQueryVariables } from "@/api/generated/graphql";
+import type { TopAnimeMediaFragment, GetTopAnimeQuery, GetTopAnimeQueryVariables } from "@/api/generated/graphql";
 import { isEmpty, isNull } from "lodash-es"
 
 export const useAnimeListStore = defineStore('animeList', () => {
-    const topAnimeList = ref<AnimeCardMediaFragment[]>([])
+    const topAnimeList = ref<TopAnimeMediaFragment[]>([])
     const loading = ref(false)
     const error = ref<string>()
     const page = ref(1)

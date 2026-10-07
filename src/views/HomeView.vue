@@ -84,7 +84,7 @@
               <div v-for="item in restPopularAnime" :key="item.id" class="popular-item">
                 <n-flex vertical>
                   <router-link :to="{ name: RouterEnum.Anime, params: { id: item.id } }">
-                    <TitleImage :src="item.coverImage?.large ? item.coverImage?.large : undefined" :title="item"
+                    <TitleImage :src="item.coverImage?.extraLarge ? item.coverImage?.extraLarge : undefined" :title="item"
                       :alt="getMediaTitle(item)" :lazy="false" />
 
                     <n-text class="popular-item__title"> {{ getMediaTitle(item) }}</n-text>
@@ -223,7 +223,7 @@ onMounted(() => {
     &__wrapper {
       cursor: pointer;
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
       gap: 16px;
     }
   }

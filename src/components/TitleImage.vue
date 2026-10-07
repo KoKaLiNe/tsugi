@@ -5,11 +5,11 @@
 </template>
 
 <script lang="ts" setup>
-import type { AiringSchedulesFragment, AnimeByIdMediaFragment, AnimeCardMediaFragment, SearchListMediaFragment } from '@/api/generated/graphql';
+import type { AiringSchedulesFragment, AnimeByIdMediaFragment, AnimeCardMediaFragment } from '@/api/generated/graphql';
 import { proxyImageUrl } from '@/utils/media';
 import { computed, type StyleValue } from 'vue';
 
-type TitleType = AiringSchedulesFragment['media'] | SearchListMediaFragment | AnimeCardMediaFragment | AnimeByIdMediaFragment
+type TitleType = AiringSchedulesFragment['media'] | AnimeCardMediaFragment| AnimeByIdMediaFragment
 
 interface IProps {
     alt: string;
