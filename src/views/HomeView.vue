@@ -41,7 +41,8 @@
     </PageBlock>
 
     <!-- TODO сделать первый тайтл рандомным из популярных или тянуть как-то отдельно -->
-    <PageBlock class="popular-block" :title="t('views.home.popularNow')">
+    <PageBlock class="popular-block" :title="t('views.home.popularNow')" :link="{ name: RouterEnum.Search }"
+      :link-text="t('views.home.fullCatalog')">
       <template #content>
         <template v-if="loading">
           <n-flex vertical>
