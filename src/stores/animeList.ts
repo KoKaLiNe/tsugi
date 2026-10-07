@@ -23,7 +23,7 @@ export const useAnimeListStore = defineStore('animeList', () => {
                 error.value = undefined
             }
         } catch (err) {
-            if (isEmpty(topAnimeList)) {
+            if (isEmpty(topAnimeList.value)) {
                 error.value = err instanceof Error ? err.message : String(err)
             }
         } finally {
