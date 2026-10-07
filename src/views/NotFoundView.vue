@@ -1,17 +1,17 @@
 <template>
-    <NotFound :title="t('views.notFound.title')" :info="t('views.notFound.info')">
-        <template #actions>
-            <n-flex>
+    <CustomResult :title="t('views.notFound.title')" :description="t('views.notFound.info')">
+        <template #footer>
+            <n-flex justify="center">
                 <n-button type="primary" @click="goTo(RouterEnum.Home)">{{ t('common.goTo.home') }}</n-button>
                 <n-button @click="goTo(RouterEnum.Schedule)">{{ t('common.routes.schedule') }}</n-button>
             </n-flex>
         </template>
-    </NotFound>
+    </CustomResult>
 </template>
 
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n';
-import NotFound from '@/components/NotFound.vue';
+import CustomResult from '@/components/CustomResult.vue';
 import { RouterEnum } from '@/router';
 import { useRouter } from 'vue-router';
 

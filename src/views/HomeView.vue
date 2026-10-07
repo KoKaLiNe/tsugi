@@ -48,7 +48,7 @@
             <n-skeleton :sharp="false" height="300px" />
 
             <div class="popular-item__wrapper">
-              <n-skeleton v-for="(_, index) in Array.from({ length: 9 })" :key="index" :sharp="false" height="200px" />
+              <n-skeleton v-for="index in 9" :key="index" :sharp="false" height="200px" />
             </div>
           </n-flex>
 

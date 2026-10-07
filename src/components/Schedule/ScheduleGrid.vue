@@ -38,7 +38,7 @@
 
         <n-flex v-else-if="(currentWeekData?.loading ?? true) && !currentWeekData?.data">
             <n-grid x-gap="8" y-gap="8" cols="1 650:2">
-                <n-grid-item v-for="el in skeletonArray" :key="el" class="schedule-grid__content-item">
+                <n-grid-item v-for="index in 2" :key="index" class="schedule-grid__content-item">
                     <n-skeleton height="120px" width="100%" :sharp="false" />
                 </n-grid-item>
             </n-grid>
@@ -80,8 +80,6 @@ interface IProps {
 const props = defineProps<IProps>()
 
 const currentDayItems = computed(() => props.week.find((data) => toDateKey(data.day) === props.selectedDay)?.items ?? [])
-
-const skeletonArray = Array.from({ length: 2 }).map((_, index) => index)
 </script>
 
 <style lang="scss" scoped>

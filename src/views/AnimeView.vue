@@ -1,9 +1,9 @@
 <template>
     <div v-if="error" class="anime-page --error">
-        <NotFound v-if="['400', '404'].includes(error)" :title="t('views.anime.error.404.title')"
-            :info="t('views.anime.error.404.info')">
-            <template #actions>
-                <n-flex>
+        <CustomResult v-if="['400', '404'].includes(error)" :title="t('views.anime.error.404.title')"
+            :description="t('views.anime.error.404.info')">
+            <template #footer>
+                <n-flex justify="center">
                     <n-button type="primary" @click="goTo(RouterEnum.Schedule)">
                         {{ t('common.goTo.schedule') }}
                     </n-button>
@@ -12,12 +12,12 @@
                         t('views.anime.searchByName') }}</n-button>
                 </n-flex>
             </template>
-        </NotFound>
+        </CustomResult>
 
-        <NotFound v-else :icon="CloudOffRound" :title="t('views.anime.error.general.title')"
-            :info="t('views.anime.error.general.info')">
-            <template #actions>
-                <n-flex>
+        <CustomResult v-else :icon="CloudOffRound" :title="t('views.anime.error.general.title')"
+            :description="t('views.anime.error.general.info')">
+            <template #footer>
+                <n-flex justify="center">
                     <n-button type="primary" @click="retryFetch">
                         <template #icon>
                             <n-icon :component="RefreshRound" />
@@ -29,7 +29,7 @@
                     </n-button>
                 </n-flex>
             </template>
-        </NotFound>
+        </CustomResult>
     </div>
 
     <div v-else class="anime-page" :class="{ '--wide': isWideLayout }">
@@ -88,7 +88,7 @@
 
             <n-flex :wrap="false" class="content-info" :size="24">
                 <n-flex v-if="loading" class="info-table" vertical>
-                    <n-flex v-for="(_, index) in Array.from({ length: 5 })" :key="index" vertical>
+                    <n-flex v-for="index in 5" :key="index" vertical>
                         <n-flex class="info-table__item" justify="space-between" align="center" :wrap="false">
                             <n-skeleton height="17px" width="80px" text :sharp="false" />
                             <n-skeleton height="17px" width="80px" text :sharp="false" />
@@ -111,8 +111,7 @@
 
                 <n-flex class="description__wrapper" vertical :size="16">
                     <n-flex v-if="loading" class="description__tags">
-                        <n-skeleton v-for="(_, index) in Array.from({ length: 3 })" :key="index" height="28px"
-                            width="60px" :sharp="false" />
+                        <n-skeleton v-for="index in 3" :key="index" height="28px" width="60px" :sharp="false" />
                     </n-flex>
 
                     <n-flex v-else-if="animeCard && !isEmpty(animeCard?.genres)" class="description__tags">
@@ -204,7 +203,7 @@ import DOMPurify from 'dompurify';
 import { getClosestDayName, formatFuzzyDate } from '@/utils/dates';
 import { useNow } from '@/composables/useNow';
 import { getFormattedTimeLeft } from '@/utils/time';
-import NotFound from '@/components/NotFound.vue';
+import CustomResult from '@/components/CustomResult.vue';
 import { RouterEnum } from '@/router';
 import { useRouter } from 'vue-router';
 
