@@ -13,8 +13,8 @@
     </n-empty>
 
     <n-flex v-if="isWideLayout" class="schedule-grid__wrapper" vertical :size="0">
-        <n-grid class="schedule-week-grid__content" x-gap="8" :cols="7">
-            <n-grid-item v-for="{ day, items } in week" :key="day.valueOf()" class="schedule-grid__content-item">
+        <n-grid class="schedule-week-grid__content" x-gap="16" :cols="7">
+            <n-grid-item v-for="{ day, items } in week" :key="day.valueOf()" class="schedule-week-grid__content-item">
                 <n-flex v-if="!currentWeekData?.error" :size="8" vertical>
                     <template v-if="!isEmpty(items)">
                         <ReleaseEpisodeCard v-for="item in items" :key="item.id" :episode="item" />
@@ -44,7 +44,8 @@
             </n-grid>
         </n-flex>
 
-        <n-text v-else-if="!currentWeekData?.error" align="center" depth="3"> {{ t("views.schedule.noReleases") }}
+        <n-text v-else-if="!currentWeekData?.error" align="center" depth="3">
+            {{ t("views.schedule.noReleases") }}
         </n-text>
     </n-flex>
 </template>
@@ -87,6 +88,21 @@ const currentDayItems = computed(() => props.week.find((data) => toDateKey(data.
     &-week-grid {
         &__content {
             margin-top: $base-gap;
+
+            &-item {
+                position: relative;
+
+                &:not(:first-child) {
+                    &::before {
+                        content: "";
+                        position: absolute;
+                        top: -35px; /* расстояние от верха сетки до середины кнопок дней в шапке */
+                        bottom: 0;
+                        left: -9px;
+                        border-left: 1px dashed var(--border);
+                    }
+                }
+            }
         }
     }
 }

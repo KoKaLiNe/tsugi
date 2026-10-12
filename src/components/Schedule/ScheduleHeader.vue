@@ -1,10 +1,12 @@
 <template>
     <n-flex class="schedule-header" :class="{ '--wide': isWideLayout }" vertical>
         <n-flex class="schedule-header__week-controls" justify="space-between" align="center">
-            <n-text class="schedule-header__title">
+            <div class="schedule-header__title">
                 <n-h3>{{ t("views.schedule.title") }}</n-h3>
-                {{ weekRangeText }}
-            </n-text>
+                <n-text>
+                    {{ t("common.for") }} {{ weekRangeText }}
+                </n-text>
+            </div>
 
             <n-flex class="schedule-controls" :size="8">
                 <n-button class="schedule-controls__prev" @click="goTo('prev')" size="large">
@@ -23,10 +25,10 @@
             </n-flex>
         </n-flex>
 
-        <n-grid class="schedule-header__day-controls" x-gap="8" :cols="7">
-            <n-grid-item v-for="{ day, items } in week" :key="day.valueOf()" class="schedule-grid__header-item">
+        <n-grid class="schedule-header__day-controls" x-gap="16" :cols="7">
+            <n-grid-item v-for="{ day, items } in week" :key="day.valueOf()" class="schedule-header__item">
                 <ScheduleDayBtn :loading="currentWeekData?.loading" :error="currentWeekData?.error" :day="day"
-                    :items="items" :selectedDay="selectedDay" />
+                    :items="items" :selectedDay="selectedDay" :clickable="!isWideLayout" />
             </n-grid-item>
         </n-grid>
     </n-flex>
@@ -75,9 +77,14 @@ const isNextBtnDisabled = computed(() => {
 
 const weekRange = computed(() => getWeekRange(props.selectedWeek))
 const weekRangeText = computed(() => {
-    const start = dayjs.unix(weekRange.value.start).format("DD MMMM")
-    const end = dayjs.unix(weekRange.value.end - 1).format("DD MMMM")
-    return `${start} — ${end}`
+    if (props.isWideLayout) {
+        const start = dayjs.unix(weekRange.value.start).format("D MMMM")
+        const end = dayjs.unix(weekRange.value.end - 1).format("D MMMM")
+
+        return `${start} — ${end}`
+    } else {
+        return dayjs(props.selectedDay).format("D MMMM")
+    }
 })
 
 const goTo = (position: "prev" | "today" | "next") => {
@@ -92,7 +99,6 @@ const goTo = (position: "prev" | "today" | "next") => {
         position: sticky;
         top: calc($header-height + $base-gap);
         z-index: 9;
-
 
         &::before {
             content: "";
@@ -113,6 +119,7 @@ const goTo = (position: "prev" | "today" | "next") => {
         }
 
         &__title {
+            display: inline-block;
             flex-grow: 15;
 
             h3 {

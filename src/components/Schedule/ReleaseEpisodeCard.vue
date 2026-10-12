@@ -25,7 +25,14 @@
                     <n-text> {{ t("common.dateTime.in") }} {{ timeLeft }}</n-text>
                 </n-flex>
 
-                <n-text class="episode__airing-time">{{ airingTime }}</n-text>
+                <n-tooltip placement="top-end" trigger="hover">
+                    <template #trigger>
+                        <n-text class="episode__airing-time">{{ airingTime }}</n-text>
+
+                    </template>
+
+                    {{ dayjs.unix(episode.airingAt).format("DD.MM.YYYY HH:mm Z") }}
+                </n-tooltip>
             </n-flex>
         </n-flex>
     </router-link>

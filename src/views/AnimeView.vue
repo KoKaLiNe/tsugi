@@ -109,7 +109,7 @@
 
                 <n-flex class="description__wrapper" vertical :size="16">
                     <n-flex v-if="loading" class="description__tags">
-                        <n-skeleton v-for="index in 3" :key="index" height="28px" width="60px" :sharp="false" />
+                        <n-skeleton :repeat="3" height="28px" width="60px" :sharp="false" />
                     </n-flex>
 
                     <n-flex v-else-if="animeCard && !isEmpty(animeCard?.genres)" class="description__tags">
