@@ -11,6 +11,8 @@ export enum RouterEnum {
 const ANY_ROUTE = ':pathMatch(.*)';
 
 const router = createRouter({
+    scrollBehavior: (_to, _from, savedPosition) => (savedPosition ?? { left: 0, top: 0 }),
+
     history: createWebHashHistory(import.meta.env.BASE_URL),
     routes: [
         {
