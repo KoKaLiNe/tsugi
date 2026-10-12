@@ -90,6 +90,23 @@
         }
       }
     },
+    "search": {
+      "title": "Anime catalog",
+      "fullCatalog": "Full catalog",
+      "actions": {
+        "search": {
+          "placeholder": "Press Enter to search · leave empty for the full catalog",
+          "empty": "Nothing found",
+          "error": {
+            "general": "Failed to load"
+          }
+        },
+        "loadMore": {
+          "button": "Show more",
+          "error": "Failed to load. Try again"
+        }
+      }
+    },
     "notFound": {
       "title": "Page not found",
       "info": "This page doesn't exist. The address may have been typed incorrectly."

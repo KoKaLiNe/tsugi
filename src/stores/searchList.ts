@@ -15,7 +15,7 @@ export const useSearchListStore = defineStore('searchList', () => {
         search?: string | null
     }>({})
     const page = ref(1)
-    const perPage = ref(20)
+    const perPage = ref(12)
     const hasNextPage = ref(false)
     const total = ref(0)
 
