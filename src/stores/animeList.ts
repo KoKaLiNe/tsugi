@@ -10,7 +10,7 @@ export const useAnimeListStore = defineStore('animeList', () => {
     const loading = ref(false)
     const error = ref<string>()
     const page = ref(1)
-    const perPage = ref(12)
+    const perPage = ref(20)
 
     async function fetchTopAnime() {
         loading.value = true

@@ -42,7 +42,7 @@ export const getTopAnime = /* GraphQL */ `
       pageInfo {
         ...RequestPageInfo
       }
-      media(type: ANIME, sort: POPULARITY_DESC, isAdult: false) {
+      media(type: ANIME, sort: [TRENDING_DESC, POPULARITY_DESC], isAdult: false) {
         ...TopAnimeMedia
       }
     }
