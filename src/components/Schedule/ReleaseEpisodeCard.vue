@@ -3,7 +3,8 @@
         :to="{ name: RouterEnum.Anime, params: { id: episode.media?.id } }">
 
         <TitleImage :src="episode.media?.coverImage?.extraLarge ? episode.media.coverImage?.extraLarge : undefined"
-            :title="episode.media" :alt="episodeTitle" :size="isRowDirection ? 'medium' : undefined" />
+            :coverImageColor="episode.media?.coverImage?.color" :alt="episodeTitle"
+            :size="isRowDirection ? 'medium' : undefined" />
 
         <n-flex class="episode-info__wrapper" vertical :size="8" :justify="isRowDirection ? 'space-between' : 'start'">
             <n-flex :size="8" vertical>

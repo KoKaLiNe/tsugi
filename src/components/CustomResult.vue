@@ -1,29 +1,34 @@
 <template>
     <n-result class="result" :size="size">
         <template #icon>
-            <n-icon v-if="icon" class="icon" :component="icon" />
-            <slot v-else-if="slots.icon" name="icon"></slot>
-            <logoHieroglyphSvg v-else class="logo-hieroglyph" aria-hidden="true" />
+            <n-icon v-if="icon" class="icon" :component="icon" :size="iconSizePx" />
+            <slot v-else-if="$slots.icon" name="icon"></slot>
+            <logoHieroglyphSvg v-else class="logo-hieroglyph"
+                :style="{ width: iconSizePx, height: iconSizePx }" aria-hidden="true" />
         </template>
 
-        <slot name="footer"></slot>
+        <n-flex justify="center">
+            <slot name="footer"></slot>
+        </n-flex>
     </n-result>
 </template>
 
 <script lang="ts" setup>
-import { useSlots, type Component } from 'vue';
+import { computed, type Component } from 'vue';
 import type { ResultProps, ResultSize } from "naive-ui"
 import logoHieroglyphSvg from '@/assets/logoHieroglyph.svg'
 
 export interface IProps extends  /* @vue-ignore */ ResultProps {
     size?: ResultSize;
     icon?: Component;
+    iconSize?: number
 }
-withDefaults(defineProps<IProps>(), {
-    size: 'small'
+const props = withDefaults(defineProps<IProps>(), {
+    size: 'medium',
+    iconSize: 70
 })
 
-const slots = useSlots()
+const iconSizePx = computed(() => `${props.iconSize}px`)
 </script>
 
 <style lang="scss" scoped>
@@ -33,13 +38,10 @@ const slots = useSlots()
     max-width: 600px;
 
     .icon {
-        font-size: 70px;
         color: color-mix(in srgb, var(--text-muted) 25%, var(--bg));
     }
 
     .logo-hieroglyph {
-        width: 70px;
-        height: 70px;
         color: color-mix(in srgb, var(--text-muted) 25%, var(--bg));
     }
 }

@@ -4,7 +4,10 @@
             <div class="carousel__start" ref="carouselStartRef"></div>
 
             <n-flex :size="gap" :wrap="false">
-                <div v-for="(item, index) in items" :key="item.id" :ref="(el) => setSlotItemsRefs(el, index)">
+                <div v-if="loading" v-for="index in 6" :key="index">
+                    <slot name="loadingItem"></slot>
+                </div>
+                <div v-else v-for="(item, index) in items" :key="item.id" :ref="(el) => setSlotItemsRefs(el, index)">
                     <slot name="contentItem" :item="item"></slot>
                 </div>
             </n-flex>
@@ -33,6 +36,7 @@ import { isNil } from 'lodash-es';
 const { t } = useI18n()
 
 interface IProps {
+    loading?: boolean;
     items: T[];
     gap?: number;
     scrollToIndex?: number;
