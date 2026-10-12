@@ -1,12 +1,12 @@
 <template>
-  <n-flex class="home" vertical :size="26">
+  <n-flex class="home-page" vertical :size="26">
     <PageBlock class="today-block" :title="t('views.home.today')"
       :link="{ name: RouterEnum.Schedule, query: { day: toDateKey(now) } }" :link-text="t('views.home.fullSchedule')">
       <template #subTitle>
-        <n-flex>
+        <n-flex align="center">
           <n-text depth="3">{{ dayjs(now).format("dddd, D MMMM") }}</n-text>
 
-          <CustomDivider no-margin vertical />
+          <CustomDivider no-margin vertical type="dot" />
 
           <n-skeleton v-if="(currentWeekData?.loading ?? true) && !currentWeekData?.data" text :sharp="false"
             style="width: 80px" />
@@ -20,36 +20,36 @@
       <template #content>
         <n-text v-if="nextRelease" class="next-release">{{ nextRelease }} </n-text>
 
-        <!-- TODO сделать скелетон карусели -->
-        <n-skeleton v-if="(currentWeekData?.loading ?? true) && !currentWeekData?.data" :sharp="false" height="325px" />
-
-        <CustomCarousel v-else-if="!isEmpty(currentDayScheduleData)" :items="currentDayScheduleData"
-          :scroll-to-index="scrollToIndex" :gap="0">
-          <template #contentItem="{ item }">
-            <CarouselEpisodeCard :episode="item" :isClosest="item.id === closestTitle?.id" />
-          </template>
-        </CustomCarousel>
-
-        <div v-else>
+        <div v-if="currentWeekData && !currentWeekData?.loading && isEmpty(currentDayScheduleData)">
           <n-empty :description="t('views.home.noReleases')" size="huge">
             <template #icon>
               <n-icon :component="EventBusyRound" />
             </template>
           </n-empty>
         </div>
+
+        <CustomCarousel v-else :loading="currentWeekData?.loading ?? true" :items="currentDayScheduleData"
+          :scroll-to-index="scrollToIndex" :gap="0">
+          <template #loadingItem>
+            <CarouselEpisodeCard :loading="true" />
+          </template>
+
+          <template #contentItem="{ item }">
+            <CarouselEpisodeCard :episode="item" :isClosest="item.id === closestTitle?.id" />
+          </template>
+        </CustomCarousel>
       </template>
     </PageBlock>
 
-    <!-- TODO сделать первый тайтл рандомным из популярных или тянуть как-то отдельно -->
     <PageBlock class="popular-block" :title="t('views.home.popularNow')" :link="{ name: RouterEnum.Search }"
       :link-text="t('views.home.fullCatalog')">
       <template #content>
         <template v-if="loading">
-          <n-flex vertical>
+          <n-flex vertical :size="16">
             <n-skeleton :sharp="false" height="300px" />
 
             <div class="popular-item__wrapper">
-              <n-skeleton v-for="index in 9" :key="index" :sharp="false" height="200px" />
+              <n-skeleton :repeat="14" :sharp="false" height="250px" />
             </div>
           </n-flex>
 
@@ -66,17 +66,18 @@
                 <n-flex class="popular-first__info" align="center">
                   <n-text class="popular-first__title"> {{ getMediaTitle(firstPopularAnime) }}</n-text>
 
-                  <CustomDivider vertical />
+                  <CustomDivider v-if="firstPopularAnime.format" vertical no-margin />
+                  <n-text v-if="firstPopularAnime.format">
+                    {{ t(`TitleFormatEnum.${firstPopularAnime.format}`) }}
+                  </n-text>
 
-                  <n-text> {{ firstPopularAnime.format }} </n-text>
+                  <CustomDivider v-if="firstPopularAnime.episodes" vertical no-margin />
+                  <n-text v-if="firstPopularAnime.episodes">
+                    {{ t('common.episodePlural', firstPopularAnime.episodes) }}
+                  </n-text>
 
-                  <CustomDivider vertical />
-
-                  <n-text> {{ t('common.episodePlural', firstPopularAnime.episodes ?? 0) }} </n-text>
-
-                  <CustomDivider vertical />
-
-                  <ScoreTag :score="firstPopularAnime.averageScore" />
+                  <CustomDivider v-if="firstPopularAnime.averageScore" vertical no-margin />
+                  <ScoreTag v-if="firstPopularAnime.averageScore" :score="firstPopularAnime.averageScore" />
                 </n-flex>
               </n-flex>
             </router-link>
@@ -84,12 +85,7 @@
             <div class="popular-item__wrapper">
               <div v-for="item in restPopularAnime" :key="item.id" class="popular-item">
                 <n-flex vertical>
-                  <router-link :to="{ name: RouterEnum.Anime, params: { id: item.id } }">
-                    <TitleImage :src="item.coverImage?.extraLarge ? item.coverImage?.extraLarge : undefined" :title="item"
-                      :alt="getMediaTitle(item)" :lazy="false" />
-
-                    <n-text class="popular-item__title"> {{ getMediaTitle(item) }}</n-text>
-                  </router-link>
+                  <TitleCard :item="item" lazyLoadImg />
                 </n-flex>
               </div>
             </div>
@@ -116,10 +112,11 @@ import CarouselEpisodeCard from "@/components/Carousel/CarouselEpisodeCard.vue";
 import CustomCarousel from "@/components/Carousel/CustomCarousel.vue";
 import { findIndex, isEmpty } from "lodash-es";
 import ScoreTag from '@/components/ScoreTag.vue';
-import TitleImage from "@/components/TitleImage.vue";
 import { useMediaQuery } from "@/composables/useMediaQuery";
 import { EventBusyRound } from "@vicons/material"
 import CustomDivider from "@/components/CustomDivider.vue";
+import type { AiringScheduleWithMedia } from "@/types/AiringScheduleWithMedia";
+import TitleCard from "@/components/TitleCard.vue";
 
 const now = useNow()
 const { t } = useI18n()
@@ -129,8 +126,9 @@ const scheduleStore = useScheduleStore()
 const { selectedWeek, airingSchedules } = storeToRefs(scheduleStore)
 
 const currentWeekData = computed(() => airingSchedules.value.get(selectedWeek.value))
-const currentDayScheduleData = computed(() => (currentWeekData.value?.data ?? []).filter((item) => (dayjs.unix(item.airingAt)).isSame(dayjs(now.value), "day")))
-const closestTitle = computed(() => (currentWeekData.value?.data ?? []).find((title) => dayjs.unix(title.airingAt).isAfter(dayjs(now.value))))
+const weekSchedulesWithMedia = computed(() => (currentWeekData.value?.data ?? []).filter((item): item is AiringScheduleWithMedia => !!item.media))
+const currentDayScheduleData = computed(() => weekSchedulesWithMedia.value.filter((item) => (dayjs.unix(item.airingAt)).isSame(dayjs(now.value), "day")))
+const closestTitle = computed(() => weekSchedulesWithMedia.value.find((title) => dayjs.unix(title.airingAt).isAfter(dayjs(now.value))))
 const scrollToIndex = computed(() => {
   const closestIndex = findIndex(currentDayScheduleData.value, { id: closestTitle.value?.id })
   return ~closestIndex ? closestIndex : currentDayScheduleData.value.length - 1
@@ -158,12 +156,8 @@ const nextRelease = computed(() => {
 const store = useAnimeListStore();
 const { loading, error, topAnimeList } = storeToRefs(store);
 
-const popularAnimeListWithBanners = computed(() => {
-  return topAnimeList.value.filter((item) => item.bannerImage)
-})
-
-const firstPopularAnime = computed(() => popularAnimeListWithBanners.value.at(0))
-const restPopularAnime = computed(() => popularAnimeListWithBanners.value.slice(isBannerVisible.value ? 1 : 0, 10))
+const firstPopularAnime = computed(() => topAnimeList.value.find((item) => item.bannerImage))
+const restPopularAnime = computed(() => topAnimeList.value.filter((item) => isBannerVisible.value ? firstPopularAnime.value?.id !== item.id : true).slice(0, isBannerVisible.value ? 14 : 15))
 
 onMounted(() => {
   if (isEmpty(topAnimeList.value) || error.value) {
@@ -174,7 +168,9 @@ onMounted(() => {
 </script>
 
 <style lang="scss" scoped>
-.home {
+.home-page {
+  max-width: 1240px;
+  margin: 0 auto;
   padding: $base-padding;
 }
 

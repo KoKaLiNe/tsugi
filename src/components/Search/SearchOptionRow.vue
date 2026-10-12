@@ -2,7 +2,7 @@
     <n-flex class="option__wrapper" :class="{ pending: isPending }" :wrap="false" @click="emits('click')"
         @mouseenter="emits('mouseenter')" @mouseleave="emits('mouseleave')">
         <TitleImage class="option__img" :src="option?.coverImage?.medium ? option.coverImage?.medium : undefined"
-            :title="option" :alt="optionTitle" size="medium" :lazy="false" />
+            :coverImageColor="option.coverImage?.color" :alt="optionTitle" size="medium" :lazy="false" />
 
         <n-flex class="option-info__wrapper" vertical :size="8" justify="space-between">
             <n-flex vertical>

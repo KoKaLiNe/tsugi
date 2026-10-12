@@ -1,64 +1,61 @@
 <template>
-    <router-link :to="{ name: RouterEnum.Anime, params: { id: episode.media?.id } }">
-        <n-flex class="episode-card" :class="{ '--closest': isClosest, '--aired': isAired, }" vertical>
-            <div class="episode-card__img-wrapper">
-                <TitleImage class="episode-card__img"
-                    :src="episode.media?.coverImage?.large ? episode.media.coverImage.large : undefined"
-                    :title="episode.media" :alt="episodeTitle" />
+    <n-flex v-if="loading" class="episode-card" vertical>
+        <n-skeleton :sharp="false" height="250px" />
+        <n-skeleton text :sharp="false" />
+    </n-flex>
 
-                <n-flex class="episode-card__info float">
-                    <div class="info__number">{{ t("common.episodeShort") }} {{ episode.episode }}</div>
+    <CoverCard v-else-if="!loading && episode" class="episode-card"
+        :class="{ '--closest': isClosest, '--aired': isAired, }" :item="episode.media">
+        <template #topRight>
+            <div class="episode-card__info-number">{{ t("common.episodeShort") }} {{ episode.episode }}</div>
+        </template>
 
-                    <div v-if="!isAired && isClosest" class="info__time">
-                        <n-tooltip placement="top" trigger="hover">
-                            <template #trigger>
-                                <n-text> {{ t("common.dateTime.in") }} {{ timeLeft }}</n-text>
-                            </template>
+        <template #bottomLeft>
+            <div v-if="!isAired && isClosest" class="episode-card__info-time">
+                <n-tooltip placement="top" trigger="hover">
+                    <template #trigger>
+                        <n-text> {{ t("common.dateTime.in") }} {{ timeLeft }}</n-text>
+                    </template>
 
-                            {{ dayjs.unix(props.episode.airingAt).format("HH:mm") }}
-                        </n-tooltip>
-                    </div>
-
-                    <n-text v-else-if="isAired" class="info__time">
-                        {{ t("common.released") }}
-                        {{ t("common.dateTime.at") }}
-                        {{ dayjs.unix(props.episode.airingAt).format("HH:mm") }}
-                    </n-text>
-
-                    <n-text v-else class="info__time">{{ dayjs.unix(props.episode.airingAt).format("HH:mm") }}</n-text>
-                </n-flex>
+                    {{ dayjs.unix(episode.airingAt).format("HH:mm") }}
+                </n-tooltip>
             </div>
 
-            <n-text class="episode-card__title" :title="episodeTitle">{{ episodeTitle }}</n-text>
-        </n-flex>
-    </router-link>
+            <n-text v-else-if="isAired" class="episode-card__info-time" tag="div">
+                {{ t("common.released") }}
+                {{ t("common.dateTime.at") }}
+                {{ dayjs.unix(episode.airingAt).format("HH:mm") }}
+            </n-text>
+
+            <n-text v-else class="episode-card__info-time" tag="div">
+                {{ dayjs.unix(episode.airingAt).format("HH:mm") }}
+            </n-text>
+        </template>
+    </CoverCard>
 </template>
 
 <script lang="ts" setup>
-import type { AiringSchedulesFragment } from '@/api/generated/graphql';
-import TitleImage from '../TitleImage.vue';
+import type { AiringScheduleWithMedia } from "@/types/AiringScheduleWithMedia";
 import { computed } from 'vue';
-import { getMediaTitle } from '@/utils/media';
-import { RouterEnum } from '@/router';
 import dayjs from 'dayjs';
 import { useNow } from '@/composables/useNow';
 import { useI18n } from 'vue-i18n';
 import { getFormattedTimeLeft } from '@/utils/time.ts';
+import CoverCard from "@/components/CoverCard.vue";
 
 const now = useNow()
 const { t } = useI18n()
 
 interface IProps {
-    episode: AiringSchedulesFragment;
-    isClosest: boolean
+    loading?: boolean;
+    episode?: AiringScheduleWithMedia;
+    isClosest?: boolean
 }
 
 const props = defineProps<IProps>()
 
-const episodeTitle = computed(() => getMediaTitle(props.episode.media))
-const isAired = computed(() => dayjs.unix(props.episode.airingAt).isSameOrBefore(dayjs(now.value)))
-
-const timeLeft = computed(() => getFormattedTimeLeft(props.episode.airingAt * 1000, now.value))
+const isAired = computed(() => props.episode && dayjs.unix(props.episode.airingAt).isSameOrBefore(dayjs(now.value)))
+const timeLeft = computed(() => props.episode && getFormattedTimeLeft(props.episode.airingAt * 1000, now.value))
 </script>
 
 <style lang="scss" scoped>
@@ -67,70 +64,32 @@ const timeLeft = computed(() => getFormattedTimeLeft(props.episode.airingAt * 10
     padding: $base-gap;
     cursor: pointer;
 
-    &__img {
-        margin-bottom: 0;
-
-        &-wrapper {
-            position: relative;
-            border: 1px solid transparent;
-            border-radius: $base-border-radius;
-
-            &:hover {
-                box-shadow: $card-shadow-hover;
-            }
-        }
-    }
-
-    &__title {
-        display: -webkit-box;
-        -webkit-box-orient: vertical;
-        -webkit-line-clamp: 2;
-        overflow: hidden;
-        font-weight: 600;
-    }
-
     &__info {
-        &.float {
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 100%;
-            height: 100%;
+        &-number {
+            padding: 2px 5px;
+            border-radius: $base-border-radius;
+            background-color: var(--surface);
+            color: var(--text);
+            text-wrap: nowrap;
+        }
 
-            .info {
-                &__number {
-                    position: absolute;
-                    top: 5px;
-                    right: 5px;
-                    padding: 2px 5px;
-                    border-radius: $base-border-radius;
-                    background-color: var(--surface);
-                    color: var(--text);
-                    text-wrap: nowrap;
-                }
-
-                &__time {
-                    position: absolute;
-                    bottom: 5px;
-                    left: 5px;
-                    padding: 2px 6px;
-                    border-radius: $base-border-radius;
-                    background-color: var(--surface);
-                    color: var(--text);
-                    text-wrap: nowrap;
-                }
-            }
+        &-time {
+            padding: 2px 6px;
+            border-radius: $base-border-radius;
+            background-color: var(--surface);
+            color: var(--text);
+            text-wrap: nowrap;
         }
     }
 
     &.--closest {
-        .episode-card__img-wrapper {
+        :deep(.cover-card__wrapper) {
             border: 1px solid color-mix(in srgb, var(--accent) 50%, transparent);
             border-radius: $base-border-radius;
         }
 
-        .info__number,
-        .info__time {
+        .episode-card__info-number,
+        .episode-card__info-time {
             background-color: var(--accent);
             color: var(--on-accent);
 

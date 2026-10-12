@@ -40,7 +40,8 @@
 
                     <TitleImage v-else-if="animeCard" class="content-img"
                         :src="animeCard.coverImage?.extraLarge ? animeCard.coverImage.extraLarge : undefined"
-                        :title="animeCard" :alt="animeTitle" size="extra-large" :style="contentImgStyle" />
+                        :coverImageColor="animeCard.coverImage?.color" :alt="animeTitle" size="extra-large"
+                        :style="contentImgStyle" />
                 </n-flex>
 
                 <n-flex class="content-title__wrapper" vertical :size="16" justify="center">

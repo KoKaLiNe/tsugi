@@ -5,15 +5,12 @@
 </template>
 
 <script lang="ts" setup>
-import type { AiringSchedulesFragment, AnimeByIdMediaFragment, AnimeCardMediaFragment } from '@/api/generated/graphql';
 import { proxyImageUrl } from '@/utils/media';
 import { computed, type StyleValue } from 'vue';
 
-type TitleType = AiringSchedulesFragment['media'] | AnimeCardMediaFragment| AnimeByIdMediaFragment
-
 interface IProps {
     alt: string;
-    title: TitleType;
+    coverImageColor?: string | null;
     src?: string;
     size?: 'small' | 'medium' | 'large' | 'extra-large';
     lazy?: boolean;
@@ -33,7 +30,7 @@ const sizeClass = computed(() => {
 });
 
 const titleStyle = computed(() => (<StyleValue>{
-    backgroundColor: props.title?.coverImage?.color ?? undefined
+    backgroundColor: props.coverImageColor ?? undefined
 }))
 </script>
 

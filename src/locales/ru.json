@@ -105,7 +105,7 @@
     "OVA": "OVA",
     "SPECIAL": "Спешл",
     "TV": "Сериал",
-    "TV_SHORT": "Сериал (короткий)"
+    "TV_SHORT": "Сериал"
   },
   "TitleStatusEnum": {
     "NOT_YET_RELEASED": "Анонс",
