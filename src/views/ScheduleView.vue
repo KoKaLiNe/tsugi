@@ -1,5 +1,5 @@
 <template>
-    <n-flex class="schedule" vertical :size="8">
+    <n-flex class="schedule-page" vertical :size="8">
         <ScheduleHeader :isWideLayout="isWideLayout" :maxWeekDay="maxWeekDay" :selectedWeek="selectedWeek" :week="week" :currentWeekData="currentWeekData"
             :selectedDay="selectedDay" @goTo="goTo" />
 
