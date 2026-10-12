@@ -1,10 +1,9 @@
 <template>
     <CustomResult :title="t('views.notFound.title')" :description="t('views.notFound.info')">
         <template #footer>
-            <n-flex justify="center">
-                <n-button type="primary" @click="goTo(RouterEnum.Home)">{{ t('common.goTo.home') }}</n-button>
-                <n-button @click="goTo(RouterEnum.Schedule)">{{ t('common.routes.schedule') }}</n-button>
-            </n-flex>
+            <n-button type="primary" @click="goTo(RouterEnum.Home)">{{ t('common.goTo.home') }}</n-button>
+
+            <n-button @click="goTo(RouterEnum.Schedule)">{{ t('common.routes.schedule') }}</n-button>
         </template>
     </CustomResult>
 </template>

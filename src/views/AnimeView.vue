@@ -3,31 +3,28 @@
         <CustomResult v-if="['400', '404'].includes(error)" :title="t('views.anime.error.404.title')"
             :description="t('views.anime.error.404.info')">
             <template #footer>
-                <n-flex justify="center">
-                    <n-button type="primary" @click="goTo(RouterEnum.Schedule)">
-                        {{ t('common.goTo.schedule') }}
-                    </n-button>
+                <n-button type="primary" @click="goTo(RouterEnum.Schedule)">
+                    {{ t('common.goTo.schedule') }}
+                </n-button>
 
-                    <n-button quaternary type="primary" @click="goTo(RouterEnum.Search)">{{
-                        t('views.anime.searchByName') }}</n-button>
-                </n-flex>
+                <n-button quaternary type="primary" @click="goTo(RouterEnum.Search)">{{
+                    t('views.anime.searchByName') }}</n-button>
             </template>
         </CustomResult>
 
         <CustomResult v-else :icon="CloudOffRound" :title="t('views.anime.error.general.title')"
             :description="t('views.anime.error.general.info')">
             <template #footer>
-                <n-flex justify="center">
-                    <n-button type="primary" @click="retryFetch">
-                        <template #icon>
-                            <n-icon :component="RefreshRound" />
-                        </template>
-                        {{ t('common.retry') }}
-                    </n-button>
-                    <n-button quaternary type="primary" @click="goTo(RouterEnum.Home)">
-                        {{ t('common.goTo.home') }}
-                    </n-button>
-                </n-flex>
+                <n-button type="primary" @click="retryFetch">
+                    <template #icon>
+                        <n-icon :component="RefreshRound" />
+                    </template>
+                    {{ t('common.retry') }}
+                </n-button>
+
+                <n-button quaternary type="primary" @click="goTo(RouterEnum.Home)">
+                    {{ t('common.goTo.home') }}
+                </n-button>
             </template>
         </CustomResult>
     </div>
