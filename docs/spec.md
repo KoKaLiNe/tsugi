@@ -746,7 +746,7 @@ Axios-инстанс на `https://graphql.anilist.co`, POST-запросы ви
 
 ---
 
-## 10. Definition of Done для MVP
+## 10. Definition of Done (DoD) для MVP
 
 - [ ] Все пять экранов MVP (главная, расписание, поиск, тайтл, 404) реализованы, у каждого есть loading / error / empty / success — **у главной нет error**
 - [x] Расписание корректно раскладывает релизы по дням в локальной зоне пользователя
