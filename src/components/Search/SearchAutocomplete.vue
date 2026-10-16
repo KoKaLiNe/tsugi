@@ -228,8 +228,6 @@ function goToAnime(id: number) {
     max-width: 400px;
 
     &__wrapper {
-        color: blue;
-
         :deep(.search-bar__select-wrapper) {
             max-height: 500px;
 

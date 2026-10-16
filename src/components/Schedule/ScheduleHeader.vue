@@ -13,7 +13,6 @@
                     <n-icon :component="ArrowBackIosNewRound" />
                 </n-button>
 
-                <!-- <n-date-picker type="week" clearable /> -->
                 <n-button class="schedule-controls__today" :disabled="isCurrentDay" @click="goTo('today')" size="large">
                     {{ t("common.today") }}
                 </n-button>
