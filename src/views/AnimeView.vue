@@ -188,7 +188,7 @@ import ScoreTag from '@/components/ScoreTag.vue';
 import TitleImage from '@/components/TitleImage.vue';
 import { useIsWideLayout } from '@/composables/useIsWideLayout';
 import { useAnimeCardStore } from '@/stores/animeCard';
-import { getMediaTitle, proxyImageUrl } from '@/utils/media';
+import { getMediaTitle } from '@/utils/media';
 import { storeToRefs } from 'pinia';
 import { computed, onScopeDispose, ref, watch, type CSSProperties } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -214,7 +214,7 @@ const animeCardStore = useAnimeCardStore()
 const { loading, error, animeCard } = storeToRefs(animeCardStore)
 
 const bannerStyle = computed(() => (<CSSProperties>{
-    backgroundImage: animeCard.value?.bannerImage ? `url(${proxyImageUrl(animeCard.value?.bannerImage)})` : undefined,
+    backgroundImage: animeCard.value?.bannerImage ? `url(${animeCard.value.bannerImage})` : undefined,
     backgroundColor: animeCard.value?.coverImage?.color ?? 'var(--accent)',
     '--cover-color': animeCard.value?.coverImage?.color ?? 'var(--accent)'
 }))

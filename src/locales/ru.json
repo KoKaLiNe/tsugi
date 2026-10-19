@@ -99,7 +99,7 @@
           "placeholder": "Поиск по Enter · пустая строка — весь каталог",
           "empty": "Ничего не нашлось",
           "error": {
-            "general": "Не удалось загрузить"
+            "general": "@:error.general"
           }
         },
         "loadMore": {
