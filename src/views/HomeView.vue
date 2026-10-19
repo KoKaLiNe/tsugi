@@ -20,7 +20,22 @@
       <template #content>
         <n-text v-if="nextRelease" class="next-release">{{ nextRelease }} </n-text>
 
-        <div v-if="currentWeekData && !currentWeekData?.loading && isEmpty(currentDayScheduleData)">
+        <CustomCarousel v-if="(currentWeekData?.loading ?? true) && !currentWeekData?.data" loading :gap="0">
+          <template #loadingItem>
+            <CarouselEpisodeCard :loading="true" />
+          </template>
+        </CustomCarousel>
+
+        <CustomResult v-else-if="currentWeekData?.error" size="small" :icon="CloudOffRound"
+          :title="t('views.search.actions.search.error.general')">
+          <template #footer>
+            <n-button size="large" @click="scheduleStore.loadWeek(selectedWeek)">
+              {{ t('common.retry') }}
+            </n-button>
+          </template>
+        </CustomResult>
+
+        <div v-else-if="isEmpty(currentDayScheduleData)">
           <n-empty :description="t('views.home.noReleases')" size="huge">
             <template #icon>
               <n-icon :component="EventBusyRound" />
@@ -28,12 +43,7 @@
           </n-empty>
         </div>
 
-        <CustomCarousel v-else :loading="currentWeekData?.loading ?? true" :items="currentDayScheduleData"
-          :scroll-to-index="scrollToIndex" :gap="0">
-          <template #loadingItem>
-            <CarouselEpisodeCard :loading="true" />
-          </template>
-
+        <CustomCarousel v-else :items="currentDayScheduleData" :scroll-to-index="scrollToIndex" :gap="0">
           <template #contentItem="{ item }">
             <CarouselEpisodeCard :episode="item" :isClosest="item.id === closestTitle?.id" />
           </template>
@@ -44,7 +54,7 @@
     <PageBlock class="popular-block" :title="t('views.home.popularNow')" :link="{ name: RouterEnum.Search }"
       :link-text="t('views.home.fullCatalog')">
       <template #content>
-        <template v-if="loading">
+        <template v-if="animeListLoading">
           <n-flex vertical :size="16">
             <n-skeleton :sharp="false" height="300px" />
 
@@ -52,15 +62,23 @@
               <n-skeleton :repeat="14" :sharp="false" height="250px" />
             </div>
           </n-flex>
-
         </template>
+
+        <CustomResult v-else-if="animeListError || isEmpty(restPopularAnime)" size="small" :icon="CloudOffRound"
+          :title="t('views.search.actions.search.error.general')">
+          <template #footer>
+            <n-button size="large" @click="store.fetchTopAnime">
+              {{ t('common.retry') }}
+            </n-button>
+          </template>
+        </CustomResult>
 
         <template v-else>
           <n-flex vertical :size="16">
             <router-link v-if="isBannerVisible && firstPopularAnime"
               :to="{ name: RouterEnum.Anime, params: { id: firstPopularAnime.id } }">
               <n-flex class="popular-first__wrapper" vertical :size="8">
-                <img class="popular-first__img" :src="proxyImageUrl(firstPopularAnime.bannerImage)"
+                <img class="popular-first__img" :src="firstPopularAnime.bannerImage ?? undefined"
                   :alt="getMediaTitle(firstPopularAnime)" />
 
                 <n-flex class="popular-first__info" align="center">
@@ -100,7 +118,7 @@
 import { useAnimeListStore } from "@/stores/animeList";
 import { storeToRefs } from "pinia";
 import { computed, onMounted } from "vue";
-import { getMediaTitle, proxyImageUrl } from "@/utils/media";
+import { getMediaTitle } from "@/utils/media";
 import { useNow } from "@/composables/useNow";
 import dayjs from "dayjs";
 import PageBlock from "@/components/Home/PageBlock.vue";
@@ -113,10 +131,11 @@ import CustomCarousel from "@/components/Carousel/CustomCarousel.vue";
 import { findIndex, isEmpty } from "lodash-es";
 import ScoreTag from '@/components/ScoreTag.vue';
 import { useMediaQuery } from "@/composables/useMediaQuery";
-import { EventBusyRound } from "@vicons/material"
+import { EventBusyRound, CloudOffRound } from "@vicons/material"
 import CustomDivider from "@/components/CustomDivider.vue";
 import type { AiringScheduleWithMedia } from "@/types/AiringScheduleWithMedia";
 import TitleCard from "@/components/TitleCard.vue";
+import CustomResult from "@/components/CustomResult.vue";
 
 const now = useNow()
 const { t } = useI18n()
@@ -124,6 +143,8 @@ const isBannerVisible = useMediaQuery("(min-width: 700px)")
 
 const scheduleStore = useScheduleStore()
 const { selectedWeek, airingSchedules } = storeToRefs(scheduleStore)
+const store = useAnimeListStore();
+const { loading: animeListLoading, error: animeListError, topAnimeList } = storeToRefs(store);
 
 const currentWeekData = computed(() => airingSchedules.value.get(selectedWeek.value))
 const weekSchedulesWithMedia = computed(() => (currentWeekData.value?.data ?? []).filter((item): item is AiringScheduleWithMedia => !!item.media))
@@ -153,14 +174,11 @@ const nextRelease = computed(() => {
   }
 })
 
-const store = useAnimeListStore();
-const { loading, error, topAnimeList } = storeToRefs(store);
-
 const firstPopularAnime = computed(() => topAnimeList.value.find((item) => item.bannerImage))
 const restPopularAnime = computed(() => topAnimeList.value.filter((item) => isBannerVisible.value ? firstPopularAnime.value?.id !== item.id : true).slice(0, isBannerVisible.value ? 14 : 15))
 
 onMounted(() => {
-  if (isEmpty(topAnimeList.value) || error.value) {
+  if (isEmpty(topAnimeList.value) || animeListError.value) {
     store.fetchTopAnime();
   }
 

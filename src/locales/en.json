@@ -99,7 +99,7 @@
           "placeholder": "Press Enter to search · leave empty for the full catalog",
           "empty": "Nothing found",
           "error": {
-            "general": "Failed to load"
+            "general": "@:error.general"
           }
         },
         "loadMore": {

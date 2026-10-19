@@ -37,7 +37,7 @@ const { t } = useI18n()
 
 interface IProps {
     loading?: boolean;
-    items: T[];
+    items?: T[];
     gap?: number;
     scrollToIndex?: number;
 }
