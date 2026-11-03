@@ -47,7 +47,16 @@
     "showMore": "Show more",
     "collapse": "Collapse",
     "showAll": "Show all",
-    "retry": "Retry"
+    "retry": "Retry",
+    "adultModal": {
+      "title": "This title is for adults. Are you 18 or older?",
+      "content": "We'll remember your choice for 24 hours",
+      "actions": {
+        "yes": "Yes, show",
+        "no": "Cancel"
+      },
+      "showCover": "Show the cover of an adult title"
+    }
   },
   "views": {
     "home": {

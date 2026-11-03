@@ -12,7 +12,7 @@
         </template>
     </n-empty>
 
-    <n-flex v-if="isWideLayout" class="schedule-grid__wrapper" vertical :size="0">
+    <n-flex v-else-if="isWideLayout" class="schedule-grid__wrapper" vertical :size="0">
         <n-grid class="schedule-week-grid__content" x-gap="16" :cols="7">
             <n-grid-item v-for="{ day, items } in week" :key="day.valueOf()" class="schedule-week-grid__content-item">
                 <n-flex v-if="!currentWeekData?.error" :size="8" vertical>

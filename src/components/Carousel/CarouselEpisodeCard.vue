@@ -100,7 +100,15 @@ const timeLeft = computed(() => props.episode && getFormattedTimeLeft(props.epis
     }
 
     &.--aired {
-        opacity: 0.65;
+        .episode-card__info-number,
+        .episode-card__info-time {
+            background-color: var(--success);
+            color: var(--on-success);
+
+            * {
+                color: var(--on-success);
+            }
+        }
     }
 }
 </style>
