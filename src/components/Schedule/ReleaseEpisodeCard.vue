@@ -1,14 +1,14 @@
 <template>
-    <router-link class="episode" :class="{ '--aired': isAired, 'episode-row': isRowDirection }"
-        :to="{ name: RouterEnum.Anime, params: { id: episode.media?.id } }">
-
+    <div class="episode" :class="{ '--aired': isAired, 'episode-row': isRowDirection }" data-wrapper>
         <TitleImage :src="episode.media?.coverImage?.extraLarge ? episode.media.coverImage?.extraLarge : undefined"
-            :coverImageColor="episode.media?.coverImage?.color" :alt="episodeTitle"
+            :is-adult="hasAdultFilter" :cover-image-color="episode.media?.coverImage?.color" :alt="episodeTitle"
             :size="isRowDirection ? 'medium' : undefined" />
 
         <n-flex class="episode-info__wrapper" vertical :size="8" :justify="isRowDirection ? 'space-between' : 'start'">
             <n-flex :size="8" vertical>
-                <n-text strong>{{ episodeTitle }}</n-text>
+                <router-link class="episode__link" :to="{ name: RouterEnum.Anime, params: { id: episode.media?.id } }">
+                    <n-text strong>{{ episodeTitle }}</n-text>
+                </router-link>
                 <n-text>{{ t("common.episodeShort") }} {{ episode.episode }}</n-text>
             </n-flex>
 
@@ -35,7 +35,7 @@
                 </n-tooltip>
             </n-flex>
         </n-flex>
-    </router-link>
+    </div>
 </template>
 
 <script lang="ts" setup>
@@ -49,6 +49,7 @@ import { DoneRound, AccessTimeRound } from "@vicons/material"
 import { useNow } from '@/composables/useNow';
 import TitleImage from '@/components/TitleImage.vue';
 import { getFormattedTimeLeft } from '@/utils/time';
+import { RouterLink } from "vue-router";
 
 const { t } = useI18n()
 const now = useNow()
@@ -60,6 +61,8 @@ interface IProps {
 const props = withDefaults(defineProps<IProps>(), {
     direction: 'column'
 })
+
+const hasAdultFilter = computed(() => !!props.episode.media?.coverImage?.extraLarge && props.episode.media?.isAdult)
 
 const isRowDirection = computed(() => props.direction === 'row')
 
@@ -74,6 +77,7 @@ const timeLeft = computed(() => getFormattedTimeLeft(props.episode.airingAt * 10
 
 <style lang="scss" scoped>
 .episode {
+    position: relative;
     padding: $base-padding;
 
     background-color: var(--surface);
@@ -81,6 +85,17 @@ const timeLeft = computed(() => getFormattedTimeLeft(props.episode.airingAt * 10
     border-radius: $base-border-radius;
 
     cursor: pointer;
+
+    &__link {
+        &::after {
+            position: absolute;
+            content: "";
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+    }
 
     &:hover {
         box-shadow: $card-shadow-hover;

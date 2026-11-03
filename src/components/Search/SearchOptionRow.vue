@@ -1,8 +1,9 @@
 <template>
     <n-flex class="option__wrapper" :class="{ pending: isPending }" :wrap="false" @click="emits('click')"
         @mouseenter="emits('mouseenter')" @mouseleave="emits('mouseleave')">
-        <TitleImage class="option__img" :src="option?.coverImage?.medium ? option.coverImage?.medium : undefined"
-            :coverImageColor="option.coverImage?.color" :alt="optionTitle" size="medium" :lazy="false" />
+        <TitleImage class="option__img" :src="option.coverImage?.medium ? option.coverImage?.medium : undefined"
+            :is-adult="!!option.coverImage?.medium && option.isAdult" :canChangeAdultRule="false"
+            :cover-image-color="option.coverImage?.color" :alt="optionTitle" size="medium" :lazy="false" />
 
         <n-flex class="option-info__wrapper" vertical :size="8" justify="space-between">
             <n-flex vertical>

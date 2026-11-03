@@ -16,6 +16,7 @@ const animeCardMedia = /* GraphQL */ `
       year
     }
     format
+    isAdult
   }
 `
 const pageInfo = /* GraphQL */ `
@@ -42,7 +43,7 @@ export const getTopAnime = /* GraphQL */ `
       pageInfo {
         ...RequestPageInfo
       }
-      media(type: ANIME, sort: [TRENDING_DESC, POPULARITY_DESC], isAdult: false) {
+      media(type: ANIME, sort: [TRENDING_DESC, POPULARITY_DESC]) {
         ...TopAnimeMedia
       }
     }
@@ -99,7 +100,6 @@ export const search = /* GraphQL */ `
     ...AnimeCardMedia
     season
     genres
-    isAdult
   }
   
   query GetSearchList($page: Int, $perPage: Int = 20, $search: String) {
@@ -110,7 +110,6 @@ export const search = /* GraphQL */ `
       media(
         type: ANIME,
         sort: POPULARITY_DESC,
-        isAdult: false,
         search: $search
       ) {
         ...SearchListMedia
@@ -120,13 +119,10 @@ export const search = /* GraphQL */ `
 `
 
 export const getAnimeById = /* GraphQL */ ` 
+  ${animeCardMedia}
+  
   fragment AnimeByIdMedia on Media {
-    id
-    title {
-      romaji
-      english
-      native
-    }
+    ...AnimeCardMedia
     coverImage {
       color
       extraLarge
@@ -142,7 +138,6 @@ export const getAnimeById = /* GraphQL */ `
       month
       day
     }
-    isAdult
     description
     duration
     source(version: 3)
@@ -160,9 +155,7 @@ export const getAnimeById = /* GraphQL */ `
       episode 
       airingAt 
     }
-    averageScore
     genres
-    format
     status(version: 3)
     episodes
     studios(isMain: true) {

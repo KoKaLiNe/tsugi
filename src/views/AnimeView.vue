@@ -30,8 +30,11 @@
     </div>
 
     <div v-else class="anime-page" :class="{ '--wide': isWideLayout }">
-        <n-skeleton v-if="loading" class="banner" height="250px" width="100vw" />
-        <div v-else class="banner" :style="bannerStyle"> </div>
+        <n-skeleton v-if="loading" class="banner__wrapper" width="100vw" />
+
+        <AdultImageWrapper v-else class="banner__wrapper" :is-adult="!!animeCard?.bannerImage && animeCard?.isAdult">
+            <div class="banner" :style="bannerStyle"> </div>
+        </AdultImageWrapper>
 
         <n-flex class="content" vertical :size="16">
             <n-flex class="content__wrapper" :size="24" :wrap="false">
@@ -40,7 +43,8 @@
 
                     <TitleImage v-else-if="animeCard" class="content-img"
                         :src="animeCard.coverImage?.extraLarge ? animeCard.coverImage.extraLarge : undefined"
-                        :coverImageColor="animeCard.coverImage?.color" :alt="animeTitle" size="extra-large"
+                        :is-adult="!!animeCard?.coverImage?.extraLarge && animeCard.isAdult"
+                        :cover-image-color="animeCard.coverImage?.color" :alt="animeTitle" size="extra-large"
                         :style="contentImgStyle" />
                 </n-flex>
 
@@ -204,6 +208,7 @@ import { getFormattedTimeLeft } from '@/utils/time';
 import CustomResult from '@/components/CustomResult.vue';
 import { RouterEnum } from '@/router';
 import { useRouter } from 'vue-router';
+import AdultImageWrapper from '@/components/AdultImageWrapper.vue';
 
 const isWideLayout = useIsWideLayout()
 const now = useNow()
@@ -341,7 +346,13 @@ function retryFetch() {
     --banner-height: min(20vw, 25vh);
 
     .banner {
-        margin: -8px -8px 0;
+        &__wrapper {
+            position: relative;
+            container-type: inline-size;
+            margin: -8px -8px 0;
+            height: var(--banner-height);
+        }
+
         background-position: 50% 35%;
         background-repeat: no-repeat;
         background-size: cover;
@@ -370,6 +381,10 @@ function retryFetch() {
         &-img {
             border: $base-border;
             border-radius: $base-border-radius;
+
+            &__wrapper {
+                z-index: 10;
+            }
         }
 
         &-title {
@@ -386,8 +401,10 @@ function retryFetch() {
 
     &.--wide {
         .banner {
-            margin-left: -40px;
-            margin-right: -40px;
+            &__wrapper {
+                margin-left: -40px;
+                margin-right: -40px;
+            }
         }
     }
 

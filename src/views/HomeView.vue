@@ -75,30 +75,32 @@
 
         <template v-else>
           <n-flex vertical :size="16">
-            <router-link v-if="isBannerVisible && firstPopularAnime"
-              :to="{ name: RouterEnum.Anime, params: { id: firstPopularAnime.id } }">
-              <n-flex class="popular-first__wrapper" vertical :size="8">
+            <div v-if="isBannerVisible && firstPopularAnime" class="popular-first__wrapper" data-wrapper>
+              <AdultImageWrapper class="popular-first__img-wrapper" :is-adult="firstPopularAnime?.isAdult">
                 <img class="popular-first__img" :src="firstPopularAnime.bannerImage ?? undefined"
                   :alt="getMediaTitle(firstPopularAnime)" />
+              </AdultImageWrapper>
 
-                <n-flex class="popular-first__info" align="center">
-                  <n-text class="popular-first__title"> {{ getMediaTitle(firstPopularAnime) }}</n-text>
+              <n-flex class="popular-first__info" align="center">
+                <router-link :to="{ name: RouterEnum.Anime, params: { id: firstPopularAnime.id } }"
+                  class="popular-first__link">
+                  <n-text class="popular-first__title">{{ getMediaTitle(firstPopularAnime) }}</n-text>
+                </router-link>
 
-                  <CustomDivider v-if="firstPopularAnime.format" vertical no-margin />
-                  <n-text v-if="firstPopularAnime.format">
-                    {{ t(`TitleFormatEnum.${firstPopularAnime.format}`) }}
-                  </n-text>
+                <CustomDivider v-if="firstPopularAnime.format" vertical no-margin />
+                <n-text v-if="firstPopularAnime.format">
+                  {{ t(`TitleFormatEnum.${firstPopularAnime.format}`) }}
+                </n-text>
 
-                  <CustomDivider v-if="firstPopularAnime.episodes" vertical no-margin />
-                  <n-text v-if="firstPopularAnime.episodes">
-                    {{ t('common.episodePlural', firstPopularAnime.episodes) }}
-                  </n-text>
+                <CustomDivider v-if="firstPopularAnime.episodes" vertical no-margin />
+                <n-text v-if="firstPopularAnime.episodes">
+                  {{ t('common.episodePlural', firstPopularAnime.episodes) }}
+                </n-text>
 
-                  <CustomDivider v-if="firstPopularAnime.averageScore" vertical no-margin />
-                  <ScoreTag v-if="firstPopularAnime.averageScore" :score="firstPopularAnime.averageScore" />
-                </n-flex>
+                <CustomDivider v-if="firstPopularAnime.averageScore" vertical no-margin />
+                <ScoreTag v-if="firstPopularAnime.averageScore" :score="firstPopularAnime.averageScore" />
               </n-flex>
-            </router-link>
+            </div>
 
             <div class="popular-item__wrapper">
               <div v-for="item in restPopularAnime" :key="item.id" class="popular-item">
@@ -136,6 +138,7 @@ import CustomDivider from "@/components/CustomDivider.vue";
 import type { AiringScheduleWithMedia } from "@/types/AiringScheduleWithMedia";
 import TitleCard from "@/components/TitleCard.vue";
 import CustomResult from "@/components/CustomResult.vue";
+import AdultImageWrapper from "@/components/AdultImageWrapper.vue";
 
 const now = useNow()
 const { t } = useI18n()
@@ -204,19 +207,40 @@ onMounted(() => {
     &__wrapper {
       position: relative;
       cursor: pointer;
+      border-radius: $base-border-radius;
+      display: grid;
+
+      &:not(:has(.adult-wrapper.--blurred)) {
+        .popular-first__link {
+          &::after {
+            position: absolute;
+            content: "";
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+          }
+        }
+      }
     }
 
     &__info {
-      position: absolute;
-      bottom: 0;
-      left: 0;
+      z-index: 3;
+      grid-area: 1 / 1;
+      align-self: end;
+      justify-self: flex-start;
       margin: $base-gap;
       padding: $base-gap;
       border-radius: $base-border-radius;
       background-color: var(--surface);
+
     }
 
     &__img {
+      &-wrapper {
+        grid-area: 1 / 1;
+      }
+
       display: block;
       width: 100%;
       height: auto;

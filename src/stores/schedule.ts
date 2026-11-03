@@ -84,9 +84,8 @@ export const useScheduleStore = defineStore('schedule', () => {
         try {
             const { start, end } = getWeekRange(weekKey)
             const airingSchedulesRaw = await fetchAllPages(start, end)
-            const validData = (airingSchedulesRaw ?? []).filter((item) => !!item && !item.media?.isAdult) as AiringSchedulesFragment[]
 
-            record.data = validData
+            record.data = (airingSchedulesRaw ?? []).filter((item) => !!item)
             record.fetchedAt = Date.now()
             record.error = undefined
         } catch (error) {

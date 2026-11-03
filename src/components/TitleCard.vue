@@ -31,7 +31,8 @@ const { t } = useI18n()
 interface IProps {
     lazyLoadImg?: boolean;
     item: MediaWithTitle & {
-        id: number
+        id: number;
+        isAdult?: boolean | null;
         coverImage?: {
             color?: string | null;
             extraLarge?: string | null;

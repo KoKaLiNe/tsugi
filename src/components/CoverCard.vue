@@ -1,9 +1,10 @@
 <template>
-    <router-link class="cover-card" :to="{ name: RouterEnum.Anime, params: { id: item.id } }">
+    <div class="cover-card" data-wrapper>
         <div class="cover-card__wrapper">
             <TitleImage class="cover-card__img"
                 :src="item.coverImage?.extraLarge ? item.coverImage?.extraLarge : undefined"
-                :coverImageColor="item.coverImage?.color" :alt="getMediaTitle(item)" :lazy="lazyLoadImg" />
+                :is-adult="!!item.coverImage?.extraLarge && item.isAdult" :cover-image-color="item.coverImage?.color"
+                :alt="getMediaTitle(item)" :lazy="lazyLoadImg" />
 
             <div v-if="$slots.topLeft" class="cover-card__slot --top --left">
                 <slot name="topLeft"> </slot>
@@ -19,8 +20,10 @@
             </div>
         </div>
 
-        <n-text class="cover-card__title" strong :title="getMediaTitle(item)"> {{ getMediaTitle(item) }}</n-text>
-    </router-link>
+        <router-link :to="{ name: RouterEnum.Anime, params: { id: item.id } }" class="cover-card__link">
+            <n-text class="cover-card__title" strong :title="getMediaTitle(item)"> {{ getMediaTitle(item) }}</n-text>
+        </router-link>
+    </div>
 </template>
 
 <script lang="ts" setup>
@@ -33,6 +36,7 @@ interface IProps {
     lazyLoadImg?: boolean;
     item: MediaWithTitle & {
         id: number
+        isAdult?: boolean | null;
         coverImage?: {
             color?: string | null;
             extraLarge?: string | null
@@ -48,13 +52,16 @@ withDefaults(defineProps<IProps>(), {
 <style lang="scss" scoped>
 .cover-card {
     display: block;
+    position: relative;
 
     // на этот класс ссылается CarouselEpisodeCard через :deep()
     &__wrapper {
         position: relative;
         border-radius: $base-border-radius;
+    }
 
-        &:hover {
+    &:hover {
+        .cover-card__wrapper {
             box-shadow: $card-shadow-hover;
         }
     }
@@ -74,6 +81,7 @@ withDefaults(defineProps<IProps>(), {
 
     &__slot {
         position: absolute;
+        z-index: 2;
 
         &.--top {
             top: $base-gap;
@@ -89,6 +97,17 @@ withDefaults(defineProps<IProps>(), {
 
         &.--right {
             right: $base-gap;
+        }
+    }
+
+    &__link {
+        &::after {
+            position: absolute;
+            content: "";
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
         }
     }
 }
